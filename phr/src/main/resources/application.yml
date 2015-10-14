@@ -1,0 +1,12 @@
+# application.yml template
+logging:
+  file: C:/java/PP_LOGS/phr.log
+  level:
+    org:
+      springframework:
+        web: ERROR
+      hibernate: ERROR
+      herasaf: ERROR
+    gov:
+      samsha:
+        phr: ERROR
