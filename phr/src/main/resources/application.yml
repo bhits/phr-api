@@ -1,12 +1,60 @@
 # application.yml template
+spring:
+  datasource:
+    initialize: false
+    url: jdbc:mysql://localhost:3306/phr?autoReconnect=true
+    username: root
+    password: admin
+    driverClassName: com.mysql.jdbc.Driver
+    validationQuery: select 1
+    testOnBorrow: true
+    testOnReturn: true
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 1800000
+    numTestsPerEvictionRun: 3
+    minEvictableIdleTimeMillis: 1800000
+  redis:
+    port: 6379
+    host: localhost
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        hbm2ddl:
+          auto: validate
+    hibernate:
+      ddl-auto: none
+      naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
 logging:
-  file: C:/java/PP_LOGS/phr.log
+  file: C:/java/PP_LOGS/phr/phr.log
   level:
     org:
       springframework:
         web: ERROR
       hibernate: ERROR
-      herasaf: ERROR
     gov:
       samsha:
-        phr: ERROR
+        mhc:
+          phr: DEBUG
+phr:
+  iexhub:
+      url: http://localhost:8082/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
+      ssoauth: PatientId='086666c2fd154f7^^^&1.3.6.1.4.1.21367.2005.13.20.3000&ISO'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
+  redis:
+    defaultExpiration: 1200
+security:
+  basic:
+    enabled: false
+  oauth2:
+    resource:
+      jwt:
+        key-value:  |
+                         -----BEGIN PUBLIC KEY-----
+                         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0m59l2u9iDnMbrXHfqkO
+                         rn2dVQ3vfBJqcDuFUK03d+1PZGbVlNCqnkpIJ8syFppW8ljnWweP7+LiWpRoz0I7
+                         fYb3d8TjhV86Y997Fl4DBrxgM6KTJOuE/uxnoDhZQ14LgOU2ckXjOzOdTsnGMKQB
+                         LCl0vpcXBtFLMaSbpv1ozi8h7DJyVZ6EnFQZUWGdgTMhDrmqevfx95U/16c5WBDO
+                         kqwIn7Glry9n9Suxygbf8g5AzpWcusZgDLIIZ7JTUldBb8qU2a0Dl4mvLZOn4wPo
+                         jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
+                         JwIDAQAB
+                         -----END PUBLIC KEY-----
