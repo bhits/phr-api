@@ -1,11 +1,10 @@
 # application.yml template
-
 spring:
   datasource:
     initialize: false
     url: jdbc:mysql://localhost:3306/phr?autoReconnect=true
-    username: root
-    password: admin
+    username: root12
+    password: admin323
     driverClassName: com.mysql.jdbc.Driver
     validationQuery: select 1
     testOnBorrow: true
@@ -26,17 +25,6 @@ spring:
     hibernate:
       ddl-auto: none
       naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
-logging:
-  file: C:/java/PP_LOGS/phr/phr.log
-  level:
-    org:
-      springframework:
-        beans: ERROR
-        web: ERROR
-    gov:s
-      samsha:
-        mhc:
-          phr: DEBUG
 phr:
   iexhub:
       url: http://localhost:8080/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
