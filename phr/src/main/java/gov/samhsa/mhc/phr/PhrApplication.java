@@ -1,5 +1,6 @@
-package gov.samhsa.mhc.phr.config;
+package gov.samhsa.mhc.phr;
 
+import gov.samhsa.mhc.phr.config.PhrConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -7,7 +8,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @SpringBootApplication
 @EnableResourceServer
 @EnableCaching
-@ComponentScan(basePackages = {"gov.samhsa.mhc.phr" })
 public class PhrApplication extends SpringBootServletInitializer {
 
     private static final String RESOURCE_ID ="phr" ;
@@ -51,7 +50,7 @@ public class PhrApplication extends SpringBootServletInitializer {
                     http.requiresChannel().anyRequest().requiresSecure();
                 }
                 http.authorizeRequests()
-                        //.antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('phr.hie_read')")
+                        .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('phr.hie_read')")
                         .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('phr.hie_write')");
             }

@@ -6,8 +6,9 @@ import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
 import gov.samhsa.mhc.phr.dto.SignupDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public class AccountServiceImpl implements AccountService
 {
     @Autowired

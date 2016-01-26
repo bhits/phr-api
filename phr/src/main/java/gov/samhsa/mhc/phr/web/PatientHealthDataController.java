@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +26,7 @@ public class PatientHealthDataController {
     @Autowired
     IExHubDataService iExHubDataService;
 
-   // @PreAuthorize("#oauth2.hasScope('phr.hie_read')")
+    @PreAuthorize("#oauth2.hasScope('phr.hie_read')")
     @RequestMapping(value = "/patientHealthData/{mrn}", method = RequestMethod.GET)
     @Cacheable(value =PATIENT_DATA_CACHE_NAME)
     public PatientDataResponse getPatientData(@PathVariable Integer mrn) {

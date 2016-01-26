@@ -16,7 +16,7 @@ public class ExceptionLoggingAspects extends CallTracker{
 
     Logger logger = LoggerFactory.getLogger(ExceptionLoggingAspects.class);
 
-    @AfterThrowing(pointcut = "PhrAspectsArchitecture.Repository() || PhrAspectsArchitecture.Service()", throwing = "ex")
+    @AfterThrowing(pointcut = "gov.samhsa.mhc.phr.aspects.PhrAspectsArchitecture.Repository() || gov.samhsa.mhc.phr.aspects.PhrAspectsArchitecture.Service()", throwing = "ex")
     public void logException(Exception ex){
         trackCall();
         logger.error("Excecption", ex);
