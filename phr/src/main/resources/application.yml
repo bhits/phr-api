@@ -3,8 +3,8 @@ spring:
   datasource:
     initialize: false
     url: jdbc:mysql://localhost:3306/phr?autoReconnect=true
-    username: root12
-    password: admin323
+    username: root
+    password: admin
     driverClassName: com.mysql.jdbc.Driver
     validationQuery: select 1
     testOnBorrow: true
