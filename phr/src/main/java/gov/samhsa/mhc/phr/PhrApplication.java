@@ -4,8 +4,6 @@ import gov.samhsa.mhc.phr.config.PhrConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -18,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @SpringBootApplication
 @EnableResourceServer
 @EnableCaching
-public class PhrApplication extends SpringBootServletInitializer {
+public class PhrApplication {
 
     private static final String RESOURCE_ID ="phr" ;
 
@@ -27,14 +25,8 @@ public class PhrApplication extends SpringBootServletInitializer {
         Object[] configClasses = {PhrApplication.class , PhrConfig.class};
         SpringApplication.run(configClasses, args);
         System.out.println("PhrApplication:main() End");
-        // SpringApplication.run(PhrApplication.class, args);
     }
 
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(PhrApplication.class);
-    }
 
     @Bean
     public ResourceServerConfigurer resourceServer(SecurityProperties securityProperties) {
