@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.phr.aspects;
+package gov.samhsa.mhc.phr.aspect;
 
 
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -16,7 +16,7 @@ public class ExceptionLoggingAspects extends CallTracker{
 
     Logger logger = LoggerFactory.getLogger(ExceptionLoggingAspects.class);
 
-    @AfterThrowing(pointcut = "gov.samhsa.mhc.phr.aspects.PhrAspectsArchitecture.Repository() || gov.samhsa.mhc.phr.aspects.PhrAspectsArchitecture.Service()", throwing = "ex")
+    @AfterThrowing(pointcut = "gov.samhsa.mhc.phr.aspect.PhrAspectsArchitecture.Repository() || gov.samhsa.mhc.phr.aspect.PhrAspectsArchitecture.Service()", throwing = "ex")
     public void logException(Exception ex){
         trackCall();
         logger.error("Excecption", ex);

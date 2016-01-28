@@ -1,10 +1,10 @@
 package gov.samhsa.mhc.phr.service;
 
-import gov.samhsa.mhc.phr.domain.model.Patient;
-import gov.samhsa.mhc.phr.domain.repository.PatientRepository;
+import gov.samhsa.mhc.phr.domain.patient.Patient;
+import gov.samhsa.mhc.phr.domain.patient.PatientRepository;
 import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
-import gov.samhsa.mhc.phr.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

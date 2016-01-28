@@ -144,6 +144,7 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
          </dependency>
+        <!--  include everything that is needed for Spring MVC to work -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

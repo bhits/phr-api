@@ -1,7 +1,7 @@
 package gov.samhsa.mhc.phr.web;
 
 
-import gov.samhsa.mhc.phr.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import gov.samhsa.mhc.phr.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class AccountController
     @Autowired
     AccountService accountService;
 
-    @PreAuthorize("#oauth2.hasScope('phr.hie.writeDocument')")
+    @PreAuthorize("#oauth2.hasScope('phr.hie_write')")
     @RequestMapping(value = "/patients", method = RequestMethod.POST)
     void signupPatient(@RequestBody SignupDto signupDto){
             accountService.createPatient(signupDto);

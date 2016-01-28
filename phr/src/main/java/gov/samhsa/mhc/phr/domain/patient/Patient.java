@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.phr.domain.model;
+package gov.samhsa.mhc.phr.domain.patient;
 
 
 import gov.samhsa.mhc.phr.domain.reference.AdministrativeGenderCode;

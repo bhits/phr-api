@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.phr.dto;
+package gov.samhsa.mhc.phr.service.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

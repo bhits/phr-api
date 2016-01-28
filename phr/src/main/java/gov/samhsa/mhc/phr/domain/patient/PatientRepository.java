@@ -1,6 +1,6 @@
-package gov.samhsa.mhc.phr.domain.repository;
+package gov.samhsa.mhc.phr.domain.patient;
 
-import gov.samhsa.mhc.phr.domain.model.Patient;
+import gov.samhsa.mhc.phr.domain.patient.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

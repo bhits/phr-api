@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.phr.aspects;
+package gov.samhsa.mhc.phr.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,7 +17,7 @@ public aspect TracingAspect extends CallTracker{
 
     Logger logger = LoggerFactory.getLogger(TracingAspect.class);
     //advice
-    @Around("gov.samhsa.mhc.phr.aspects.PhrAspectsArchitecture.Repository() || gov.samhsa.mhc.phr.aspects.PhrAspectsArchitecture.Service()")
+    @Around("gov.samhsa.mhc.phr.aspect.PhrAspectsArchitecture.Repository() || gov.samhsa.mhc.phr.aspect.PhrAspectsArchitecture.Service()")
     public Object trace(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         trackCall();
         String methodInfo = proceedingJoinPoint.getStaticPart().getSignature().toString();

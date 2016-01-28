@@ -1,7 +1,7 @@
 package gov.samhsa.mhc.phr.service;
 
 
-import gov.samhsa.mhc.phr.jsondomain.PatientDataResponse;
+import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;

@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.phr.aspects;
+package gov.samhsa.mhc.phr.aspect;
 
 import org.aspectj.lang.annotation.Pointcut;
 
