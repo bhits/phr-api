@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.phr.aspects;
+package gov.samhsa.mhc.phr.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,7 +16,7 @@ import org.springframework.util.StopWatch;
 public class PerformanceAspect extends CallTracker{
     Logger logger = LoggerFactory.getLogger(PerformanceAspect.class);
 
-    @Around("gov.samhsa.mhc.phr.aspects.PhrAspectsArchitecture.Repository() ")
+    @Around("gov.samhsa.mhc.phr.aspect.PhrAspectsArchitecture.Repository() ")
     public void trace(ProceedingJoinPoint proceedingJP) throws Throwable {
         String methodInformation = proceedingJP.getStaticPart().getSignature().toString();
         StopWatch stopWatch = new StopWatch(methodInformation);

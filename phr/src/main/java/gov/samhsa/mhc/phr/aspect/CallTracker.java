@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.phr.aspects;
+package gov.samhsa.mhc.phr.aspect;
 
 /**
  * Created by sadhana.chandra on 12/24/2015.

@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.phr.service;
 
-import gov.samhsa.mhc.phr.jsondomain.PatientDataResponse;
+import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
 
 
 /**
