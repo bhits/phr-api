@@ -9,8 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * Created by sadhana.chandra on 11/20/2015.
  */
 @Configuration
-@EnableAspectJAutoProxy
-public class PhrConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
