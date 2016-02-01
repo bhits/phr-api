@@ -1,4 +1,7 @@
 # application.yml template
+logging:
+  level:
+    org.hibernate: DEBUG
 spring:
   datasource:
     initialize: false

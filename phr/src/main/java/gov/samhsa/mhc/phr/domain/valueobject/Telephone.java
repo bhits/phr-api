@@ -28,8 +28,8 @@ package gov.samhsa.mhc.phr.domain.valueobject;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 import gov.samhsa.mhc.phr.domain.reference.TelecomUseCode;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 

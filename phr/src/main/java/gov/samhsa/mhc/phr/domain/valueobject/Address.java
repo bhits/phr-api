@@ -30,8 +30,8 @@ import flexjson.JSONSerializer;
 import gov.samhsa.mhc.phr.domain.reference.AddressUseCode;
 import gov.samhsa.mhc.phr.domain.reference.CountryCode;
 import gov.samhsa.mhc.phr.domain.reference.StateCode;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
