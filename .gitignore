@@ -21,14 +21,12 @@ bin
 *.iws
 # IntelliJ #
 out/
+/phr/web/
 # Others #
 *.roo
 *.tmp
 *.zip
 *.DS_Store
-
-# Ignore .css files
-*.css
 
 
 # CUSTOM .GITIGNORE FILE BASED ON Node.gitignore TEMPLATE
