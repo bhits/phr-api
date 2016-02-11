@@ -33,7 +33,7 @@ phr:
       url: http://localhost:8080/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
       ssoauth: PatientId='086666c2fd154f7^^^&1.3.6.1.4.1.21367.2005.13.20.3000&ISO'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
   redis:
-    defaultExpiration: 1200
+    defaultExpirationInSeconds: 60
 security:
   basic:
     enabled: false
