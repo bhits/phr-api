@@ -1,6 +1,10 @@
 package gov.samhsa.mhc.phr.service.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.Past;
+import java.util.Date;
 
 public class SignupDto
 {
@@ -19,11 +23,12 @@ public class SignupDto
     @NotEmpty
     private String email;
 
-    @NotEmpty
-    private String dob;
+    @Past
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private Date birthDate;
 
     @NotEmpty
-    private String sex;
+    private String genderCode;
 
     private String ssn;
     private String telephone;
@@ -72,24 +77,24 @@ public class SignupDto
         this.telephone = telephone;
     }
 
-    public String getDob()
+    public String getGenderCode()
     {
-        return dob;
+        return genderCode;
     }
 
-    public void setDob(String dob)
+    public void setGenderCode(String genderCode)
     {
-        this.dob = dob;
+        this.genderCode = genderCode;
     }
 
-    public String getSex()
+    public Date getBirthDate()
     {
-        return sex;
+        return birthDate;
     }
 
-    public void setSex(String sex)
+    public void setBirthDate(Date birthDate)
     {
-        this.sex = sex;
+        this.birthDate = birthDate;
     }
 
     public String getLastName()
