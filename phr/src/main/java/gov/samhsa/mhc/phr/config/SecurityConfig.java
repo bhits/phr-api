@@ -30,10 +30,11 @@ public class SecurityConfig {
                 if (securityProperties.isRequireSsl()) {
                     http.requiresChannel().anyRequest().requiresSecure();
                 }
-               http.authorizeRequests()
+                http.authorizeRequests()
                         .antMatchers(HttpMethod.GET, "/patients/healthInformation*//**").access("#oauth2.hasScope('phr.hie_read')")
                         .antMatchers(HttpMethod.POST, "/patients*//**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.OPTIONS, "/*//**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/patients/*").access("#oauth2.hasScope('phr.hie_read')")
                         .anyRequest().denyAll();
             }
         };
