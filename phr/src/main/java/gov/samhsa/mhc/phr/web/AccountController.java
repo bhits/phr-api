@@ -26,7 +26,7 @@ public class AccountController {
         accountService.createPatient(signupDto);
     }
 
-    @RequestMapping(value = "/patients/{patientId}")
+    @RequestMapping(value = "/patients/{patientId}/profile")
     public PatientDto getPatient(@PathVariable long patientId) {
         return accountService.findPatientById(patientId);
     }
