@@ -24,7 +24,8 @@ public class AccountController
     @PreAuthorize("#oauth2.hasScope('phr.hie_write')")
     @RequestMapping(value = "/patients", method = RequestMethod.POST)
     void signupPatient(@RequestBody SignupDto signupDto){
-            accountService.createPatient(signupDto);
+
+        accountService.createPatient(signupDto);
     }
 
 }

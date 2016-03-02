@@ -1,5 +1,9 @@
 package gov.samhsa.mhc.phr.service.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import gov.samhsa.mhc.phr.service.util.CustomJsonDateDeserializer;
+import gov.samhsa.mhc.phr.service.util.CustomJsonDateSerializer;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,8 +27,9 @@ public class SignupDto
     @NotEmpty
     private String email;
 
-    @Past
     @DateTimeFormat(pattern = "MM/dd/yyyy")
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    @JsonSerialize(using = CustomJsonDateSerializer.class)
     private Date birthDate;
 
     @NotEmpty
