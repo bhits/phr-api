@@ -36,6 +36,10 @@ public class PatientDto {
     private String state;
     private String zip;
 
+    private String resourceIdentifier;
+    private String medicalRecordNumber;
+    private String enterpriseIdentifier;
+
     public Long getId() {
         return id;
     }
@@ -130,5 +134,29 @@ public class PatientDto {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getResourceIdentifier() {
+        return resourceIdentifier;
+    }
+
+    public void setResourceIdentifier(String resourceIdentifier) {
+        this.resourceIdentifier = resourceIdentifier;
+    }
+
+    public String getMedicalRecordNumber() {
+        return medicalRecordNumber;
+    }
+
+    public void setMedicalRecordNumber(String medicalRecordNumber) {
+        this.medicalRecordNumber = medicalRecordNumber;
+    }
+
+    public String getEnterpriseIdentifier() {
+        return enterpriseIdentifier;
+    }
+
+    public void setEnterpriseIdentifier(String enterpriseIdentifier) {
+        this.enterpriseIdentifier = enterpriseIdentifier;
     }
 }

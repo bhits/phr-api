@@ -33,6 +33,7 @@ public class SecurityConfig {
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.GET, "/patients/healthInformation*//**").access("#oauth2.hasScope('phr.hie_read')")
                         .antMatchers(HttpMethod.POST, "/patients*//**").access("#oauth2.hasScope('phr.hie_write')")
+                        .antMatchers(HttpMethod.PUT, "/patients*//**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.OPTIONS, "/*//**").permitAll()
                         .antMatchers(HttpMethod.GET, "/patients/*/profile").access("#oauth2.hasScope('phr.allPatientProfiles_read')")
                         .anyRequest().denyAll();
