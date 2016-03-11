@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 public interface AccountService {
     public boolean checkduplicatePatient(SignupDto signupDto);
 
-    public void createPatient(SignupDto signupDto);
+    public SignupDto createPatient(SignupDto signupDto);
 
     public PatientDto findPatientById(long id);
 
+    public SignupDto updatePatient(SignupDto signupDto, long id);
 
 }

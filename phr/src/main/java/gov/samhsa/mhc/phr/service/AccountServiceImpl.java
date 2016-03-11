@@ -35,9 +35,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void createPatient(SignupDto signupDto) {
+    public SignupDto createPatient(SignupDto signupDto) {
         Patient patient = convertToPatient(signupDto);
-        patientRepository.save(patient);
+        patient = patientRepository.save(patient);
+        signupDto.setId(patient.getId());
+        return signupDto;
     }
 
     @Override
@@ -45,6 +47,16 @@ public class AccountServiceImpl implements AccountService {
         final Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
         return modelMapper.map(patient, PatientDto.class);
     }
+
+    @Override
+    public SignupDto updatePatient(SignupDto signupDto, long id) {
+
+        //TODO : verify if id and signupDto.getId() are same
+        Patient patient = convertToPatient(signupDto);
+        patient = patientRepository.save(patient);
+        return signupDto;
+    }
+
 
     public Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
@@ -73,6 +85,11 @@ public class AccountServiceImpl implements AccountService {
         //TODO: setup state code
         address.setPostalCode(signupDto.getZip());
         patient.setAddress(address);
+
+        // Patient Identifiers
+        patient.setMedicalRecordNumber(signupDto.getMedicalRecordNumber());
+        patient.setResourceIdentifier(signupDto.getResourceIdentifier());
+        patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
 
         return patient;
     }

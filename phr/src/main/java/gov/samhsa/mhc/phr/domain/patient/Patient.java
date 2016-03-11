@@ -54,8 +54,19 @@ public class Patient {
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
+    @Size(max = 30)
+    @Column(name = "medical_record_number")
+    private String medicalRecordNumber;
 
+    /** The patient id number. */
+    @Size(max = 255)
+    @Column(name = "enterprise_identifier")
+    private String enterpriseIdentifier;
 
+    /** The patient id number. */
+    @Size(max = 255)
+    @Column(name = "resource_identifier")
+    private String resourceIdentifier;
 
     /** The address. */
     @Embedded
@@ -157,5 +168,29 @@ public class Patient {
 
     public void setSocialSecurityNumber(String socialSecurityNumber) {
         this.socialSecurityNumber = socialSecurityNumber;
+    }
+
+    public String getMedicalRecordNumber() {
+        return medicalRecordNumber;
+    }
+
+    public void setMedicalRecordNumber(String medicalRecordNumber) {
+        this.medicalRecordNumber = medicalRecordNumber;
+    }
+
+    public String getEnterpriseIdentifier() {
+        return enterpriseIdentifier;
+    }
+
+    public void setEnterpriseIdentifier(String enterpriseIdentifier) {
+        this.enterpriseIdentifier = enterpriseIdentifier;
+    }
+
+    public String getResourceIdentifier() {
+        return resourceIdentifier;
+    }
+
+    public void setResourceIdentifier(String resourceIdentifier) {
+        this.resourceIdentifier = resourceIdentifier;
     }
 }

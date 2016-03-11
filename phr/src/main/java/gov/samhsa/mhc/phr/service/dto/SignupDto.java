@@ -7,13 +7,14 @@ import gov.samhsa.mhc.phr.service.util.CustomJsonDateSerializer;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class SignupDto
 {
+    private Long id;
+
     @NotEmpty
     @Size(min = 2, max = 30)
     private String lastName;
@@ -48,6 +49,10 @@ public class SignupDto
     private String city;
     private String state;
     private String zip;
+
+    private String resourceIdentifier;
+    private String medicalRecordNumber;
+    private String enterpriseIdentifier;
 
     public String getPassword()
     {
@@ -181,4 +186,35 @@ public class SignupDto
         this.username = username;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getResourceIdentifier() {
+        return resourceIdentifier;
+    }
+
+    public void setResourceIdentifier(String resourceIdentifier) {
+        this.resourceIdentifier = resourceIdentifier;
+    }
+
+    public String getMedicalRecordNumber() {
+        return medicalRecordNumber;
+    }
+
+    public void setMedicalRecordNumber(String medicalRecordNumber) {
+        this.medicalRecordNumber = medicalRecordNumber;
+    }
+
+    public String getEnterpriseIdentifier() {
+        return enterpriseIdentifier;
+    }
+
+    public void setEnterpriseIdentifier(String enterpriseIdentifier) {
+        this.enterpriseIdentifier = enterpriseIdentifier;
+    }
 }

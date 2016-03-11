@@ -1,4 +1,10 @@
 # application.yml template
+server:
+  contextPath: /phr
+  port: 8445
+  ssl:
+    key-store: /ssl_keystore.keystore
+    key-store-password: changeit
 logging:
   level:
     org.hibernate: DEBUG
@@ -50,9 +56,3 @@ security:
                          jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
                          JwIDAQAB
                          -----END PUBLIC KEY-----
-server:
-  contextPath: /phr
-  port: 8445
-  ssl:
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
