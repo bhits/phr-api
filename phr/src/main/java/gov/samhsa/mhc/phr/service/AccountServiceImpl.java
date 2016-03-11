@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean checkduplicatePatient(SignupDto signupDto) {
-        Patient patient = convertToPatient(signupDto);
+        Patient patient = convertToPatient(signupDto,true);
         //find patient by lastname firstname
         return false;
 
@@ -36,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public SignupDto createPatient(SignupDto signupDto) {
-        Patient patient = convertToPatient(signupDto);
+        Patient patient = convertToPatient(signupDto,true);
         patient = patientRepository.save(patient);
         signupDto.setId(patient.getId());
         return signupDto;
@@ -52,13 +52,13 @@ public class AccountServiceImpl implements AccountService {
     public SignupDto updatePatient(SignupDto signupDto, long id) {
 
         //TODO : verify if id and signupDto.getId() are same
-        Patient patient = convertToPatient(signupDto);
+        Patient patient = convertToPatient(signupDto, false);
         patient = patientRepository.save(patient);
         return signupDto;
     }
 
 
-    public Patient convertToPatient(SignupDto signupDto) {
+    public Patient convertToPatient(SignupDto signupDto, boolean isCreate) {
         Patient patient = new Patient();
 
         patient.setLastName(signupDto.getLastName());
@@ -87,9 +87,12 @@ public class AccountServiceImpl implements AccountService {
         patient.setAddress(address);
 
         // Patient Identifiers
-        patient.setMedicalRecordNumber(signupDto.getMedicalRecordNumber());
-        patient.setResourceIdentifier(signupDto.getResourceIdentifier());
-        patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
+        if(!isCreate) {
+            patient.setId(signupDto.getId());
+            patient.setMedicalRecordNumber(signupDto.getMedicalRecordNumber());
+            patient.setResourceIdentifier(signupDto.getResourceIdentifier());
+            patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
+        }
 
         return patient;
     }
