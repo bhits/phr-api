@@ -28,15 +28,15 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean checkduplicatePatient(SignupDto signupDto) {
-        Patient patient = convertToPatient(signupDto,true);
+        Patient patient = convertToPatient(signupDto);
         //find patient by lastname firstname
         return false;
 
     }
 
     @Override
-    public SignupDto createPatient(SignupDto signupDto) {
-        Patient patient = convertToPatient(signupDto,true);
+    public SignupDto createPatient(SignupDto signupDto){
+        Patient patient = convertToPatient(signupDto);
         patient = patientRepository.save(patient);
         signupDto.setId(patient.getId());
         return signupDto;
@@ -52,13 +52,16 @@ public class AccountServiceImpl implements AccountService {
     public SignupDto updatePatient(SignupDto signupDto, long id) {
 
         //TODO : verify if id and signupDto.getId() are same
-        Patient patient = convertToPatient(signupDto, false);
+        // Patient patient = convertToPatient(signupDto, false);
+        Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
+        //update identifiers
+        addIdentifiers(signupDto, patient);
         patient = patientRepository.save(patient);
         return signupDto;
     }
 
 
-    public Patient convertToPatient(SignupDto signupDto, boolean isCreate) {
+    public Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
 
         patient.setLastName(signupDto.getLastName());
@@ -86,14 +89,13 @@ public class AccountServiceImpl implements AccountService {
         address.setPostalCode(signupDto.getZip());
         patient.setAddress(address);
 
-        // Patient Identifiers
-        if(!isCreate) {
-            patient.setId(signupDto.getId());
-            patient.setMedicalRecordNumber(signupDto.getMedicalRecordNumber());
-            patient.setResourceIdentifier(signupDto.getResourceIdentifier());
-            patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
-        }
-
         return patient;
+    }
+
+    private void addIdentifiers(SignupDto signupDto, Patient patient) {
+        patient.setId(signupDto.getId());
+        patient.setMedicalRecordNumber(signupDto.getMedicalRecordNumber());
+        patient.setResourceIdentifier(signupDto.getResourceIdentifier());
+        patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
     }
 }
