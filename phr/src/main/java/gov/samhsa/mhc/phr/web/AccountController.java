@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/patients")
 public class AccountController {
@@ -21,6 +23,10 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<PatientDto> listPatients() {
+        return accountService.getPatients();
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
@@ -39,4 +45,5 @@ public class AccountController {
     SignupDto updatePatient(@RequestBody SignupDto signupDto, @PathVariable long patientId) {
         return accountService.updatePatient(signupDto,patientId);
     }
+
 }

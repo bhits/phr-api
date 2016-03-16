@@ -5,6 +5,8 @@ import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by cindy.li on 12/16/2015.
  */
@@ -17,5 +19,7 @@ public interface AccountService {
     public PatientDto findPatientById(long id);
 
     public SignupDto updatePatient(SignupDto signupDto, long id);
+
+    public List<PatientDto> getPatients();
 
 }

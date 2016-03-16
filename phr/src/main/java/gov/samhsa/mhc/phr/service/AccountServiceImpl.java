@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,6 +57,19 @@ public class AccountServiceImpl implements AccountService {
         Patient patient = convertToPatient(signupDto, false);
         patient = patientRepository.save(patient);
         return signupDto;
+    }
+
+    @Override
+    public List<PatientDto> getPatients() {
+        List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
+        List<Patient> patients =  patientRepository.findAll();
+
+        for(Patient patient: patients){
+            PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
+            patientDtoList.add(patientDto);
+        }
+
+        return patientDtoList;
     }
 
 
