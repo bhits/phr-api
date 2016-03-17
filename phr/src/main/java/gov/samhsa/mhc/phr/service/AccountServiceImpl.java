@@ -1,5 +1,6 @@
 package gov.samhsa.mhc.phr.service;
 
+import gov.samhsa.mhc.phr.aspect.ExceptionLoggingAspects;
 import gov.samhsa.mhc.phr.domain.patient.Patient;
 import gov.samhsa.mhc.phr.domain.patient.PatientRepository;
 import gov.samhsa.mhc.phr.domain.reference.AdministrativeGenderCodeRepository;
@@ -9,13 +10,16 @@ import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -27,6 +31,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    Logger logger = LoggerFactory.getLogger(ExceptionLoggingAspects.class);
 
     @Override
     public boolean checkduplicatePatient(SignupDto signupDto) {
@@ -60,16 +66,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<PatientDto> getPatients() {
+    public Map<String, Object> findAllPatientsInPage(String pageNumber) {
         List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
-        List<Patient> patients =  patientRepository.findAll();
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "email");
+        final Page<Patient> pages =  patientRepository.findAll(page);
 
-        for(Patient patient: patients){
-            PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
-            patientDtoList.add(patientDto);
+        if (pages != null) {
+            for (Patient patient : pages.getContent()) {
+                PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
+                patientDtoList.add(patientDto);
+            }
+        }else{
+            logger.error("No pages found for current page: " + pageNumber);
         }
 
-        return patientDtoList;
+        Map<String, Object> pageResultsMap = new HashMap<String, Object>();
+        pageResultsMap.put("results", patientDtoList);
+        pageResultsMap.put("totalItems", pages.getTotalElements());
+        pageResultsMap.put("totalPages", pages.getTotalPages());
+        pageResultsMap.put("itemsPerPage", pages.getSize());
+        pageResultsMap.put("currentPage", pages.getNumber());
+
+        return pageResultsMap;
     }
 
 
