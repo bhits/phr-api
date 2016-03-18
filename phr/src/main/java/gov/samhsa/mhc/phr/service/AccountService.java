@@ -23,4 +23,6 @@ public interface AccountService {
 
     public Map<String, Object> findAllPatientsInPage(String pageNumber);
 
+    public abstract List<PatientDto> findAllPatientByFirstNameAndLastName(String [] token);
+
 }

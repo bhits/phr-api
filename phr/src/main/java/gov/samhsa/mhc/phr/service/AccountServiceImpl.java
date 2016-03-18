@@ -72,10 +72,7 @@ public class AccountServiceImpl implements AccountService {
         final Page<Patient> pages =  patientRepository.findAll(page);
 
         if (pages != null) {
-            for (Patient patient : pages.getContent()) {
-                PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
-                patientDtoList.add(patientDto);
-            }
+            patientDtoList = patientListToPatientDtoList(pages.getContent());
         }else{
             logger.error("No pages found for current page: " + pageNumber);
         }
@@ -88,6 +85,20 @@ public class AccountServiceImpl implements AccountService {
         pageResultsMap.put("currentPage", pages.getNumber());
 
         return pageResultsMap;
+    }
+
+    @Override
+    public List<PatientDto> findAllPatientByFirstNameAndLastName(String [] tokens) {
+
+        List<Patient> patients;
+        if (tokens.length == 1) {
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
+        } else if (tokens.length >= 2) {
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
+        } else {
+            patients = new ArrayList<Patient>();
+        }
+        return patientListToPatientDtoList(patients);
     }
 
 
@@ -128,5 +139,15 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return patient;
+    }
+
+
+    private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient){
+        List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
+        for (Patient patient : listOfPatient) {
+            PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
+            patientDtoList.add(patientDto);
+        }
+        return patientDtoList;
     }
 }

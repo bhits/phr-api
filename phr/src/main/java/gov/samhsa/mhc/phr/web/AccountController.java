@@ -50,4 +50,10 @@ public class AccountController {
         return accountService.updatePatient(signupDto,patientId);
     }
 
+    @RequestMapping(value = "/search/{token}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<PatientDto> searchPatients(@PathVariable String token) {
+        String[] tokens = token.split("\\s*(=>|,|\\s)\\s*");
+        return accountService.findAllPatientByFirstNameAndLastName(tokens);
+    }
 }
