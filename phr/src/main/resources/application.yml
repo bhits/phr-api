@@ -11,7 +11,7 @@ logging:
 spring:
   datasource:
     initialize: false
-    url: jdbc:mysql://mhcdatabase:3306/phr?autoReconnect=true
+    url: jdbc:mysql://localhost:3306/phr?autoReconnect=true
     username: root
     password: admin
     driverClassName: com.mysql.jdbc.Driver
@@ -34,6 +34,8 @@ spring:
     hibernate:
       ddl-auto: none
       naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
+  profiles:
+    active: docker
 phr:
   iexhub:
       url: https://localhost:8443/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
@@ -56,3 +58,17 @@ security:
                          jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
                          JwIDAQAB
                          -----END PUBLIC KEY-----
+---
+spring:
+  profiles: docker
+  datasource:
+    url: jdbc:mysql://phrdatabase.mhc:3306/phr?autoReconnect=true
+  redis:
+    port: 6379
+    host: redis.mhc
+server.ssl:
+  key-store: /java/keystore/mhc.keystore
+  key-store-password: changeit
+phr:
+  iexhub:
+      url: https://iexhub.mhc:8443/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
