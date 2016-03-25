@@ -35,6 +35,7 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     SignupDto signupPatient(@RequestBody SignupDto signupDto) {
+
         return accountService.createPatient(signupDto);
     }
 
