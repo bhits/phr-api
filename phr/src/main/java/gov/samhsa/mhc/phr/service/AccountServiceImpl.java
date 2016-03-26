@@ -4,6 +4,8 @@ import gov.samhsa.mhc.phr.aspect.ExceptionLoggingAspects;
 import gov.samhsa.mhc.phr.domain.patient.Patient;
 import gov.samhsa.mhc.phr.domain.patient.PatientRepository;
 import gov.samhsa.mhc.phr.domain.reference.AdministrativeGenderCodeRepository;
+import gov.samhsa.mhc.phr.domain.reference.StateCode;
+import gov.samhsa.mhc.phr.domain.reference.StateCodeRepository;
 import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
 import gov.samhsa.mhc.phr.service.dto.PatientDto;
@@ -28,6 +30,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AdministrativeGenderCodeRepository administrativeGenderCodeRepository;
+
+    @Autowired
+    private StateCodeRepository stateCodeRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -108,7 +113,7 @@ public class AccountServiceImpl implements AccountService {
         patient.setLastName(signupDto.getLastName());
         patient.setFirstName(signupDto.getFirstName());
         patient.setUsername(signupDto.getUsername());
-        patient.setSocialSecurityNumber(signupDto.getSsn());
+        patient.setSocialSecurityNumber(signupDto.getSocialSecurityNumber());
         patient.setEmail(signupDto.getEmail());
         patient.setBirthDay(signupDto.getBirthDate());
 
@@ -126,7 +131,8 @@ public class AccountServiceImpl implements AccountService {
         Address address = new Address();
         address.setStreetAddressLine(signupDto.getAddress());
         address.setCity(signupDto.getCity());
-        //TODO: setup state code
+        StateCode stateCode = stateCodeRepository.findByCode(signupDto.getStateCode());
+        address.setStateCode(stateCode);
         address.setPostalCode(signupDto.getZip());
         patient.setAddress(address);
 

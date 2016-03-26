@@ -29,11 +29,11 @@ public class PatientDto {
     @NotEmpty
     private String genderCode;
 
-    private String ssn;
+    private String socialSecurityNumber;
     private String telephone;
     private String address;
     private String city;
-    private String state;
+    private String stateCode;
     private String zip;
 
     private String resourceIdentifier;
@@ -88,12 +88,12 @@ public class PatientDto {
         this.genderCode = genderCode;
     }
 
-    public String getSsn() {
-        return ssn;
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
     }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
+    public void setSocialSecurityNumber(String ssn) {
+        this.socialSecurityNumber = ssn;
     }
 
     public String getTelephone() {
@@ -120,12 +120,12 @@ public class PatientDto {
         this.city = city;
     }
 
-    public String getState() {
-        return state;
+    public String getStateCode() {
+        return stateCode;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStateCode(String code) {
+        this.stateCode = code;
     }
 
     public String getZip() {

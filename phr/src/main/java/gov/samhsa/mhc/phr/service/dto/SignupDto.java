@@ -43,11 +43,11 @@ public class SignupDto
     @NotEmpty
     private String genderCode;
 
-    private String ssn;
+    private String socialSecurityNumber;
     private String telephone;
     private String address;
     private String city;
-    private String state;
+    private String stateCode;
     private String zip;
 
     private String resourceIdentifier;
@@ -74,14 +74,14 @@ public class SignupDto
         this.email = email;
     }
 
-    public String getSsn()
+    public String getSocialSecurityNumber()
     {
-        return ssn;
+        return socialSecurityNumber;
     }
 
-    public void setSsn(String ssn)
+    public void setSocialSecurityNumber(String ssn)
     {
-        this.ssn = ssn;
+        this.socialSecurityNumber = ssn;
     }
 
     public String getTelephone()
@@ -146,14 +146,14 @@ public class SignupDto
         this.city = city;
     }
 
-    public String getState()
+    public String getStateCode()
     {
-        return state;
+        return stateCode;
     }
 
-    public void setState(String state)
+    public void setStateCode(String stateCode)
     {
-        this.state = state;
+        this.stateCode = stateCode;
     }
 
     public String getZip()

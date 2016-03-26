@@ -42,6 +42,7 @@ public class AccountController {
     @RequestMapping(value = "/{patientId}/profile", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public PatientDto getPatient(@PathVariable long patientId) {
+
         return accountService.findPatientById(patientId);
     }
 
