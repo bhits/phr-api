@@ -83,7 +83,6 @@ public class Patient {
     private Telephone telephone;
 
     /** The username. */
-    @Size(min = 3, max = 30)
     @Column(name = "username")
     private String username;
     /** The social security number. */
