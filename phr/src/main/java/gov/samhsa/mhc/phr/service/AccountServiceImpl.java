@@ -112,7 +112,6 @@ public class AccountServiceImpl implements AccountService {
 
         patient.setLastName(signupDto.getLastName());
         patient.setFirstName(signupDto.getFirstName());
-        patient.setUsername(signupDto.getUsername());
         patient.setSocialSecurityNumber(signupDto.getSocialSecurityNumber());
         patient.setEmail(signupDto.getEmail());
         patient.setBirthDay(signupDto.getBirthDate());
