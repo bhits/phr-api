@@ -34,8 +34,6 @@ spring:
     hibernate:
       ddl-auto: none
       naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
-  profiles:
-    active: docker
 phr:
   iexhub:
       url: https://localhost:8443/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
