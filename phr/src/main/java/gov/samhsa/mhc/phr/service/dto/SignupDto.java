@@ -24,14 +24,6 @@ public class SignupDto
     private String firstName;
 
     @NotEmpty
-    @Size(min = 2, max = 30)
-    private String username;
-
-    @NotEmpty
-    @Size(min = 2, max = 30)
-    private String password;
-
-    @NotEmpty
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
@@ -53,16 +45,6 @@ public class SignupDto
     private String resourceIdentifier;
     private String medicalRecordNumber;
     private String enterpriseIdentifier;
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
 
     public String getEmail()
     {
@@ -174,16 +156,6 @@ public class SignupDto
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
-    }
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
     }
 
     public Long getId() {
