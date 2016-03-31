@@ -1,13 +1,17 @@
-# application.yml template
 server:
-  contextPath: /phr
-  port: 8445
-  ssl:
-    key-store: /java/MHC_PROPS/ssl_keystore.keystore
-    key-store-password: changeit
-logging:
-  level:
-    org.hibernate: DEBUG
+  port: 0
+info:
+  component: PHR API
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: https://localhost:8761/eureka/
 spring:
   datasource:
     initialize: false
@@ -56,6 +60,25 @@ security:
                          jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
                          JwIDAQAB
                          -----END PUBLIC KEY-----
+---
+spring.profiles: ssl
+server:
+  port: 8445
+  ssl:
+    key-store: /ssl_keystore.keystore
+    key-store-password: changeit
+eureka:
+  instance:
+    secure-port: ${server.port}
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+---
+spring.profiles: standalone-ssl
+spring:
+  profiles:
+    include: ssl
+server:
+  context-path: /phr
 ---
 spring:
   profiles: docker
