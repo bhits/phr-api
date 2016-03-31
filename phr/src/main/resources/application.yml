@@ -60,7 +60,7 @@ security:
 spring:
   profiles: docker
   datasource:
-    url: jdbc:mysql://phrdatabase.mhc:3306/phr?autoReconnect=true
+    url: jdbc:mysql://phr-db.mhc:3306/phr?autoReconnect=true
   redis:
     port: 6379
     host: redis.mhc
