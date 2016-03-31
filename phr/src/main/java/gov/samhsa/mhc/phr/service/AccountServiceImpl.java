@@ -73,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Map<String, Object> findAllPatientsInPage(String pageNumber) {
         List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
-        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "email");
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "id");
         final Page<Patient> pages =  patientRepository.findAll(page);
 
         if (pages != null) {
@@ -97,9 +97,9 @@ public class AccountServiceImpl implements AccountService {
 
         List<Patient> patients;
         if (tokens.length == 1) {
-            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
         } else if (tokens.length >= 2) {
-            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
         } else {
             patients = new ArrayList<Patient>();
         }
