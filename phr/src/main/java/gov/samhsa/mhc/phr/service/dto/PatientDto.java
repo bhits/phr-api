@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class PatientDto {
@@ -20,6 +21,7 @@ public class PatientDto {
     private String firstName;
 
     @NotEmpty
+    @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
     @Past
@@ -29,11 +31,11 @@ public class PatientDto {
     @NotEmpty
     private String genderCode;
 
-    private String ssn;
+    private String socialSecurityNumber;
     private String telephone;
     private String address;
     private String city;
-    private String state;
+    private String stateCode;
     private String zip;
 
     private String resourceIdentifier;
@@ -88,12 +90,12 @@ public class PatientDto {
         this.genderCode = genderCode;
     }
 
-    public String getSsn() {
-        return ssn;
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
     }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
+    public void setSocialSecurityNumber(String ssn) {
+        this.socialSecurityNumber = ssn;
     }
 
     public String getTelephone() {
@@ -120,12 +122,12 @@ public class PatientDto {
         this.city = city;
     }
 
-    public String getState() {
-        return state;
+    public String getStateCode() {
+        return stateCode;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStateCode(String code) {
+        this.stateCode = code;
     }
 
     public String getZip() {

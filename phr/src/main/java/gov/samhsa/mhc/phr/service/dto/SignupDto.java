@@ -24,14 +24,6 @@ public class SignupDto
     private String firstName;
 
     @NotEmpty
-    @Size(min = 2, max = 30)
-    private String username;
-
-    @NotEmpty
-    @Size(min = 2, max = 30)
-    private String password;
-
-    @NotEmpty
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
@@ -43,26 +35,16 @@ public class SignupDto
     @NotEmpty
     private String genderCode;
 
-    private String ssn;
+    private String socialSecurityNumber;
     private String telephone;
     private String address;
     private String city;
-    private String state;
+    private String stateCode;
     private String zip;
 
     private String resourceIdentifier;
     private String medicalRecordNumber;
     private String enterpriseIdentifier;
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
 
     public String getEmail()
     {
@@ -74,14 +56,14 @@ public class SignupDto
         this.email = email;
     }
 
-    public String getSsn()
+    public String getSocialSecurityNumber()
     {
-        return ssn;
+        return socialSecurityNumber;
     }
 
-    public void setSsn(String ssn)
+    public void setSocialSecurityNumber(String ssn)
     {
-        this.ssn = ssn;
+        this.socialSecurityNumber = ssn;
     }
 
     public String getTelephone()
@@ -146,14 +128,14 @@ public class SignupDto
         this.city = city;
     }
 
-    public String getState()
+    public String getStateCode()
     {
-        return state;
+        return stateCode;
     }
 
-    public void setState(String state)
+    public void setStateCode(String stateCode)
     {
-        this.state = state;
+        this.stateCode = stateCode;
     }
 
     public String getZip()
@@ -174,16 +156,6 @@ public class SignupDto
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
-    }
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
     }
 
     public Long getId() {
