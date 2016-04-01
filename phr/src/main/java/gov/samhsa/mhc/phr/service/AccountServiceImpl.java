@@ -67,9 +67,15 @@ public class AccountServiceImpl implements AccountService {
         //TODO : verify if id and signupDto.getId() are same
         // Patient patient = convertToPatient(signupDto, false);
         Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
+
+        // map signupDTO to patient
+        CopySignupDtoToPatient(signupDto,patient);
+
         //update identifiers
         addIdentifiers(signupDto, patient);
+
         patient = patientRepository.save(patient);
+
         return signupDto;
     }
 
@@ -112,7 +118,12 @@ public class AccountServiceImpl implements AccountService {
 
     public Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
+        CopySignupDtoToPatient(signupDto, patient);
 
+        return patient;
+    }
+
+    private void CopySignupDtoToPatient(SignupDto signupDto, Patient patient) {
         patient.setLastName(signupDto.getLastName());
         patient.setFirstName(signupDto.getFirstName());
         patient.setSocialSecurityNumber(signupDto.getSocialSecurityNumber());
@@ -137,8 +148,6 @@ public class AccountServiceImpl implements AccountService {
         address.setStateCode(stateCode);
         address.setPostalCode(signupDto.getZip());
         patient.setAddress(address);
-
-        return patient;
     }
 
     private void addIdentifiers(SignupDto signupDto, Patient patient) {
