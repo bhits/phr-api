@@ -35,14 +35,12 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     SignupDto signupPatient(@RequestBody SignupDto signupDto) {
-
         return accountService.createPatient(signupDto);
     }
 
     @RequestMapping(value = "/{patientId}/profile", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public PatientDto getPatient(@PathVariable long patientId) {
-
         return accountService.findPatientById(patientId);
     }
 

@@ -67,16 +67,22 @@ public class AccountServiceImpl implements AccountService {
         //TODO : verify if id and signupDto.getId() are same
         // Patient patient = convertToPatient(signupDto, false);
         Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
+
+        // map signupDTO to patient
+        CopySignupDtoToPatient(signupDto,patient);
+
         //update identifiers
         addIdentifiers(signupDto, patient);
+
         patient = patientRepository.save(patient);
+
         return signupDto;
     }
 
     @Override
     public Map<String, Object> findAllPatientsInPage(String pageNumber) {
         List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
-        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "email");
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "id");
         final Page<Patient> pages =  patientRepository.findAll(page);
 
         if (pages != null) {
@@ -100,9 +106,9 @@ public class AccountServiceImpl implements AccountService {
 
         List<Patient> patients;
         if (tokens.length == 1) {
-            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
         } else if (tokens.length >= 2) {
-            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
         } else {
             patients = new ArrayList<Patient>();
         }
@@ -112,10 +118,14 @@ public class AccountServiceImpl implements AccountService {
 
     public Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
+        CopySignupDtoToPatient(signupDto, patient);
 
+        return patient;
+    }
+
+    private void CopySignupDtoToPatient(SignupDto signupDto, Patient patient) {
         patient.setLastName(signupDto.getLastName());
         patient.setFirstName(signupDto.getFirstName());
-        patient.setUsername(signupDto.getUsername());
         patient.setSocialSecurityNumber(signupDto.getSocialSecurityNumber());
         patient.setEmail(signupDto.getEmail());
         patient.setBirthDay(signupDto.getBirthDate());
@@ -138,8 +148,6 @@ public class AccountServiceImpl implements AccountService {
         address.setStateCode(stateCode);
         address.setPostalCode(signupDto.getZip());
         patient.setAddress(address);
-
-        return patient;
     }
 
     private void addIdentifiers(SignupDto signupDto, Patient patient) {
