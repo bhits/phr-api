@@ -7,6 +7,7 @@ import gov.samhsa.mhc.phr.service.util.CustomJsonDateSerializer;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class SignupDto
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
+    @Past
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     @JsonSerialize(using = CustomJsonDateSerializer.class)
