@@ -92,4 +92,4 @@ server.ssl:
   key-store-password: changeit
 phr:
   iexhub:
-      url: https://iexhub.mhc:8443/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
+      url: https://iexhub.mhc:8443/iexhub/services/GetPatientData
