@@ -25,9 +25,9 @@ public class StateCodeServiceImpl implements StateCodeService {
 
         List<LookupDto> lookups = new ArrayList<LookupDto>();
 
-        List<StateCode> raceCodeList = stateCodeRepository.findAll();
+        List<StateCode> stateCodeList = stateCodeRepository.findAll();
 
-        for (StateCode entity : raceCodeList) {
+        for (StateCode entity : stateCodeList) {
             lookups.add(modelMapper.map(entity, LookupDto.class));
         }
         return lookups;
