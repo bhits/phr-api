@@ -86,10 +86,10 @@ spring:
     url: jdbc:mysql://phr-db.mhc.com:3306/phr?autoReconnect=true
   redis:
     port: 6379
-    host: redis.mhc
+    host: redis.mhc.com
 phr:
   iexhub:
-      url: https://iexhub.mhc.com:8443/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
+      url: https://iexhub.mhc.com:8443/iexhub/services/GetPatientData
 eureka:
   client:
     service-url:
