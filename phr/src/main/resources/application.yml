@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8445
 info:
   component: PHR API
 eureka:
@@ -83,13 +83,17 @@ server:
 spring:
   profiles: docker
   datasource:
-    url: jdbc:mysql://phr-db.mhc:3306/phr?autoReconnect=true
+    url: jdbc:mysql://phr-db.mhc.com:3306/phr?autoReconnect=true
   redis:
     port: 6379
-    host: redis.mhc
-server.ssl:
-  key-store: /java/keystore/mhc.keystore
-  key-store-password: changeit
+    host: redis.mhc.com
 phr:
   iexhub:
-      url: https://iexhub.mhc:8443/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
+      url: https://iexhub.mhc.com:8443/iexhub/services/GetPatientData
+eureka:
+  client:
+    service-url:
+      defaultZone: https://discovery-server.mhc.com:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
