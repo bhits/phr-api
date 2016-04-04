@@ -25,11 +25,9 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @RequestMapping(value = "/pageNumber/{pageNumber}")
-    public PatientListDto listPatients(@PathVariable("pageNumber") String pageNumber) {
-        Map<String, Object> pageResult =  accountService.findAllPatientsInPage(pageNumber);
-        PatientListDto patientListDto = new PatientListDto(pageResult);
-        return patientListDto;
+    @RequestMapping(value = "/pageNumber")
+    public PatientListDto listPatients(@RequestParam("pageNumber") String pageNumber) {
+        return accountService.findAllPatientsInPage(pageNumber);
     }
 
     @RequestMapping(method = RequestMethod.POST)

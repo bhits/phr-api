@@ -9,6 +9,7 @@ import gov.samhsa.mhc.phr.domain.reference.StateCodeRepository;
 import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
 import gov.samhsa.mhc.phr.service.dto.PatientDto;
+import gov.samhsa.mhc.phr.service.dto.PatientListDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -37,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private ModelMapper modelMapper;
 
-    Logger logger = LoggerFactory.getLogger(ExceptionLoggingAspects.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public boolean checkduplicatePatient(SignupDto signupDto) {
@@ -80,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Map<String, Object> findAllPatientsInPage(String pageNumber) {
+    public PatientListDto findAllPatientsInPage(String pageNumber) {
         List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
         PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "id");
         final Page<Patient> pages =  patientRepository.findAll(page);
@@ -90,15 +91,14 @@ public class AccountServiceImpl implements AccountService {
         }else{
             logger.error("No pages found for current page: " + pageNumber);
         }
+        PatientListDto patientListDto = new PatientListDto();
+        patientListDto.setPatientList(patientDtoList);
+        patientListDto.setCurrentPage(pages.getNumber());
+        patientListDto.setTotalItems(pages.getTotalElements());
+        patientListDto.setTotalPages(pages.getTotalPages());
+        patientListDto.setItemsPerPage(pages.getSize());
 
-        Map<String, Object> pageResultsMap = new HashMap<String, Object>();
-        pageResultsMap.put("results", patientDtoList);
-        pageResultsMap.put("totalItems", pages.getTotalElements());
-        pageResultsMap.put("totalPages", pages.getTotalPages());
-        pageResultsMap.put("itemsPerPage", pages.getSize());
-        pageResultsMap.put("currentPage", pages.getNumber());
-
-        return pageResultsMap;
+        return patientListDto;
     }
 
     @Override
