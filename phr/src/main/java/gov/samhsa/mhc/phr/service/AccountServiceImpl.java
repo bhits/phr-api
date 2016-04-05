@@ -107,11 +107,11 @@ public class AccountServiceImpl implements AccountService {
         List<Patient> patients;
         if (tokenizer.countTokens() == 1) {
             String firstName = tokenizer.nextToken(); // First Token is the first name
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + firstName+ "%");
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName+ "%");
         } else if (tokenizer.countTokens() >= 2) {
             String firstName = tokenizer.nextToken(); // First Token is the first name
             String lastName = tokenizer.nextToken();  // Last Token is the first name
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + firstName+ "%", "%" + lastName + "%");
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName+ "%", "%" + lastName + "%");
         } else {
             patients = new ArrayList<Patient>();
         }
