@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 @RestController
 @RequestMapping("/patients")
@@ -51,7 +52,7 @@ public class AccountController {
     @RequestMapping(value = "/search/{token}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<PatientDto> searchPatients(@PathVariable String token) {
-        String[] tokens = token.split("\\s*(=>|,|\\s)\\s*");
-        return accountService.findAllPatientByFirstNameAndLastName(tokens);
+        StringTokenizer tokenizer = new StringTokenizer(token, " ");
+        return accountService.findAllPatientByFirstNameAndLastName(tokenizer);
     }
 }

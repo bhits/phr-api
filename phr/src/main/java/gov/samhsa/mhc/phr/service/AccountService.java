@@ -7,6 +7,7 @@ import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by cindy.li on 12/16/2015.
@@ -23,6 +24,6 @@ public interface AccountService {
 
     public PatientListDto findAllPatientsInPage(String pageNumber);
 
-    public abstract List<PatientDto> findAllPatientByFirstNameAndLastName(String [] token);
+    public abstract List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer);
 
 }

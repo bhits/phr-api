@@ -102,13 +102,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<PatientDto> findAllPatientByFirstNameAndLastName(String [] tokens) {
+    public List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer) {
 
         List<Patient> patients;
-        if (tokens.length == 1) {
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
-        } else if (tokens.length >= 2) {
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
+        if (tokenizer.countTokens() == 1) {
+            String firstName = tokenizer.nextToken(); // First Token is the first name
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + firstName+ "%");
+        } else if (tokenizer.countTokens() >= 2) {
+            String firstName = tokenizer.nextToken(); // First Token is the first name
+            String lastName = tokenizer.nextToken();  // Last Token is the first name
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + firstName+ "%", "%" + lastName + "%");
         } else {
             patients = new ArrayList<Patient>();
         }
