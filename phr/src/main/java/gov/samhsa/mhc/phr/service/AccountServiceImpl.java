@@ -16,8 +16,10 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -37,6 +39,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Value("${phr.pagination.itemsPerPage}")
+    private int itemsPerPage;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -83,7 +88,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public PatientListDto findAllPatientsInPage(String pageNumber) {
         List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
-        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "id");
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), itemsPerPage, Sort.Direction.DESC, "id");
         final Page<Patient> pages =  patientRepository.findAll(page);
 
         if (pages != null) {
@@ -102,13 +107,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<PatientDto> findAllPatientByFirstNameAndLastName(String [] tokens) {
+    public List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer) {
 
         List<Patient> patients;
-        if (tokens.length == 1) {
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
-        } else if (tokens.length >= 2) {
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
+        Integer pageNumber = 0;
+        Pageable pageRequest = new PageRequest(pageNumber, itemsPerPage);
+
+        if (tokenizer.countTokens() == 1) {
+            String firstName = tokenizer.nextToken(); // First Token is the first name
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName+ "%", pageRequest);
+        } else if (tokenizer.countTokens() >= 2) {
+            String firstName = tokenizer.nextToken(); // First Token is the first name
+            String lastName = tokenizer.nextToken();  // Last Token is the first name
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName+ "%", "%" + lastName + "%", pageRequest);
         } else {
             patients = new ArrayList<Patient>();
         }
@@ -166,4 +177,5 @@ public class AccountServiceImpl implements AccountService {
         }
         return patientDtoList;
     }
+
 }

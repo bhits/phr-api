@@ -1,6 +1,8 @@
 package gov.samhsa.mhc.phr.domain.patient;
 
 import gov.samhsa.mhc.phr.domain.patient.Patient;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,7 +22,7 @@ public interface  PatientRepository extends JpaRepository<Patient,Long>{
      * @return the list
      */
     @Query("select p from Patient p where p.firstName like ?1 or p.lastName like ?1")
-    public abstract List<Patient> findAllTopTenByFirstNameLikesAndLastNameLikes(String token1);
+    public abstract List<Patient> findAllByFirstNameLikesAndLastNameLikes( String token1, Pageable pageRequest);
 
     /**
      * Find all by first name likes and last name likes.
@@ -32,5 +34,5 @@ public interface  PatientRepository extends JpaRepository<Patient,Long>{
      * @return the list
      */
     @Query("select p from Patient p where (p.firstName like ?1 or p.firstName like ?2) and (p.lastName like ?1 or p.lastName like ?2)")
-    public abstract List<Patient> findAllTopTenByFirstNameLikesAndLastNameLikes(String token1, String token2);
+    public abstract List<Patient> findAllByFirstNameLikesAndLastNameLikes(String token1, String token2, Pageable pageRequest);
 }

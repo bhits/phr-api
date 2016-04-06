@@ -44,6 +44,8 @@ phr:
       ssoauth: PatientId='086666c2fd154f7^^^&1.3.6.1.4.1.21367.2005.13.20.3000&ISO'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
   redis:
     defaultExpirationInSeconds: 60
+  pagination:
+    itemsPerPage: 10
 security:
   basic:
     enabled: false
