@@ -1,129 +1,14 @@
-CREATE TABLE address_use_code (
-  id               BIGINT AUTO_INCREMENT NOT NULL,
-  code             VARCHAR(250)          NOT NULL,
-  code_system      VARCHAR(250)          NULL,
-  code_system_name VARCHAR(250)          NOT NULL,
-  display_name     VARCHAR(250)          NOT NULL,
-  originalText     VARCHAR(250)          NULL,
-  version          INT                   NULL,
-  CONSTRAINT PK_ADDRESS_USE_CODE PRIMARY KEY (id)
-);
-
-CREATE TABLE administrative_gender_code (
-  id               BIGINT AUTO_INCREMENT NOT NULL,
-  code             VARCHAR(250)          NOT NULL,
-  code_system      VARCHAR(250)          NULL,
-  code_system_name VARCHAR(250)          NOT NULL,
-  display_name     VARCHAR(250)          NOT NULL,
-  originalText     VARCHAR(250)          NULL,
-  version          INT                   NULL,
-  CONSTRAINT PK_ADMINISTRATIVE_GENDER_CODE PRIMARY KEY (id)
-);
-
-CREATE TABLE country_code (
-  id               BIGINT AUTO_INCREMENT NOT NULL,
-  code             VARCHAR(250)          NOT NULL,
-  code_system      VARCHAR(250)          NULL,
-  code_system_name VARCHAR(250)          NOT NULL,
-  display_name     VARCHAR(250)          NOT NULL,
-  originalText     VARCHAR(250)          NULL,
-  version          INT                   NULL,
-  CONSTRAINT PK_COUNTRY_CODE PRIMARY KEY (id)
-);
-
-CREATE TABLE patient (
-  id                       BIGINT AUTO_INCREMENT NOT NULL,
-  city                     VARCHAR(255)          NULL,
-  postal_code              VARCHAR(255)          NULL,
-  street_address_line      VARCHAR(255)          NULL,
-  birth_day                DATETIME              NULL,
-  email                    VARCHAR(255)          NULL,
-  first_name               VARCHAR(30)           NOT NULL,
-  last_name                VARCHAR(30)           NOT NULL,
-  socialSecurityNumber     VARCHAR(255)          NULL,
-  telephone                VARCHAR(255)          NULL,
-  username                 VARCHAR(255)           NULL,
-  addressUseCode           BIGINT                NULL,
-  countryCode              BIGINT                NULL,
-  stateCode                BIGINT                NULL,
-  administrativeGenderCode BIGINT                NULL,
-  telecomUseCode           BIGINT                NULL,
-  medical_record_number varchar(30)              NULL,
-  enterprise_identifier varchar(255)             NULL,
-  resource_identifier varchar(255)               NULL,
-  CONSTRAINT PK_PATIENT PRIMARY KEY (id)
-);
-
-CREATE TABLE patient_audit (
-  id                       BIGINT       NOT NULL,
-  REV                      INT          NOT NULL,
-  REVTYPE                  TINYINT      NULL,
-  city                     VARCHAR(255) NULL,
-  postal_code              VARCHAR(255) NULL,
-  street_address_line      VARCHAR(255) NULL,
-  birth_day                DATETIME     NULL,
-  email                    VARCHAR(255) NULL,
-  first_name               VARCHAR(30)  NULL,
-  last_name                VARCHAR(30)  NULL,
-  socialSecurityNumber     VARCHAR(255) NULL,
-  telephone                VARCHAR(255) NULL,
-  username                 VARCHAR(255)  NULL,
-  addressUseCode           BIGINT       NULL,
-  countryCode              BIGINT       NULL,
-  stateCode                BIGINT       NULL,
-  administrativeGenderCode BIGINT       NULL,
-  telecomUseCode           BIGINT       NULL,
-  medical_record_number varchar(30)     NULL,
-  enterprise_identifier varchar(255)    NULL,
-  resource_identifier varchar(255)      NULL
-);
-
-CREATE TABLE revinfo (
-  REV      INT AUTO_INCREMENT NOT NULL,
-  REVTSTMP BIGINT             NULL,
-  CONSTRAINT PK_REVINFO PRIMARY KEY (REV)
-);
-
-CREATE TABLE state_code (
-  id               BIGINT AUTO_INCREMENT NOT NULL,
-  code             VARCHAR(250)          NOT NULL,
-  code_system      VARCHAR(250)          NULL,
-  code_system_name VARCHAR(250)          NOT NULL,
-  display_name     VARCHAR(250)          NOT NULL,
-  originalText     VARCHAR(250)          NULL,
-  version          INT                   NULL,
-  CONSTRAINT PK_STATE_CODE PRIMARY KEY (id)
-);
-
-CREATE TABLE telecom_use_code (
-  id               BIGINT AUTO_INCREMENT NOT NULL,
-  code             VARCHAR(250)          NOT NULL,
-  code_system      VARCHAR(250)          NULL,
-  code_system_name VARCHAR(250)          NOT NULL,
-  display_name     VARCHAR(250)          NOT NULL,
-  originalText     VARCHAR(250)          NULL,
-  version          INT                   NULL,
-  CONSTRAINT PK_TELECOM_USE_CODE PRIMARY KEY (id)
-);
-
-ALTER TABLE patient_audit ADD PRIMARY KEY (id, REV);
-
-ALTER TABLE patient ADD CONSTRAINT FK_8sfvh85lrg919dnvj9iqhh986 FOREIGN KEY (administrativeGenderCode) REFERENCES administrative_gender_code (id)
-  ON UPDATE NO ACTION
-  ON DELETE NO ACTION;
-
-ALTER TABLE patient_audit ADD CONSTRAINT FK_ahxtfw2b36s4wuro530bvkxro FOREIGN KEY (REV) REFERENCES revinfo (REV)
-  ON UPDATE NO ACTION
-  ON DELETE NO ACTION;
-
-ALTER TABLE patient ADD CONSTRAINT FK_fmxslsh56nc572uxg7oifk0ib FOREIGN KEY (stateCode) REFERENCES state_code (id)
-  ON UPDATE NO ACTION
-  ON DELETE NO ACTION;
-
-ALTER TABLE patient ADD CONSTRAINT FK_lbh8hbceyrre0pfipl92ii1wt FOREIGN KEY (addressUseCode) REFERENCES address_use_code (id)
-  ON UPDATE NO ACTION
-  ON DELETE NO ACTION;
-
-ALTER TABLE patient ADD CONSTRAINT FK_n25syp9n9i4ywios3imhyf1ga FOREIGN KEY (telecomUseCode) REFERENCES telecom_use_code (id)
-  ON UPDATE NO ACTION
-  ON DELETE NO ACTION;
+create table address_use_code (id bigint not null auto_increment, code varchar(250) not null, code_system varchar(250), code_system_name varchar(250) not null, display_name varchar(250) not null, original_text varchar(250), version integer, primary key (id)) ENGINE=InnoDB;
+create table administrative_gender_code (id bigint not null auto_increment, code varchar(250) not null, code_system varchar(250), code_system_name varchar(250) not null, display_name varchar(250) not null, original_text varchar(250), version integer, primary key (id)) ENGINE=InnoDB;
+create table country_code (id bigint not null auto_increment, code varchar(250) not null, code_system varchar(250), code_system_name varchar(250) not null, display_name varchar(250) not null, original_text varchar(250), version integer, primary key (id)) ENGINE=InnoDB;
+create table patient (id bigint not null auto_increment, city varchar(255), postal_code varchar(255), street_address_line varchar(255), birth_day datetime, email varchar(255), enterprise_identifier varchar(255), first_name varchar(30) not null, last_name varchar(30) not null, medical_record_number varchar(30), resource_identifier varchar(255), social_security_number varchar(255), telephone varchar(255), username varchar(255), address_use_code bigint, country_code bigint, state_code bigint, administrative_gender_code bigint, telecom_use_code bigint, primary key (id)) ENGINE=InnoDB;
+create table patient_audit (id bigint not null, rev integer not null, revtype tinyint, city varchar(255), postal_code varchar(255), street_address_line varchar(255), birth_day datetime, email varchar(255), enterprise_identifier varchar(255), first_name varchar(30), last_name varchar(30), medical_record_number varchar(30), resource_identifier varchar(255), social_security_number varchar(255), telephone varchar(255), username varchar(255), address_use_code bigint, country_code bigint, state_code bigint, administrative_gender_code bigint, telecom_use_code bigint, primary key (id, rev)) ENGINE=InnoDB;
+create table revinfo (rev integer not null auto_increment, revtstmp bigint, primary key (rev)) ENGINE=InnoDB;
+create table state_code (id bigint not null auto_increment, code varchar(250) not null, code_system varchar(250), code_system_name varchar(250) not null, display_name varchar(250) not null, original_text varchar(250), version integer, primary key (id)) ENGINE=InnoDB;
+create table telecom_use_code (id bigint not null auto_increment, code varchar(250) not null, code_system varchar(250), code_system_name varchar(250) not null, display_name varchar(250) not null, original_text varchar(250), version integer, primary key (id)) ENGINE=InnoDB;
+alter table patient add constraint FK_1orqrmpirngnbw03ay0pepv4d foreign key (address_use_code) references address_use_code (id);
+alter table patient add constraint FK_2kdw3ok799ys1j0qgem1rpy4f foreign key (country_code) references country_code (id);
+alter table patient add constraint FK_8k9onlusuixbxj4f7wrneb6n0 foreign key (state_code) references state_code (id);
+alter table patient add constraint FK_6vxgani9f2dr9sj48x08slqis foreign key (administrative_gender_code) references administrative_gender_code (id);
+alter table patient add constraint FK_ss7ageqwyctto7xxppr5cx972 foreign key (telecom_use_code) references telecom_use_code (id);
+alter table patient_audit add constraint FK_a944aa5q2gsejikiulk47jxlc foreign key (rev) references revinfo (rev);
