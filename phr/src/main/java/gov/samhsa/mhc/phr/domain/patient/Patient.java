@@ -15,34 +15,28 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-@Table(name= "patient")
 @Audited
-@AuditTable("PATIENT_AUDIT")
 public class Patient {
 
     /** The id. */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
     /** The first name. */
     @NotNull
     @Size(min = 2, max = 30)
-    @Column(name="first_name")
     private String firstName;
 
     /** The last name. */
     @NotNull
     @Size(min = 2, max = 30)
-    @Column(name="last_name")
     private String lastName;
 
     /** The birth day. */
     @Past
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "MM/dd/yyyy")
-    @Column(name="birth_day")
     private Date birthDay;
 
     /** The administrative gender code. */
@@ -55,17 +49,14 @@ public class Patient {
     private String email;
 
     @Size(max = 30)
-    @Column(name = "medical_record_number")
     private String medicalRecordNumber;
 
     /** The patient id number. */
     @Size(max = 255)
-    @Column(name = "enterprise_identifier")
     private String enterpriseIdentifier;
 
     /** The patient id number. */
     @Size(max = 255)
-    @Column(name = "resource_identifier")
     private String resourceIdentifier;
 
     /** The address. */
@@ -83,7 +74,6 @@ public class Patient {
     private Telephone telephone;
 
     /** The username. */
-    @Column(name = "username")
     private String username;
     /** The social security number. */
     @Pattern(regexp = "(\\d{3}-?\\d{2}-?\\d{4})*")

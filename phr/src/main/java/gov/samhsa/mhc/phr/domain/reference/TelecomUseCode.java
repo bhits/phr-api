@@ -42,7 +42,6 @@ import java.util.List;
  */
 @Entity
 @SequenceGenerator(name="idgener", sequenceName="TELCOMUSE_SEQ", initialValue = 1)
-@Table(name="telecom_use_code")
 public class TelecomUseCode extends AbstractLocalDBLookupCodedConcept {
 
 	/**
