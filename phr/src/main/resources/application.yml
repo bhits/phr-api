@@ -1,5 +1,7 @@
 server:
   port: 8445
+logging:
+  file: /java/MHC_LOGS/phr/phr.log
 info:
   component: PHR API
 eureka:
@@ -37,7 +39,7 @@ spring:
           auto: validate
     hibernate:
       ddl-auto: none
-      naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
 phr:
   iexhub:
       url: https://localhost:8443/iexhub/services/GetPatientData
