@@ -42,7 +42,6 @@ import java.util.List;
  */
 @Entity
 @SequenceGenerator(name="idgener", sequenceName="ADDRUSE_SEQ", initialValue = 1)
-@Table(name="address_use_code")
 public class AddressUseCode extends AbstractLocalDBLookupCodedConcept {
 
 	/**

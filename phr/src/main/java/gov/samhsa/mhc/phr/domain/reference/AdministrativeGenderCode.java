@@ -43,7 +43,6 @@ import java.util.List;
  */
 @Entity
 @SequenceGenerator(name="idgener", sequenceName="GENDER_SEQ", initialValue = 1)
-@Table(name="administrative_gender_code")
 public class AdministrativeGenderCode extends AbstractLocalDBLookupCodedConcept {
 
 	/* (non-Javadoc)

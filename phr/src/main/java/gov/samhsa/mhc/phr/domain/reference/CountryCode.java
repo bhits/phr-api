@@ -42,7 +42,6 @@ import java.util.List;
  */
 @Entity
 @SequenceGenerator(name="idgener", sequenceName="COUNTRYCODE_SEQ", initialValue = 1)
-@Table(name="country_code")
 public class CountryCode extends AbstractLocalDBLookupCodedConcept {
 
 	/**

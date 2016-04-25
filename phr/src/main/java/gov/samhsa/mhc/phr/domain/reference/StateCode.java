@@ -42,7 +42,6 @@ import java.util.List;
  */
 @Entity
 @SequenceGenerator(name="idgener", sequenceName="STATE_SEQ", initialValue = 1)
-@Table(name="state_code")
 public class StateCode extends AbstractLocalDBLookupCodedConcept {
 
 	/* (non-Javadoc)

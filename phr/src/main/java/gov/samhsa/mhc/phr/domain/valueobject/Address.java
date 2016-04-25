@@ -61,7 +61,6 @@ public class Address {
     /** The street address line. */
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name="street_address_line")
     private String streetAddressLine;
 
     /** The city. */
@@ -78,7 +77,6 @@ public class Address {
     /** The postal code. */
     @NotNull
     @Pattern(regexp = "\\d{5}(?:[-\\s]\\d{4})?")
-    @Column(name="postal_code")
     private String postalCode;
 
     /** The country code. */

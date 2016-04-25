@@ -47,19 +47,16 @@ public abstract class AbstractLocalDBLookupCodedConcept {
 
 	/** The code system. */
 	@Size(max = 250)
-	@Column(name="code_system")
 	private String codeSystem;
 
 	/** The display name. */
 	@NotNull
 	@Size(max = 250)
-	@Column(name="display_name")
 	private String displayName;
 
 	/** The code system name. */
 	@NotNull
 	@Size(max = 250)
-	@Column(name="code_system_name")
 	private String codeSystemName;
 
 	/** The original text. */
