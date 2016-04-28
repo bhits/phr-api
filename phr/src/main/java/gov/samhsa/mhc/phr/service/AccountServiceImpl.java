@@ -1,6 +1,5 @@
 package gov.samhsa.mhc.phr.service;
 
-import gov.samhsa.mhc.phr.aspect.ExceptionLoggingAspects;
 import gov.samhsa.mhc.phr.domain.patient.Patient;
 import gov.samhsa.mhc.phr.domain.patient.PatientRepository;
 import gov.samhsa.mhc.phr.domain.reference.AdministrativeGenderCodeRepository;
@@ -22,7 +21,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -49,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public SignupDto createPatient(SignupDto signupDto){
+    public SignupDto createPatient(SignupDto signupDto) {
         Patient patient = convertToPatient(signupDto);
         patient = patientRepository.save(patient);
         signupDto.setId(patient.getId());
@@ -70,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
         Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
 
         // map signupDTO to patient
-        CopySignupDtoToPatient(signupDto,patient);
+        CopySignupDtoToPatient(signupDto, patient);
 
         //update identifiers
         addIdentifiers(signupDto, patient);
@@ -82,13 +83,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public PatientListDto findAllPatientsInPage(String pageNumber) {
-        List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
+        List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
         PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10, Sort.Direction.DESC, "id");
-        final Page<Patient> pages =  patientRepository.findAll(page);
+        final Page<Patient> pages = patientRepository.findAll(page);
 
         if (pages != null) {
             patientDtoList = patientListToPatientDtoList(pages.getContent());
-        }else{
+        } else {
             logger.error("No pages found for current page: " + pageNumber);
         }
         PatientListDto patientListDto = new PatientListDto();
@@ -102,19 +103,24 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<PatientDto> findAllPatientByFirstNameAndLastName(String [] tokens) {
+    public List<PatientDto> findAllPatientByFirstNameAndLastName(String[] tokens) {
 
         List<Patient> patients;
         if (tokens.length == 1) {
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%");
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0] + "%");
         } else if (tokens.length >= 2) {
-            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0]+ "%", "%" + tokens[1] + "%");
+            patients = patientRepository.findAllTopTenByFirstNameLikesAndLastNameLikes("%" + tokens[0] + "%", "%" + tokens[1] + "%");
         } else {
             patients = new ArrayList<Patient>();
         }
         return patientListToPatientDtoList(patients);
     }
 
+    @Override
+    public PatientDto findPatientByEmail(String email) {
+        Patient patient = patientRepository.findOneByEmail(email).orElseThrow(PatientNotFoundException::new);
+        return modelMapper.map(patient, PatientDto.class);
+    }
 
     public Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
@@ -158,8 +164,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient){
-        List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
+    private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient) {
+        List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
         for (Patient patient : listOfPatient) {
             PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
             patientDtoList.add(patientDto);
