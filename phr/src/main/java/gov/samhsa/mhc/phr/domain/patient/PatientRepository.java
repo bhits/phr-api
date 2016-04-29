@@ -8,17 +8,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by sadhana.chandra on 12/14/2015.
  */
 @Repository
-public interface  PatientRepository extends JpaRepository<Patient,Long>{
+public interface PatientRepository extends JpaRepository<Patient, Long> {
     /**
      * Find all by first name likes and last name likes.
      *
-     * @param token1
-     *            the token1
+     * @param token1 the token1
      * @return the list
      */
     @Query("select p from Patient p where p.firstName like ?1 or p.lastName like ?1")

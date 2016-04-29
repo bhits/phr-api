@@ -24,7 +24,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -54,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public SignupDto createPatient(SignupDto signupDto){
+    public SignupDto createPatient(SignupDto signupDto) {
         Patient patient = convertToPatient(signupDto);
         patient = patientRepository.save(patient);
         signupDto.setId(patient.getId());
@@ -75,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
         Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
 
         // map signupDTO to patient
-        CopySignupDtoToPatient(signupDto,patient);
+        CopySignupDtoToPatient(signupDto, patient);
 
         //update identifiers
         addIdentifiers(signupDto, patient);
@@ -93,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
 
         if (pages != null) {
             patientDtoList = patientListToPatientDtoList(pages.getContent());
-        }else{
+        } else {
             logger.error("No pages found for current page: " + pageNumber);
         }
         PatientListDto patientListDto = new PatientListDto();
@@ -126,6 +128,11 @@ public class AccountServiceImpl implements AccountService {
         return patientListToPatientDtoList(patients);
     }
 
+    @Override
+    public PatientDto findPatientByEmail(String email) {
+        Patient patient = patientRepository.findOneByEmail(email).orElseThrow(PatientNotFoundException::new);
+        return modelMapper.map(patient, PatientDto.class);
+    }
 
     public Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
@@ -169,8 +176,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient){
-        List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
+    private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient) {
+        List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
         for (Patient patient : listOfPatient) {
             PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
             patientDtoList.add(patientDto);

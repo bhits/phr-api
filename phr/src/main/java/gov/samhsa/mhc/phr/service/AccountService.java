@@ -9,21 +9,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.StringTokenizer;
 
-/**
- * Created by cindy.li on 12/16/2015.
- */
 @Service
 public interface AccountService {
-    public boolean checkduplicatePatient(SignupDto signupDto);
+    boolean checkduplicatePatient(SignupDto signupDto);
 
-    public SignupDto createPatient(SignupDto signupDto);
+    SignupDto createPatient(SignupDto signupDto);
 
-    public PatientDto findPatientById(long id);
+    PatientDto findPatientById(long id);
 
-    public SignupDto updatePatient(SignupDto signupDto, long id);
+    SignupDto updatePatient(SignupDto signupDto, long id);
 
-    public PatientListDto findAllPatientsInPage(String pageNumber);
+    PatientListDto findAllPatientsInPage(String pageNumber);
 
     public abstract List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer);
 
+    PatientDto findPatientByEmail(String email);
 }
