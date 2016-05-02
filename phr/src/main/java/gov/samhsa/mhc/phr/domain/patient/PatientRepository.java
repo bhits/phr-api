@@ -35,4 +35,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
      */
     @Query("select p from Patient p where (p.firstName like ?1 or p.firstName like ?2) and (p.lastName like ?1 or p.lastName like ?2)")
     public abstract List<Patient> findAllByFirstNameLikesAndLastNameLikes(String token1, String token2, Pageable pageRequest);
+
+    Optional<Patient> findOneByEmail(String email);
 }

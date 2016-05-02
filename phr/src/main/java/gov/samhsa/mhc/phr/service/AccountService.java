@@ -21,7 +21,7 @@ public interface AccountService {
 
     PatientListDto findAllPatientsInPage(String pageNumber);
 
-    public abstract List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer);
+    List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer);
 
     PatientDto findPatientByEmail(String email);
 }
