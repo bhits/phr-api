@@ -27,8 +27,8 @@ package gov.samhsa.mhc.phr.domain.reference;
 
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
@@ -42,7 +42,6 @@ import java.util.List;
  */
 @Entity
 @SequenceGenerator(name="idgener", sequenceName="ADDRUSE_SEQ", initialValue = 1)
-@Table(name="address_use_code")
 public class AddressUseCode extends AbstractLocalDBLookupCodedConcept {
 
 	/**

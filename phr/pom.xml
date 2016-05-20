@@ -5,7 +5,7 @@
 
     <groupId>gov.samhsa.mhc</groupId>
     <artifactId>phr</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.10.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>phr</name>
@@ -61,19 +61,25 @@
         <start-class>gov.samhsa.mhc.phr.PhrApplication</start-class>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.5</slf4j.version>
-        <spring.cloud.starter.oauth2.version>1.0.0.RELEASE</spring.cloud.starter.oauth2.version>
+        <spring.cloud.starter.parent.version>Brixton.M4</spring.cloud.starter.parent.version>
 
         <flexjson.version>3.3</flexjson.version>
-        <commons.lang.version>2.6</commons.lang.version>
+        <commons.lang3.version>3.4</commons.lang3.version>
+        <logback.version>1.0.11</logback.version>
+        <modelmapper.version>0.7.5</modelmapper.version>
+        <docker.maven.version>0.4.3</docker.maven.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-oauth2</artifactId>
-                <version>${spring.cloud.starter.oauth2.version}</version>
+                <artifactId>spring-cloud-starter-parent</artifactId>
+                <version>${spring.cloud.starter.parent.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
+
             <!-- Domain Level Dependencies -->
             <dependency>
                 <groupId>net.sf.flexjson</groupId>
@@ -81,9 +87,14 @@
                 <version>${flexjson.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons.lang.version}</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.modelmapper</groupId>
+                <artifactId>modelmapper</artifactId>
+                <version>${modelmapper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -92,12 +103,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-config-client</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- Redis Cache -->
         <dependency>
@@ -130,20 +135,17 @@
             <artifactId>hibernate-envers</artifactId>
         </dependency>
 
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
         <!-- Domain Level Dependencies -->
         <dependency>
             <groupId>net.sf.flexjson</groupId>
             <artifactId>flexjson</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
          </dependency>
+
+        <!--  include everything that is needed for Spring MVC to work -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -152,6 +154,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -159,6 +178,25 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.version}</version>
+                <configuration>
+                    <imageName>bhits/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <buildArgs>
+                        <finalName>${project.build.finalName}.jar</finalName>
+                    </buildArgs>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,18 +1,27 @@
 package gov.samhsa.mhc.phr.service;
 
 
-import gov.samhsa.mhc.phr.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.PatientDto;
+import gov.samhsa.mhc.phr.service.dto.PatientListDto;
+import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by cindy.li on 12/16/2015.
- */
+import java.util.List;
+import java.util.StringTokenizer;
+
 @Service
-public interface AccountService
-{
-    public boolean checkduplicatePatient(SignupDto signupDto);
+public interface AccountService {
+    boolean checkduplicatePatient(SignupDto signupDto);
 
-    public void createPatient(SignupDto signupDto);
+    SignupDto createPatient(SignupDto signupDto);
 
+    PatientDto findPatientById(long id);
 
+    SignupDto updatePatient(SignupDto signupDto, long id);
+
+    PatientListDto findAllPatientsInPage(String pageNumber);
+
+    List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer);
+
+    PatientDto findPatientByEmail(String email);
 }

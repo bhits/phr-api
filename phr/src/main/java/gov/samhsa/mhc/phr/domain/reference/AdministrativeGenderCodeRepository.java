@@ -25,68 +25,21 @@
  ******************************************************************************/
 package gov.samhsa.mhc.phr.domain.reference;
 
-import flexjson.JSONDeserializer;
-import flexjson.JSONSerializer;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
 /**
- * The Class StateCode.
+ * The Interface AdministrativeGenderCodeRepository.
  */
-@Entity
-@SequenceGenerator(name="idgener", sequenceName="STATE_SEQ", initialValue = 1)
-public class StateCode extends AbstractLocalDBLookupCodedConcept {
-
-	/* (non-Javadoc)
-	 * @see gov.samhsa.consent2share.domain.reference.AbstractLocalDBLookupCodedConcept#toString()
-	 */
-	public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
+@Repository
+public interface AdministrativeGenderCodeRepository extends JpaSpecificationExecutor<AdministrativeGenderCode>, JpaRepository<AdministrativeGenderCode, Long> {
+	
 	/**
-	 * To json.
+	 * Find by code.
 	 *
-	 * @return the string
+	 * @param code the code
+	 * @return the administrative gender code
 	 */
-	public String toJson() {
-        return new JSONSerializer().exclude("*.class").deepSerialize(this);
-    }
-
-	/**
-	 * From json to state code.
-	 *
-	 * @param json the json
-	 * @return the state code
-	 */
-	public static StateCode fromJsonToStateCode(String json) {
-        return new JSONDeserializer<StateCode>().use(null, StateCode.class).deserialize(json);
-    }
-
-	/**
-	 * To json array.
-	 *
-	 * @param collection the collection
-	 * @return the string
-	 */
-	public static String toJsonArray(Collection<StateCode> collection) {
-        return new JSONSerializer().exclude("*.class").deepSerialize(collection);
-    }
-
-	/**
-	 * From json array to state codes.
-	 *
-	 * @param json the json
-	 * @return the collection
-	 */
-	public static Collection<StateCode> fromJsonArrayToStateCodes(String json) {
-        return new JSONDeserializer<List<StateCode>>().use(null, ArrayList.class).use("values", StateCode.class).deserialize(json);
-    }
+	public abstract AdministrativeGenderCode findByCode(String code);
 }

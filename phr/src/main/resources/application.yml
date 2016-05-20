@@ -1,4 +1,19 @@
-# application.yml template
+server:
+  port: 8445
+logging:
+  file: /java/MHC_LOGS/phr/phr.log
+info:
+  component: PHR API
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: https://localhost:8761/eureka/
 spring:
   datasource:
     initialize: false
@@ -24,13 +39,15 @@ spring:
           auto: validate
     hibernate:
       ddl-auto: none
-      naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
 phr:
   iexhub:
-      url: http://localhost:8080/InfoExchangeHub/InfoExchangeHubServices/GetPatientData
+      url: https://localhost:8443/iexhub/services/GetPatientData
       ssoauth: PatientId='086666c2fd154f7^^^&1.3.6.1.4.1.21367.2005.13.20.3000&ISO'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
   redis:
-    defaultExpiration: 1200
+    defaultExpirationInSeconds: 60
+  pagination:
+    itemsPerPage: 10
 security:
   basic:
     enabled: false
@@ -47,6 +64,40 @@ security:
                          jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
                          JwIDAQAB
                          -----END PUBLIC KEY-----
+---
+spring.profiles: ssl
 server:
-  contextPath: /phr
-  port: 8082
+  port: 8445
+  ssl:
+    key-store: /ssl_keystore.keystore
+    key-store-password: changeit
+eureka:
+  instance:
+    secure-port: ${server.port}
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+---
+spring.profiles: standalone-ssl
+spring:
+  profiles:
+    include: ssl
+server:
+  context-path: /phr
+---
+spring:
+  profiles: docker
+  datasource:
+    url: jdbc:mysql://phr-db.mhc.com:3306/phr?autoReconnect=true
+  redis:
+    port: 6379
+    host: redis.mhc.com
+phr:
+  iexhub:
+      url: https://iexhub.mhc.com:8443/iexhub/services/GetPatientData
+eureka:
+  client:
+    service-url:
+      defaultZone: https://discovery-server.mhc.com:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
