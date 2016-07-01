@@ -2,10 +2,9 @@ package gov.samhsa.mhc.phr.web;
 
 
 import gov.samhsa.mhc.phr.service.AccountService;
-import gov.samhsa.mhc.phr.service.dto.PatientDto;
-import gov.samhsa.mhc.phr.service.dto.PatientListDto;
-import gov.samhsa.mhc.phr.service.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.*;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 @RestController
@@ -67,5 +65,15 @@ public class AccountController {
     public List<PatientDto> searchPatients(@PathVariable String token) {
         StringTokenizer tokenizer = new StringTokenizer(token, " ");
         return accountService.findAllPatientByFirstNameAndLastName(tokenizer);
+    }
+
+    @RequestMapping(value = "/patientDemographic", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public PatientDemographicResponse getPatientFullDemographic(@RequestBody PatientSearchRequest patientSearchRequest) {
+        val response = new PatientDemographicResponse();
+        val patientDtos = accountService.findPatientByDemographic(patientSearchRequest);
+        response.setPatientDtos(patientDtos);
+        response.setExist(!patientDtos.isEmpty());
+        return response;
     }
 }

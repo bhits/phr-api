@@ -68,6 +68,7 @@
         <logback.version>1.0.11</logback.version>
         <modelmapper.version>0.7.5</modelmapper.version>
         <docker.maven.version>0.4.3</docker.maven.version>
+        <lombok.version>1.16.8</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -103,6 +104,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
         <!-- Redis Cache -->
         <dependency>

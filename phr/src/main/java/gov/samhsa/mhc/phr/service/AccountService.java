@@ -1,6 +1,7 @@
 package gov.samhsa.mhc.phr.service;
 
 
+import gov.samhsa.mhc.phr.service.dto.PatientSearchRequest;
 import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.PatientListDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
@@ -24,4 +25,6 @@ public interface AccountService {
     List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer);
 
     PatientDto findPatientByEmail(String email);
+
+    List<PatientDto> findPatientByDemographic(PatientSearchRequest patientSearchRequest);
 }
