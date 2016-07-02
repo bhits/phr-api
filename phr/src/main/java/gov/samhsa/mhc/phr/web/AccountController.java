@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -69,11 +70,11 @@ public class AccountController {
 
     @RequestMapping(value = "/patientDemographic", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public PatientDemographicResponse getPatientFullDemographic(@RequestBody PatientSearchRequest patientSearchRequest) {
+    public PatientDemographicResponse getPatientFullDemographic(@Valid @RequestBody PatientSearchRequest patientSearchRequest) {
         val response = new PatientDemographicResponse();
         val patientDtos = accountService.findPatientByDemographic(patientSearchRequest);
         response.setPatientDtos(patientDtos);
-        response.setExist(!patientDtos.isEmpty());
+        response.setPatientExist(!patientDtos.isEmpty());
         return response;
     }
 }

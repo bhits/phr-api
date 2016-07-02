@@ -10,5 +10,5 @@ import java.util.List;
 @Data
 public class PatientDemographicResponse {
     private List<PatientDto> patientDtos;
-    private boolean isExist;
+    private boolean isPatientExist;
 }
