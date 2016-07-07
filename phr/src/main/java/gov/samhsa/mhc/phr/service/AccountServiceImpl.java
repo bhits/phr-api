@@ -9,7 +9,6 @@ import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
 import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.PatientListDto;
-import gov.samhsa.mhc.phr.service.dto.PatientSearchRequest;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
 import lombok.val;
@@ -134,14 +133,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<PatientDto> findPatientByDemographic(PatientSearchRequest patientSearchRequest) {
+    public List<PatientDto> findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode) {
         List<Patient> patients;
-        String firstName = patientSearchRequest.getFirstName();
-        String lastName = patientSearchRequest.getLastName();
-        Date birthDay = patientSearchRequest.getBirthDate();
-        val administrativeGenderCode = administrativeGenderCodeRepository.findByCode(patientSearchRequest.getGenderCode());
+        val administrativeGenderCode = administrativeGenderCodeRepository.findByCode(genderCode);
         patients = patientRepository.findAllByFirstNameAndLastNameAndBirthDayAndAdministrativeGenderCode(firstName, lastName,
-                birthDay, administrativeGenderCode);
+                birthDate, administrativeGenderCode);
         return patientListToPatientDtoList(patients);
     }
 

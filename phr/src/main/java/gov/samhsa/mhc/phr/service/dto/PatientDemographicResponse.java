@@ -10,5 +10,6 @@ import java.util.List;
 @Data
 public class PatientDemographicResponse {
     private List<PatientDto> patientDtos;
+    private String domainId;
     private boolean isPatientExist;
 }

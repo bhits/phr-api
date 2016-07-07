@@ -1,12 +1,12 @@
 package gov.samhsa.mhc.phr.service;
 
 
-import gov.samhsa.mhc.phr.service.dto.PatientSearchRequest;
 import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.PatientListDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -26,5 +26,5 @@ public interface AccountService {
 
     PatientDto findPatientByEmail(String email);
 
-    List<PatientDto> findPatientByDemographic(PatientSearchRequest patientSearchRequest);
+    List<PatientDto> findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode);
 }
