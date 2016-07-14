@@ -86,7 +86,6 @@ public class AccountController {
         val patientDtos = accountService.findPatientByDemographic(firstName, lastName, birthDate, genderCode);
         response.setPatientDtos(patientDtos);
         response.setDomainId(domainId);
-        response.setPatientExist(!patientDtos.isEmpty());
         return response;
     }
 }
