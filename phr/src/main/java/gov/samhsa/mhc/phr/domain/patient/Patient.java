@@ -15,6 +15,8 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"),
+        indexes = @Index(columnList = "email", name = "email_idx", unique = true))
 @Audited
 public class Patient {
 
