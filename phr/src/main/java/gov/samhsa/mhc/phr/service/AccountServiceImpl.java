@@ -1,6 +1,5 @@
 package gov.samhsa.mhc.phr.service;
 
-import gov.samhsa.mhc.phr.aspect.ExceptionLoggingAspects;
 import gov.samhsa.mhc.phr.domain.patient.Patient;
 import gov.samhsa.mhc.phr.domain.patient.PatientRepository;
 import gov.samhsa.mhc.phr.domain.reference.AdministrativeGenderCodeRepository;
@@ -12,6 +11,7 @@ import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.PatientListDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
+import lombok.val;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.StringTokenizer;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -90,9 +87,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public PatientListDto findAllPatientsInPage(String pageNumber) {
-        List<PatientDto> patientDtoList = new ArrayList<PatientDto>() ;
+        List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
         PageRequest page = new PageRequest(Integer.parseInt(pageNumber), itemsPerPage, Sort.Direction.DESC, "id");
-        final Page<Patient> pages =  patientRepository.findAll(page);
+        final Page<Patient> pages = patientRepository.findAll(page);
 
         if (pages != null) {
             patientDtoList = patientListToPatientDtoList(pages.getContent());
@@ -118,11 +115,11 @@ public class AccountServiceImpl implements AccountService {
 
         if (tokenizer.countTokens() == 1) {
             String firstName = tokenizer.nextToken(); // First Token is the first name
-            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName+ "%", pageRequest);
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName + "%", pageRequest);
         } else if (tokenizer.countTokens() >= 2) {
             String firstName = tokenizer.nextToken(); // First Token is the first name
             String lastName = tokenizer.nextToken();  // Last Token is the first name
-            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName+ "%", "%" + lastName + "%", pageRequest);
+            patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName + "%", "%" + lastName + "%", pageRequest);
         } else {
             patients = new ArrayList<Patient>();
         }
@@ -135,7 +132,16 @@ public class AccountServiceImpl implements AccountService {
         return modelMapper.map(patient, PatientDto.class);
     }
 
-    public Patient convertToPatient(SignupDto signupDto) {
+    @Override
+    public List<PatientDto> findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode) {
+        List<Patient> patients;
+        val administrativeGenderCode = administrativeGenderCodeRepository.findByCode(genderCode);
+        patients = patientRepository.findAllByFirstNameAndLastNameAndBirthDayAndAdministrativeGenderCode(firstName, lastName,
+                birthDate, administrativeGenderCode);
+        return patientListToPatientDtoList(patients);
+    }
+
+    private Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
         CopySignupDtoToPatient(signupDto, patient);
 
