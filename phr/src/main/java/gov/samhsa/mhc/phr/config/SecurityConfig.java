@@ -30,15 +30,17 @@ public class SecurityConfig {
                 if (securityProperties.isRequireSsl()) {
                     http.requiresChannel().anyRequest().requiresSecure();
                 }
+                //Note: The related wildcard pattern must put in the end
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.GET, "/patients/healthInformation/**").access("#oauth2.hasScope('phr.hie_read')")
+                        .antMatchers(HttpMethod.GET, "/patients/pageNumber/**").access("#oauth2.hasScope('phr.allPatients_read')")
+                        .antMatchers(HttpMethod.GET, "/patients/patientDemographic/**").access("#oauth2.hasScope('phr.allPatients_read')")
+                        .antMatchers(HttpMethod.GET, "/patients/*/profile").access("#oauth2.hasScope('phr.allPatientProfiles_read')")
                         .antMatchers(HttpMethod.POST, "/patients/**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.PUT, "/patients/**").access("#oauth2.hasScope('phr.hie_write')")
-                        .antMatchers(HttpMethod.GET, "/patients/pageNumber/**").access("#oauth2.hasScope('phr.allPatients_read')")
                         .antMatchers(HttpMethod.GET, "/patients/**").access("#oauth2.hasScope('phr.patient_read')")
                         .antMatchers(HttpMethod.GET, "/statecodes/**").access("#oauth2.hasScope('phr.patient_read')")
                         .antMatchers(HttpMethod.OPTIONS, "/*/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/patients/*/profile").access("#oauth2.hasScope('phr.allPatientProfiles_read')")
                         .anyRequest().denyAll();
             }
         };
