@@ -6,6 +6,7 @@ import gov.samhsa.mhc.phr.service.dto.PatientListDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -24,4 +25,6 @@ public interface AccountService {
     List<PatientDto> findAllPatientByFirstNameAndLastName(StringTokenizer tokenizer);
 
     PatientDto findPatientByEmail(String email);
+
+    List<PatientDto> findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode);
 }
