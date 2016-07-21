@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -155,6 +156,7 @@ public class AccountServiceImpl implements AccountService {
     public String buildPatientIdentifier(long patientId) {
         PatientDto patientDto = findPatientById(patientId);
         String mrn = patientDto.getMedicalRecordNumber();
+        Assert.notNull(mrn,"patient mrn cannot be null");
         StringJoiner patientIdentifier = new StringJoiner("");
         patientIdentifier.add(mrn);
         patientIdentifier.add("^^^&");

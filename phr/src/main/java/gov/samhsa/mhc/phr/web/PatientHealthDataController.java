@@ -26,10 +26,10 @@ public class PatientHealthDataController {
     @Autowired
     IExHubDataService iExHubDataService;
 
-    @RequestMapping(value = "/healthInformation/{mrn}", method = RequestMethod.GET)
+    @RequestMapping(value = "/healthInformation/{patientId}", method = RequestMethod.GET)
     @Cacheable(value =PATIENT_DATA_CACHE_NAME)
-    public PatientDataResponse getPatientData(@PathVariable Integer mrn) {
-        return iExHubDataService.getPatientData();
+    public PatientDataResponse getPatientData(@PathVariable Long patientId) {
+        return iExHubDataService.getPatientData(patientId);
     }
 
     @CacheEvict(value = PATIENT_DATA_CACHE_NAME, allEntries = true)

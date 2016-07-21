@@ -2,11 +2,13 @@ package gov.samhsa.mhc.phr.service;
 
 
 import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -24,16 +26,19 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     @Value("${phr.iexhub.ssoauth}")
     private String ssOauth;
 
+    @Autowired
+    private AccountService accountService;
 
-
-    public PatientDataResponse getPatientData() {
+    @Override
+    public PatientDataResponse getPatientData(Long patientId) {
 
         PatientDataResponse patientDataResponse = null;
         // REST api call
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders reqHeader = new HttpHeaders();
-        reqHeader.add("ssoauth", ssOauth);
+        String iexHubSSOauth = rebuildIExHubSSOauth(patientId, ssOauth);
+        reqHeader.add("ssoauth", iexHubSSOauth);
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         List<MediaType> accepts = new ArrayList<MediaType>();
@@ -42,11 +47,11 @@ public class IExHubDataServiceImpl implements IExHubDataService {
 
         HttpEntity<PatientDataResponse> reqEntity = new HttpEntity<PatientDataResponse>(reqHeader);
 
-      ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(iexHubUrl, HttpMethod.GET, reqEntity, PatientDataResponse.class);
-        if(pdrEntitiy.getStatusCode().equals(HttpStatus.OK))
+        ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(iexHubUrl, HttpMethod.GET, reqEntity, PatientDataResponse.class);
+        if (pdrEntitiy.getStatusCode().equals(HttpStatus.OK))
             patientDataResponse = pdrEntitiy.getBody();
-       // else
-            //TODO:: need to implement error handling
+        // else
+        //TODO:: need to implement error handling
         System.out.println("Response Status : " + pdrEntitiy.getStatusCode());
 
         final HttpHeaders headers = pdrEntitiy.getHeaders();
@@ -54,4 +59,9 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         return patientDataResponse;
     }
 
+    private String rebuildIExHubSSOauth(Long patientId, String ssOauth) {
+        String patientIdentifier = accountService.buildPatientIdentifier(patientId);
+        Assert.notNull(patientIdentifier, "patientIdentifier cannot be null.");
+        return ssOauth.replace("PATIENT_IDENTIFIER", patientIdentifier);
+    }
 }

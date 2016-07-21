@@ -7,6 +7,6 @@ import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
  * Created by sadhana.chandra on 10/14/2015.
  */
 public interface IExHubDataService {
-    public PatientDataResponse getPatientData();
+    PatientDataResponse getPatientData(Long patientId);
 }
 
