@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/patients/pageNumber/**").access("#oauth2.hasScope('phr.allPatients_read')")
                         .antMatchers(HttpMethod.GET, "/patients/patientDemographic/**").access("#oauth2.hasScope('phr.allPatients_read')")
                         .antMatchers(HttpMethod.GET, "/patients/*/profile").access("#oauth2.hasScope('phr.allPatientProfiles_read')")
+                        .antMatchers(HttpMethod.GET, "/patients/*/patientIdentifier").access("#oauth2.hasScope('phr.allPatientProfiles_read')")
                         .antMatchers(HttpMethod.POST, "/patients/**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.PUT, "/patients/**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.GET, "/patients/**").access("#oauth2.hasScope('phr.patient_read')")

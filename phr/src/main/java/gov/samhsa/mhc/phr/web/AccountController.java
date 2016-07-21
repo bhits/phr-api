@@ -16,10 +16,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.StringTokenizer;
+import java.util.*;
 
 @RestController
 @RequestMapping("/patients")
@@ -47,6 +44,13 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public PatientDto getPatient(@PathVariable long patientId) {
         return accountService.findPatientById(patientId);
+    }
+
+    @RequestMapping(value = "/{patientId}/patientIdentifier", method = RequestMethod.GET)
+    public Map<String, String> getPatientIdentifier(@PathVariable long patientId) {
+        Map<String, String> map = new HashMap<>();
+        map.put("patientIdentifier", accountService.buildPatientIdentifier(patientId));
+        return map;
     }
 
     @RequestMapping(method = RequestMethod.GET)

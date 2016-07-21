@@ -47,6 +47,9 @@ public class AccountServiceImpl implements AccountService {
     @Value("${phr.domainId}")
     private String domainId;
 
+    @Value("${phr.assigningAuthority}")
+    private String assigningAuthority;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
@@ -148,6 +151,19 @@ public class AccountServiceImpl implements AccountService {
         return response;
     }
 
+    @Override
+    public String buildPatientIdentifier(long patientId) {
+        PatientDto patientDto = findPatientById(patientId);
+        String mrn = patientDto.getMedicalRecordNumber();
+        StringJoiner patientIdentifier = new StringJoiner("");
+        patientIdentifier.add(mrn);
+        patientIdentifier.add("^^^&");
+        patientIdentifier.add(domainId);
+        patientIdentifier.add("&");
+        patientIdentifier.add(assigningAuthority);
+        return patientIdentifier.toString();
+    }
+
     private Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
         CopySignupDtoToPatient(signupDto, patient);
@@ -189,7 +205,6 @@ public class AccountServiceImpl implements AccountService {
         patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
     }
 
-
     private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient) {
         List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
         for (Patient patient : listOfPatient) {
@@ -198,5 +213,4 @@ public class AccountServiceImpl implements AccountService {
         }
         return patientDtoList;
     }
-
 }

@@ -28,4 +28,6 @@ public interface AccountService {
     PatientDto findPatientByEmail(String email);
 
     PatientDemographicResponse findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode);
+
+    String buildPatientIdentifier(long patientId);
 }

@@ -50,6 +50,7 @@ phr:
     itemsPerPage: 10
   #TODO: Temporary put domain value here
   domainId: 1.3.6.1.4.1.21367.13.20.200
+  assigningAuthority: ISO
 security:
   basic:
     enabled: false
