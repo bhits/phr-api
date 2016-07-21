@@ -1,6 +1,7 @@
 package gov.samhsa.mhc.phr.service;
 
 
+import gov.samhsa.mhc.phr.service.dto.PatientDemographicResponse;
 import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.PatientListDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
@@ -26,5 +27,5 @@ public interface AccountService {
 
     PatientDto findPatientByEmail(String email);
 
-    List<PatientDto> findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode);
+    PatientDemographicResponse findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode);
 }

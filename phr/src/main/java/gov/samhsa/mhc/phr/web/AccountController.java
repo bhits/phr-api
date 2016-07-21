@@ -7,11 +7,9 @@ import gov.samhsa.mhc.phr.service.dto.PatientDto;
 import gov.samhsa.mhc.phr.service.dto.PatientListDto;
 import gov.samhsa.mhc.phr.service.dto.SignupDto;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
-import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -30,9 +28,6 @@ public class AccountController {
      * The logger.
      */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Value("${phr.domainId}")
-    private String domainId;
 
     @Autowired
     private AccountService accountService;
@@ -82,10 +77,6 @@ public class AccountController {
                                                                 @RequestParam("lastName") String lastName,
                                                                 @RequestParam("birthDate") @DateTimeFormat(pattern = "MM/dd/yyyy") Date birthDate,
                                                                 @RequestParam("genderCode") String genderCode) {
-        val response = new PatientDemographicResponse();
-        val patientDtos = accountService.findPatientByDemographic(firstName, lastName, birthDate, genderCode);
-        response.setPatientDtos(patientDtos);
-        response.setDomainId(domainId);
-        return response;
+        return accountService.findPatientByDemographic(firstName, lastName, birthDate, genderCode);
     }
 }
