@@ -30,15 +30,17 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     private AccountService accountService;
 
     @Override
-    public PatientDataResponse getPatientData(Long patientId) {
+    public PatientDataResponse getPatientData(String email) {
 
         PatientDataResponse patientDataResponse = null;
         // REST api call
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders reqHeader = new HttpHeaders();
+        Long patientId = accountService.findPatientByEmail(email).getId();
         String iexHubSSOauth = rebuildIExHubSSOauth(patientId, ssOauth);
         reqHeader.add("ssoauth", iexHubSSOauth);
+        System.out.println(iexHubSSOauth);
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         List<MediaType> accepts = new ArrayList<MediaType>();

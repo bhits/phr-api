@@ -2,15 +2,17 @@ package gov.samhsa.mhc.phr.web;
 
 import gov.samhsa.mhc.phr.service.IExHubDataService;
 import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 /**
  * Created by sadhana.chandra on 10/14/2015.
@@ -19,17 +21,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/patients")
 public class PatientHealthDataController {
-    /** The logger. */
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final String PATIENT_DATA_CACHE_NAME="PatientData";
+    /**
+     * The logger.
+     */
+    private final String PATIENT_DATA_CACHE_NAME = "PatientData";
 
     @Autowired
     IExHubDataService iExHubDataService;
 
-    @RequestMapping(value = "/healthInformation/{patientId}", method = RequestMethod.GET)
-    @Cacheable(value =PATIENT_DATA_CACHE_NAME)
-    public PatientDataResponse getPatientData(@PathVariable Long patientId) {
-        return iExHubDataService.getPatientData(patientId);
+    @RequestMapping(value = "/healthInformation", method = RequestMethod.GET)
+    @Cacheable(value = PATIENT_DATA_CACHE_NAME)
+    public PatientDataResponse getPatientData(OAuth2Authentication oAuth2Authentication) {
+        //Note: the username is used as email
+        String email = Optional.ofNullable(oAuth2Authentication)
+                .map(OAuth2Authentication::getName)
+                .filter(StringUtils::hasText)
+                .orElseThrow(PatientNotFoundException::new);
+        return iExHubDataService.getPatientData(email);
     }
 
     @CacheEvict(value = PATIENT_DATA_CACHE_NAME, allEntries = true)
