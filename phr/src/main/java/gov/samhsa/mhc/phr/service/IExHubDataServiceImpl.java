@@ -38,9 +38,8 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders reqHeader = new HttpHeaders();
         Long patientId = accountService.findPatientByEmail(email).getId();
-        String iexHubSSOauth = rebuildIExHubSSOauth(patientId, ssOauth);
+        String iexHubSSOauth = buildIExHubSSOauth(patientId, ssOauth);
         reqHeader.add("ssoauth", iexHubSSOauth);
-        System.out.println(iexHubSSOauth);
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         List<MediaType> accepts = new ArrayList<MediaType>();
@@ -61,7 +60,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         return patientDataResponse;
     }
 
-    private String rebuildIExHubSSOauth(Long patientId, String ssOauth) {
+    private String buildIExHubSSOauth(Long patientId, String ssOauth) {
         String patientIdentifier = accountService.buildPatientIdentifier(patientId);
         Assert.notNull(patientIdentifier, "patientIdentifier cannot be null.");
         return ssOauth.replace("PATIENT_IDENTIFIER", patientIdentifier);
