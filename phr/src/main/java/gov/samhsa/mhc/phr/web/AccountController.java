@@ -2,10 +2,7 @@ package gov.samhsa.mhc.phr.web;
 
 
 import gov.samhsa.mhc.phr.service.AccountService;
-import gov.samhsa.mhc.phr.service.dto.PatientDemographicResponse;
-import gov.samhsa.mhc.phr.service.dto.PatientDto;
-import gov.samhsa.mhc.phr.service.dto.PatientListDto;
-import gov.samhsa.mhc.phr.service.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.*;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.StringTokenizer;
 
 @RestController
 @RequestMapping("/patients")
@@ -47,10 +47,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/{patientId}/patientIdentifier", method = RequestMethod.GET)
-    public Map<String, String> getPatientIdentifier(@PathVariable long patientId) {
-        Map<String, String> map = new HashMap<>();
-        map.put("patientIdentifier", accountService.buildPatientIdentifier(patientId));
-        return map;
+    public PatientIdentifier getPatientIdentifier(@PathVariable long patientId) {
+        return accountService.buildPatientIdentifier(patientId);
     }
 
     @RequestMapping(method = RequestMethod.GET)

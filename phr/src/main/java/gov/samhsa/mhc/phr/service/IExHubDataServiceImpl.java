@@ -61,7 +61,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     }
 
     private String buildIExHubSSOauth(Long patientId, String ssOauth) {
-        String patientIdentifier = accountService.buildPatientIdentifier(patientId);
+        String patientIdentifier = accountService.buildPatientIdentifier(patientId).getPatientIdentifier();
         Assert.notNull(patientIdentifier, "patientIdentifier cannot be null.");
         return ssOauth.replace("PATIENT_IDENTIFIER", patientIdentifier);
     }

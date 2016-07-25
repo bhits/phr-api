@@ -1,10 +1,7 @@
 package gov.samhsa.mhc.phr.service;
 
 
-import gov.samhsa.mhc.phr.service.dto.PatientDemographicResponse;
-import gov.samhsa.mhc.phr.service.dto.PatientDto;
-import gov.samhsa.mhc.phr.service.dto.PatientListDto;
-import gov.samhsa.mhc.phr.service.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -29,5 +26,5 @@ public interface AccountService {
 
     PatientDemographicResponse findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode);
 
-    String buildPatientIdentifier(long patientId);
+    PatientIdentifier buildPatientIdentifier(long patientId);
 }

@@ -7,10 +7,7 @@ import gov.samhsa.mhc.phr.domain.reference.StateCode;
 import gov.samhsa.mhc.phr.domain.reference.StateCodeRepository;
 import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
-import gov.samhsa.mhc.phr.service.dto.PatientDemographicResponse;
-import gov.samhsa.mhc.phr.service.dto.PatientDto;
-import gov.samhsa.mhc.phr.service.dto.PatientListDto;
-import gov.samhsa.mhc.phr.service.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.*;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
 import lombok.val;
 import org.modelmapper.ModelMapper;
@@ -153,17 +150,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String buildPatientIdentifier(long patientId) {
+    public PatientIdentifier buildPatientIdentifier(long patientId) {
         PatientDto patientDto = findPatientById(patientId);
-        String mrn = patientDto.getMedicalRecordNumber();
-        Assert.notNull(mrn,"patient mrn cannot be null");
-        StringJoiner patientIdentifier = new StringJoiner("");
-        patientIdentifier.add(mrn);
-        patientIdentifier.add("^^^&");
-        patientIdentifier.add(domainId);
-        patientIdentifier.add("&");
-        patientIdentifier.add(assigningAuthority);
-        return patientIdentifier.toString();
+        String medicalRecordNumber = patientDto.getMedicalRecordNumber();
+        Assert.notNull(medicalRecordNumber, "patient mrn cannot be null");
+
+        String patientIdentifier = (medicalRecordNumber + "^^^&" + domainId + "&" + assigningAuthority);
+        return new PatientIdentifier(medicalRecordNumber, domainId, assigningAuthority, patientIdentifier);
     }
 
     private Patient convertToPatient(SignupDto signupDto) {
