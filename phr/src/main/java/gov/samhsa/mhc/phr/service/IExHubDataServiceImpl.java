@@ -35,23 +35,24 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     @Value("${phr.iexhub.ssoauth}")
     private String ssOauth;
 
-    private RestTemplate restTemplate = new RestTemplate();
-
     @Override
     public PatientDataResponse getPatientData(String email) {
+        RestTemplate restTemplate = new RestTemplate();
 
         PatientDataResponse patientDataResponse = null;
         // REST api call
-        HttpHeaders reqHeader = createRequestHeaders();
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         String iexHubSSOauth = buildIExHubSSOauth(email, ssOauth);
-        reqHeader.add("ssoauth", iexHubSSOauth);
+        httpHeaders.add("ssoauth", iexHubSSOauth);
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         List<MediaType> accepts = new ArrayList<MediaType>();
         accepts.add(MediaType.APPLICATION_JSON);
-        reqHeader.setAccept(accepts);
+        httpHeaders.setAccept(accepts);
 
-        HttpEntity<PatientDataResponse> reqEntity = new HttpEntity<PatientDataResponse>(reqHeader);
+        HttpEntity<PatientDataResponse> reqEntity = new HttpEntity<PatientDataResponse>(httpHeaders);
 
         ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(iexHubUrl, HttpMethod.GET, reqEntity, PatientDataResponse.class);
         if (pdrEntitiy.getStatusCode().equals(HttpStatus.OK))
@@ -67,7 +68,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
 
     @Override
     public boolean publishDocumentToHIE(ClinicalDocumentRequest document) {
-
+        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity entity = new HttpEntity(document, headers);
         ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(iexhubPulishUrl, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
@@ -78,14 +79,6 @@ public class IExHubDataServiceImpl implements IExHubDataService {
 
         ClinicalDocumentResponse clinicalDocumentResponse = response.getBody();
         return clinicalDocumentResponse.isPublished();
-    }
-
-    private HttpHeaders createRequestHeaders() {
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        return httpHeaders;
     }
 
     private String buildIExHubSSOauth(String email, String ssOauth) {
