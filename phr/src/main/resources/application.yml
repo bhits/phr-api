@@ -43,13 +43,16 @@ spring:
 phr:
   iexhub:
       url: https://localhost:8443/iexhub/services/GetPatientData
-      ssoauth: PatientId='C2S-DEV.ABCDEF^^^&1.3.6.1.4.1.21367.13.20.200&ISO'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
+      ssoauth: PatientId='PATIENT_IDENTIFIER'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
+      publish:
+        url: https://localhost:8443/iexhub/services/GetPatientData/publish
   redis:
     defaultExpirationInSeconds: 60
   pagination:
     itemsPerPage: 10
   #TODO: Temporary put domain value here
   domainId: 1.3.6.1.4.1.21367.13.20.200
+  assigningAuthority: ISO
 security:
   basic:
     enabled: false
