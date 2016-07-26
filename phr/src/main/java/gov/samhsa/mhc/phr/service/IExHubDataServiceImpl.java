@@ -1,7 +1,10 @@
 package gov.samhsa.mhc.phr.service;
 
 
+import gov.samhsa.mhc.phr.service.dto.ClinicalDocumentRequest;
+import gov.samhsa.mhc.phr.service.dto.ClinicalDocumentResponse;
 import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
+import gov.samhsa.mhc.phr.service.exception.DocumentNotPublishedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -20,25 +23,27 @@ import java.util.List;
 @Service
 public class IExHubDataServiceImpl implements IExHubDataService {
 
+    @Autowired
+    private AccountService accountService;
+
     @Value("${phr.iexhub.url}")
     private String iexHubUrl;
+
+    @Value("${phr.iexhub.publish.url}")
+    private String iexhubPulishUrl;
 
     @Value("${phr.iexhub.ssoauth}")
     private String ssOauth;
 
-    @Autowired
-    private AccountService accountService;
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public PatientDataResponse getPatientData(String email) {
 
         PatientDataResponse patientDataResponse = null;
         // REST api call
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        HttpHeaders reqHeader = new HttpHeaders();
-        Long patientId = accountService.findPatientByEmail(email).getId();
-        String iexHubSSOauth = buildIExHubSSOauth(patientId, ssOauth);
+        HttpHeaders reqHeader = createRequestHeaders();
+        String iexHubSSOauth = buildIExHubSSOauth(email, ssOauth);
         reqHeader.add("ssoauth", iexHubSSOauth);
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -60,7 +65,31 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         return patientDataResponse;
     }
 
-    private String buildIExHubSSOauth(Long patientId, String ssOauth) {
+    @Override
+    public boolean publishDocumentToHIE(ClinicalDocumentRequest document) {
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity entity = new HttpEntity(document, headers);
+        ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(iexhubPulishUrl, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
+
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            throw new DocumentNotPublishedException("Cannot publish document in HIE.");
+        }
+
+        ClinicalDocumentResponse clinicalDocumentResponse = response.getBody();
+        return clinicalDocumentResponse.isPublished();
+    }
+
+    private HttpHeaders createRequestHeaders() {
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        return httpHeaders;
+    }
+
+    private String buildIExHubSSOauth(String email, String ssOauth) {
+        Long patientId = accountService.findPatientByEmail(email).getId();
         String patientIdentifier = accountService.buildPatientIdentifier(patientId).getPatientIdentifier();
         Assert.notNull(patientIdentifier, "patientIdentifier cannot be null.");
         return ssOauth.replace("PATIENT_IDENTIFIER", patientIdentifier);

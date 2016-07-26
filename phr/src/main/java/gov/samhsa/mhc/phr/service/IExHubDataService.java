@@ -1,6 +1,7 @@
 package gov.samhsa.mhc.phr.service;
 
 import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
+import gov.samhsa.mhc.phr.service.dto.ClinicalDocumentRequest;
 
 
 /**
@@ -8,5 +9,7 @@ import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
  */
 public interface IExHubDataService {
     PatientDataResponse getPatientData(String email);
+
+    boolean publishDocumentToHIE(ClinicalDocumentRequest document);
 }
 

@@ -44,6 +44,8 @@ phr:
   iexhub:
       url: https://localhost:8443/iexhub/services/GetPatientData
       ssoauth: PatientId='PATIENT_IDENTIFIER'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
+      publish:
+        url: https://localhost:8443/iexhub/services/GetPatientData/publish
   redis:
     defaultExpirationInSeconds: 60
   pagination:
