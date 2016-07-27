@@ -7,9 +7,7 @@ import gov.samhsa.mhc.phr.domain.reference.StateCode;
 import gov.samhsa.mhc.phr.domain.reference.StateCodeRepository;
 import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
-import gov.samhsa.mhc.phr.service.dto.PatientDto;
-import gov.samhsa.mhc.phr.service.dto.PatientListDto;
-import gov.samhsa.mhc.phr.service.dto.SignupDto;
+import gov.samhsa.mhc.phr.service.dto.*;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
 import lombok.val;
 import org.modelmapper.ModelMapper;
@@ -22,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -42,6 +41,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Value("${phr.pagination.itemsPerPage}")
     private int itemsPerPage;
+
+    @Value("${phr.domainId}")
+    private String domainId;
+
+    @Value("${phr.assigningAuthority}")
+    private String assigningAuthority;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -133,12 +138,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<PatientDto> findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode) {
+    public PatientDemographicResponse findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode) {
         List<Patient> patients;
+        PatientDemographicResponse response = new PatientDemographicResponse();
         val administrativeGenderCode = administrativeGenderCodeRepository.findByCode(genderCode);
         patients = patientRepository.findAllByFirstNameAndLastNameAndBirthDayAndAdministrativeGenderCode(firstName, lastName,
                 birthDate, administrativeGenderCode);
-        return patientListToPatientDtoList(patients);
+        response.setPatientDtos(patientListToPatientDtoList(patients));
+        response.setDomainId(domainId);
+        return response;
+    }
+
+    @Override
+    public PatientIdentifier buildPatientIdentifier(long patientId) {
+        PatientDto patientDto = findPatientById(patientId);
+        String medicalRecordNumber = patientDto.getMedicalRecordNumber();
+        Assert.notNull(medicalRecordNumber, "patient mrn cannot be null");
+
+        String patientIdentifier = (medicalRecordNumber + "^^^&" + domainId + "&" + assigningAuthority);
+        return new PatientIdentifier(medicalRecordNumber, domainId, assigningAuthority, patientIdentifier);
     }
 
     private Patient convertToPatient(SignupDto signupDto) {
@@ -182,7 +200,6 @@ public class AccountServiceImpl implements AccountService {
         patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
     }
 
-
     private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient) {
         List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
         for (Patient patient : listOfPatient) {
@@ -191,5 +208,4 @@ public class AccountServiceImpl implements AccountService {
         }
         return patientDtoList;
     }
-
 }
