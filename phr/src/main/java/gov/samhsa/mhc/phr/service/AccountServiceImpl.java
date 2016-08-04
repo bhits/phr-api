@@ -152,13 +152,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public PatientIdentifier buildPatientIdentifier(long patientId) {
+    public PatientIdentifierDto buildPatientIdentifier(long patientId) {
         PatientDto patientDto = findPatientById(patientId);
         String medicalRecordNumber = patientDto.getMedicalRecordNumber();
         Assert.notNull(medicalRecordNumber, "patient mrn cannot be null");
 
         String patientIdentifier = (medicalRecordNumber + "^^^&" + domainId + "&" + assigningAuthority);
-        return new PatientIdentifier(medicalRecordNumber, domainId, assigningAuthority, patientIdentifier);
+        return new PatientIdentifierDto(medicalRecordNumber, domainId, assigningAuthority, patientIdentifier);
     }
 
     private Patient convertToPatient(SignupDto signupDto) {

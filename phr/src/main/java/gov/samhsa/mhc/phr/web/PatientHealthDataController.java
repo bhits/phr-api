@@ -24,9 +24,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/patients")
 public class PatientHealthDataController {
-    /**
-     * The logger.
-     */
     private final String PATIENT_DATA_CACHE_NAME = "PatientData";
 
     @Autowired
@@ -35,7 +32,7 @@ public class PatientHealthDataController {
     @RequestMapping(value = "/healthInformation", method = RequestMethod.GET)
     @Cacheable(value = PATIENT_DATA_CACHE_NAME)
     public PatientDataResponse getPatientData(OAuth2Authentication oAuth2Authentication) {
-        //Note: the username is used as email
+        //TODO: if the email is not used as username
         String email = Optional.ofNullable(oAuth2Authentication)
                 .map(OAuth2Authentication::getName)
                 .filter(StringUtils::hasText)
