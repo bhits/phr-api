@@ -36,7 +36,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     private String iexHubUrl;
 
     @Value("${phr.iexhub.publish.url}")
-    private String iexhubPulishUrl;
+    private String hiePublishURL;
 
     @Value("${phr.iexhub.ssoauth}")
     private String ssOauthTemplate;
@@ -77,9 +77,10 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity entity = new HttpEntity(document, headers);
-        ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(iexhubPulishUrl, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
+        ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(hiePublishURL, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
 
         if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            logger.error("Cannot publish document in HIE.");
             throw new DocumentNotPublishedException("Cannot publish document in HIE.");
         }
 
