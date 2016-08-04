@@ -5,6 +5,8 @@ import gov.samhsa.mhc.phr.service.dto.ClinicalDocumentRequest;
 import gov.samhsa.mhc.phr.service.dto.ClinicalDocumentResponse;
 import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
 import gov.samhsa.mhc.phr.service.exception.DocumentNotPublishedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -22,6 +24,10 @@ import java.util.List;
  */
 @Service
 public class IExHubDataServiceImpl implements IExHubDataService {
+    /**
+     * The logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AccountService accountService;
@@ -30,10 +36,10 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     private String iexHubUrl;
 
     @Value("${phr.iexhub.publish.url}")
-    private String iexhubPulishUrl;
+    private String hiePublishURL;
 
     @Value("${phr.iexhub.ssoauth}")
-    private String ssOauth;
+    private String ssOauthTemplate;
 
     @Override
     public PatientDataResponse getPatientData(String email) {
@@ -44,8 +50,8 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String iexHubSSOauth = buildIExHubSSOauth(email, ssOauth);
-        httpHeaders.add("ssoauth", iexHubSSOauth);
+        String ssOauth = buildIExHubSSOauth(email, ssOauthTemplate);
+        httpHeaders.add("ssoauth", ssOauth);
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         List<MediaType> accepts = new ArrayList<MediaType>();
@@ -59,10 +65,10 @@ public class IExHubDataServiceImpl implements IExHubDataService {
             patientDataResponse = pdrEntitiy.getBody();
         // else
         //TODO:: need to implement error handling
-        System.out.println("Response Status : " + pdrEntitiy.getStatusCode());
+        logger.info("Response Status : " + pdrEntitiy.getStatusCode());
 
         final HttpHeaders headers = pdrEntitiy.getHeaders();
-        System.out.println("headers in response are : " + headers);
+        logger.info("headers in response are : " + headers);
         return patientDataResponse;
     }
 
@@ -71,9 +77,10 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity entity = new HttpEntity(document, headers);
-        ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(iexhubPulishUrl, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
+        ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(hiePublishURL, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
 
         if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            logger.error("Cannot publish document in HIE.");
             throw new DocumentNotPublishedException("Cannot publish document in HIE.");
         }
 
@@ -81,10 +88,10 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         return clinicalDocumentResponse.isPublished();
     }
 
-    private String buildIExHubSSOauth(String email, String ssOauth) {
+    private String buildIExHubSSOauth(String email, String ssOauthTemplate) {
         Long patientId = accountService.findPatientByEmail(email).getId();
         String patientIdentifier = accountService.buildPatientIdentifier(patientId).getPatientIdentifier();
         Assert.notNull(patientIdentifier, "patientIdentifier cannot be null.");
-        return ssOauth.replace("PATIENT_IDENTIFIER", patientIdentifier);
+        return ssOauthTemplate.replace("PATIENT_IDENTIFIER", patientIdentifier);
     }
 }
