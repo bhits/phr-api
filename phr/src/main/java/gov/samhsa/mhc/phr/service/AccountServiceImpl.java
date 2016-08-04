@@ -2,6 +2,7 @@ package gov.samhsa.mhc.phr.service;
 
 import gov.samhsa.mhc.phr.domain.patient.Patient;
 import gov.samhsa.mhc.phr.domain.patient.PatientRepository;
+import gov.samhsa.mhc.phr.domain.reference.AdministrativeGenderCode;
 import gov.samhsa.mhc.phr.domain.reference.AdministrativeGenderCodeRepository;
 import gov.samhsa.mhc.phr.domain.reference.StateCode;
 import gov.samhsa.mhc.phr.domain.reference.StateCodeRepository;
@@ -9,7 +10,6 @@ import gov.samhsa.mhc.phr.domain.valueobject.Address;
 import gov.samhsa.mhc.phr.domain.valueobject.Telephone;
 import gov.samhsa.mhc.phr.service.dto.*;
 import gov.samhsa.mhc.phr.service.exception.PatientNotFoundException;
-import lombok.val;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -143,7 +143,7 @@ public class AccountServiceImpl implements AccountService {
     public PatientDemographicResponse findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode) {
         List<Patient> patients;
         PatientDemographicResponse response = new PatientDemographicResponse();
-        val administrativeGenderCode = administrativeGenderCodeRepository.findByCode(genderCode);
+        final AdministrativeGenderCode administrativeGenderCode = administrativeGenderCodeRepository.findByCode(genderCode);
         patients = patientRepository.findAllByFirstNameAndLastNameAndBirthDayAndAdministrativeGenderCode(firstName, lastName,
                 birthDate, administrativeGenderCode);
         response.setPatientDtos(patientListToPatientDtoList(patients));
