@@ -26,5 +26,5 @@ public interface AccountService {
 
     PatientDemographicResponse findPatientByDemographic(String firstName, String lastName, Date birthDate, String genderCode);
 
-    PatientIdentifier buildPatientIdentifier(long patientId);
+    PatientIdentifierDto buildPatientIdentifier(long patientId);
 }

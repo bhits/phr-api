@@ -33,7 +33,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     private String iexhubPulishUrl;
 
     @Value("${phr.iexhub.ssoauth}")
-    private String ssOauth;
+    private String ssOauthTemplate;
 
     @Override
     public PatientDataResponse getPatientData(String email) {
@@ -44,8 +44,8 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String iexHubSSOauth = buildIExHubSSOauth(email, ssOauth);
-        httpHeaders.add("ssoauth", iexHubSSOauth);
+        String ssOauth = buildIExHubSSOauth(email, ssOauthTemplate);
+        httpHeaders.add("ssoauth", ssOauth);
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         List<MediaType> accepts = new ArrayList<MediaType>();
@@ -81,10 +81,10 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         return clinicalDocumentResponse.isPublished();
     }
 
-    private String buildIExHubSSOauth(String email, String ssOauth) {
+    private String buildIExHubSSOauth(String email, String ssOauthTemplate) {
         Long patientId = accountService.findPatientByEmail(email).getId();
         String patientIdentifier = accountService.buildPatientIdentifier(patientId).getPatientIdentifier();
         Assert.notNull(patientIdentifier, "patientIdentifier cannot be null.");
-        return ssOauth.replace("PATIENT_IDENTIFIER", patientIdentifier);
+        return ssOauthTemplate.replace("PATIENT_IDENTIFIER", patientIdentifier);
     }
 }

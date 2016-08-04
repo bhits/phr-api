@@ -60,7 +60,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public SignupDto createPatient(SignupDto signupDto) {
+        Assert.isNull(signupDto.getId(), "ID is not allowed to be provided for a new patient");
         Patient patient = convertToPatient(signupDto);
+        addIdentifiers(signupDto, patient);
         patient = patientRepository.save(patient);
         signupDto.setId(patient.getId());
         return signupDto;
@@ -80,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
         Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
 
         // map signupDTO to patient
-        CopySignupDtoToPatient(signupDto, patient);
+        copySignupDtoToPatient(signupDto, patient);
 
         //update identifiers
         addIdentifiers(signupDto, patient);
@@ -150,23 +152,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public PatientIdentifier buildPatientIdentifier(long patientId) {
+    public PatientIdentifierDto buildPatientIdentifier(long patientId) {
         PatientDto patientDto = findPatientById(patientId);
         String medicalRecordNumber = patientDto.getMedicalRecordNumber();
         Assert.notNull(medicalRecordNumber, "patient mrn cannot be null");
 
         String patientIdentifier = (medicalRecordNumber + "^^^&" + domainId + "&" + assigningAuthority);
-        return new PatientIdentifier(medicalRecordNumber, domainId, assigningAuthority, patientIdentifier);
+        return new PatientIdentifierDto(medicalRecordNumber, domainId, assigningAuthority, patientIdentifier);
     }
 
     private Patient convertToPatient(SignupDto signupDto) {
         Patient patient = new Patient();
-        CopySignupDtoToPatient(signupDto, patient);
+        copySignupDtoToPatient(signupDto, patient);
 
         return patient;
     }
 
-    private void CopySignupDtoToPatient(SignupDto signupDto, Patient patient) {
+    private void copySignupDtoToPatient(SignupDto signupDto, Patient patient) {
         patient.setLastName(signupDto.getLastName());
         patient.setFirstName(signupDto.getFirstName());
         patient.setSocialSecurityNumber(signupDto.getSocialSecurityNumber());
@@ -194,7 +196,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void addIdentifiers(SignupDto signupDto, Patient patient) {
-        patient.setId(signupDto.getId());
         patient.setMedicalRecordNumber(signupDto.getMedicalRecordNumber());
         patient.setResourceIdentifier(signupDto.getResourceIdentifier());
         patient.setEnterpriseIdentifier(signupDto.getEnterpriseIdentifier());
