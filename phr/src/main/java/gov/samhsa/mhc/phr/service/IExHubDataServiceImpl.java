@@ -5,6 +5,8 @@ import gov.samhsa.mhc.phr.service.dto.ClinicalDocumentRequest;
 import gov.samhsa.mhc.phr.service.dto.ClinicalDocumentResponse;
 import gov.samhsa.mhc.phr.service.dto.PatientDataResponse;
 import gov.samhsa.mhc.phr.service.exception.DocumentNotPublishedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -22,6 +24,10 @@ import java.util.List;
  */
 @Service
 public class IExHubDataServiceImpl implements IExHubDataService {
+    /**
+     * The logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AccountService accountService;
@@ -59,10 +65,10 @@ public class IExHubDataServiceImpl implements IExHubDataService {
             patientDataResponse = pdrEntitiy.getBody();
         // else
         //TODO:: need to implement error handling
-        System.out.println("Response Status : " + pdrEntitiy.getStatusCode());
+        logger.info("Response Status : " + pdrEntitiy.getStatusCode());
 
         final HttpHeaders headers = pdrEntitiy.getHeaders();
-        System.out.println("headers in response are : " + headers);
+        logger.info("headers in response are : " + headers);
         return patientDataResponse;
     }
 
