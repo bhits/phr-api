@@ -47,7 +47,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/{patientId}/patientIdentifier", method = RequestMethod.GET)
-    public PatientIdentifier getPatientIdentifier(@PathVariable long patientId) {
+    public PatientIdentifierDto getPatientIdentifier(@PathVariable long patientId) {
         return accountService.buildPatientIdentifier(patientId);
     }
 
