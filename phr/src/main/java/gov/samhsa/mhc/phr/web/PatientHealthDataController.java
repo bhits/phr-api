@@ -24,9 +24,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/patients")
 public class PatientHealthDataController {
-    /**
-     * The logger.
-     */
     private final String PATIENT_DATA_CACHE_NAME = "PatientData";
 
     @Autowired
