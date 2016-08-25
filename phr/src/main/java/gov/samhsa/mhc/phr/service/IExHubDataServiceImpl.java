@@ -77,15 +77,22 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity entity = new HttpEntity(document, headers);
-        ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(hiePublishURL, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
 
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            logger.error("Cannot publish document in HIE.");
-            throw new DocumentNotPublishedException("Cannot publish document in HIE.");
+        try {
+            ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(hiePublishURL, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
+
+            if (!response.getStatusCode().equals(HttpStatus.OK)) {
+                logger.error("Cannot publish document in HIE.");
+                throw new DocumentNotPublishedException("Cannot publish document in HIE.");
+            }
+
+            ClinicalDocumentResponse clinicalDocumentResponse = response.getBody();
+            return clinicalDocumentResponse.isPublished();
+        }catch (Exception e){
+            logger.error("Error in publishing document in HIE." + e.getMessage());
         }
 
-        ClinicalDocumentResponse clinicalDocumentResponse = response.getBody();
-        return clinicalDocumentResponse.isPublished();
+        return false;
     }
 
     private String buildIExHubSSOauth(String email, String ssOauthTemplate) {
