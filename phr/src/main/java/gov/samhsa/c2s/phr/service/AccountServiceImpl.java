@@ -1,20 +1,25 @@
 package gov.samhsa.c2s.phr.service;
 
-import gov.samhsa.c2s.phr.domain.reference.StateCode;
-import gov.samhsa.c2s.phr.domain.reference.StateCodeRepository;
-import gov.samhsa.c2s.phr.domain.valueobject.Address;
-import gov.samhsa.c2s.phr.service.dto.*;
-import gov.samhsa.c2s.phr.service.exception.PatientNotFoundException;
 import gov.samhsa.c2s.phr.domain.patient.Patient;
 import gov.samhsa.c2s.phr.domain.patient.PatientRepository;
 import gov.samhsa.c2s.phr.domain.reference.AdministrativeGenderCode;
 import gov.samhsa.c2s.phr.domain.reference.AdministrativeGenderCodeRepository;
+import gov.samhsa.c2s.phr.domain.reference.StateCode;
+import gov.samhsa.c2s.phr.domain.reference.StateCodeRepository;
+import gov.samhsa.c2s.phr.domain.valueobject.Address;
 import gov.samhsa.c2s.phr.domain.valueobject.Telephone;
+import gov.samhsa.c2s.phr.service.dto.*;
+import gov.samhsa.c2s.phr.service.exception.EmailExistsException;
+import gov.samhsa.c2s.phr.service.exception.PatientNotFoundException;
+import gov.samhsa.c2s.phr.service.exception.PatientNotSavedException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.NestedRuntimeException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +32,7 @@ import java.util.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
     @Autowired
     private PatientRepository patientRepository;
 
@@ -50,21 +56,33 @@ public class AccountServiceImpl implements AccountService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    //TODO: Implement it when email does not be used for identify
     @Override
     public boolean checkduplicatePatient(SignupDto signupDto) {
         Patient patient = convertToPatient(signupDto);
         //find patient by lastname firstname
         return false;
-
     }
 
     @Override
     public SignupDto createPatient(SignupDto signupDto) {
-        Assert.isNull(signupDto.getId(), "ID is not allowed to be provided for a new patient");
-        Patient patient = convertToPatient(signupDto);
-        addIdentifiers(signupDto, patient);
-        patient = patientRepository.save(patient);
-        signupDto.setId(patient.getId());
+        try {
+            Assert.isNull(signupDto.getId(), "ID is not allowed to be provided for a new patient");
+            Patient patient = convertToPatient(signupDto);
+            addIdentifiers(signupDto, patient);
+            patient = patientRepository.save(patient);
+            signupDto.setId(patient.getId());
+        } catch (DataIntegrityViolationException dive) {
+            logger.error("Stack Trace: " + dive);
+            logger.debug(dive.getMessage(), dive);
+            if (checkEmailViolationException(dive)) {
+                throw new EmailExistsException("Duplicate entry email");
+            }
+        } catch (Exception e) {
+            logger.error("Stack Trace: " + e);
+            logger.debug(e.getMessage(), e);
+            throw new PatientNotSavedException("Error in creating patient.");
+        }
         return signupDto;
     }
 
@@ -208,5 +226,12 @@ public class AccountServiceImpl implements AccountService {
             patientDtoList.add(patientDto);
         }
         return patientDtoList;
+    }
+
+    private boolean checkEmailViolationException(NestedRuntimeException exception) {
+        String exceptionMessage = exception.getRootCause().getMessage();
+        return exception.contains(ConstraintViolationException.class) &&
+                org.apache.commons.lang3.StringUtils.startsWithIgnoreCase(exceptionMessage, "Duplicate entry") &&
+                org.apache.commons.lang3.StringUtils.containsIgnoreCase(exceptionMessage, Patient.EMAIL_IDX);
     }
 }

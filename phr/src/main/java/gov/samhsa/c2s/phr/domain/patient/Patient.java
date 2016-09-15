@@ -16,9 +16,11 @@ import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"),
-        indexes = @Index(columnList = "email", name = "email_idx", unique = true))
+        indexes = @Index(columnList = "email", name = Patient.EMAIL_IDX, unique = true))
 @Audited
 public class Patient {
+
+    public static final String EMAIL_IDX = "email_idx";
 
     /** The id. */
     @Id
@@ -28,13 +30,13 @@ public class Patient {
     /** The first name. */
     @NotNull
     @Size(min = 2, max = 30)
-    @Pattern(regexp ="^[a-zA-ZÀ-ÿ]+[-]?[a-zA-ZÀ-ÿ_ ,']*[a-zA-ZÀ-ÿ. ]$", message = "The First Name contains invalid characters. Please try again.")
+    @Pattern(regexp ="^[a-zA-ZÀ-ÿ]+[-]?[a-zA-ZÀ-ÿ']*[a-zA-ZÀ-ÿ]$", message = "The First Name contains invalid characters. Please try again.")
     private String firstName;
 
     /** The last name. */
     @NotNull
     @Size(min = 2, max = 30)
-    @Pattern(regexp ="^[a-zA-ZÀ-ÿ]+[-]?[a-zA-ZÀ-ÿ_ ,']*[a-zA-ZÀ-ÿ. ]$", message = "The Last Name contains invalid characters. Please try again.")
+    @Pattern(regexp ="^[a-zA-ZÀ-ÿ]+[-]?[a-zA-ZÀ-ÿ']*[a-zA-ZÀ-ÿ]$", message = "The Last Name contains invalid characters. Please try again.")
     private String lastName;
 
     /** The birth day. */
