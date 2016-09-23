@@ -10,31 +10,40 @@
 
     <name>phr</name>
     <description>PHR Application</description>
+    <url>${scm.url}</url>
+
+    <organization>
+        <name>SAMHSA</name>
+        <url>http://www.samhsa.gov/</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>BHITS Team</id>
+            <name>BHITS Team</name>
+            <organization>FEi Systems</organization>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>See license in LICENSE.md</name>
+            <url>${scm.url}/blob/master/LICENSE.md</url>
+        </license>
+    </licenses>
+
     <ciManagement>
-        <system>Jenkins</system>
+        <system>CI</system>
         <url>http://BhitsBuild03/</url>
     </ciManagement>
 
     <!-- Since buildnumber-maven-plugin uses git command, git command must in
         path. i.e. need set git in the path Environment variable -->
     <scm>
-        <url>https://github.com/FEISystems/phr-api</url>
-        <connection>scm:git:https://github.com/FEISystems/phr-api.git</connection>
-        <developerConnection>scm:git:https://github.com/FEISystems/phr-api.git</developerConnection>
+        <url>https://github.com/BHITS/phr-api</url>
+        <connection>scm:git:${scm.url}.git</connection>
+        <developerConnection>scm:git:${scm.url}.git</developerConnection>
     </scm>
-
-    <developers>
-        <developer>
-            <id>Bhits.Java</id>
-            <name>Bhits Java</name>
-            <email>Bhits.Java@feisystems.com</email>
-            <organization>FEi Systems</organization>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>-5</timezone>
-        </developer>
-    </developers>
 
     <distributionManagement>
         <repository>
@@ -97,6 +106,12 @@
                 <artifactId>modelmapper</artifactId>
                 <version>${modelmapper.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -108,7 +123,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
         <!-- Redis Cache -->
         <dependency>
@@ -149,7 +163,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-         </dependency>
+        </dependency>
 
         <!--  include everything that is needed for Spring MVC to work -->
         <dependency>
@@ -206,6 +220,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
