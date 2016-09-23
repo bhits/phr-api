@@ -5,16 +5,15 @@ import gov.samhsa.c2s.phr.service.dto.ClinicalDocumentRequest;
 import gov.samhsa.c2s.phr.service.dto.ClinicalDocumentResponse;
 import gov.samhsa.c2s.phr.service.dto.PatientDataResponse;
 import gov.samhsa.c2s.phr.service.exception.DocumentNotPublishedException;
+import gov.samhsa.c2s.phr.service.exception.PatientDataCannotBeRetrievedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,9 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private RestOperations restTemplate;
+
     @Value("${phr.iexhub.url}")
     private String iexHubUrl;
 
@@ -40,38 +42,34 @@ public class IExHubDataServiceImpl implements IExHubDataService {
 
     @Override
     public PatientDataResponse getPatientData(String email) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        PatientDataResponse patientDataResponse = null;
         // REST api call
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         String ssOauth = buildIExHubSSOauth(email, ssOauthTemplate);
         httpHeaders.add("ssoauth", ssOauth);
 
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        List<MediaType> accepts = new ArrayList<MediaType>();
+        List<MediaType> accepts = new ArrayList<>();
         accepts.add(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(accepts);
 
-        HttpEntity<PatientDataResponse> reqEntity = new HttpEntity<PatientDataResponse>(httpHeaders);
+        final HttpEntity<PatientDataResponse> reqEntity = new HttpEntity<>(httpHeaders);
 
-        ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(iexHubUrl, HttpMethod.GET, reqEntity, PatientDataResponse.class);
-        if (pdrEntitiy.getStatusCode().equals(HttpStatus.OK))
-            patientDataResponse = pdrEntitiy.getBody();
-        // else
-        //TODO:: need to implement error handling
-        logger.info("Response Status : " + pdrEntitiy.getStatusCode());
-
+        final ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(iexHubUrl, HttpMethod.GET, reqEntity, PatientDataResponse.class);
+        final HttpStatus statusCode = pdrEntitiy.getStatusCode();
+        logger.info("Response Status : " + statusCode);
         final HttpHeaders headers = pdrEntitiy.getHeaders();
         logger.info("headers in response are : " + headers);
+
+        final PatientDataResponse patientDataResponse = pdrEntitiy.getBody();
+
+        if (statusCode.is4xxClientError() || statusCode.is5xxServerError()) {
+            throw new PatientDataCannotBeRetrievedException();
+        }
         return patientDataResponse;
     }
 
     @Override
     public boolean publishDocumentToHIE(ClinicalDocumentRequest document) {
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity entity = new HttpEntity(document, headers);
 

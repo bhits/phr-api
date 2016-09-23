@@ -29,7 +29,7 @@ public class PatientHealthDataController {
     @Cacheable(value = PATIENT_DATA_CACHE_NAME)
     public PatientDataResponse getPatientData(OAuth2Authentication oAuth2Authentication) {
         //TODO: if the email is not used as username
-        String email = Optional.ofNullable(oAuth2Authentication)
+        final String email = Optional.ofNullable(oAuth2Authentication)
                 .map(OAuth2Authentication::getName)
                 .filter(StringUtils::hasText)
                 .orElseThrow(PatientNotFoundException::new);

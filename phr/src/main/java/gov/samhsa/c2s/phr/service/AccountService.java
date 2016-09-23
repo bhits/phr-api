@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public interface AccountService {
-    boolean checkduplicatePatient(SignupDto signupDto);
+
+    boolean checkDuplicatePatient(SignupDto signupDto);
 
     SignupDto createPatient(SignupDto signupDto);
 
