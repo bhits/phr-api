@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationContextConfig {
+
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -16,8 +17,7 @@ public class ApplicationContextConfig {
         return modelMapper;
     }
 
-    private PropertyMap<Patient, PatientDto>  createPatientAddressPropertyMapper(){
-
+    private PropertyMap<Patient, PatientDto> createPatientAddressPropertyMapper() {
         PropertyMap<Patient, PatientDto> patientMap = new PropertyMap<Patient, PatientDto>() {
             protected void configure() {
                 map().setAddress(source.getAddress().getStreetAddressLine());

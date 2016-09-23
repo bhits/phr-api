@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Open Behavioral Health Information Technology Architecture (OBHITA.org)
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -40,52 +40,52 @@ import java.util.List;
  * The Class AddressUseCode.
  */
 @Entity
-@SequenceGenerator(name="idgener", sequenceName="ADDRUSE_SEQ", initialValue = 1)
+@SequenceGenerator(name = "idgener", sequenceName = "ADDRUSE_SEQ", initialValue = 1)
 public class AddressUseCode extends AbstractLocalDBLookupCodedConcept {
 
-	/**
-	 * To json.
-	 *
-	 * @return the string
-	 */
-	public String toJson() {
+    /**
+     * To json.
+     *
+     * @return the string
+     */
+    public String toJson() {
         return new JSONSerializer().exclude("*.class").deepSerialize(this);
     }
 
-	/**
-	 * From json to address use code.
-	 *
-	 * @param json the json
-	 * @return the address use code
-	 */
-	public static AddressUseCode fromJsonToAddressUseCode(String json) {
+    /* (non-Javadoc)
+     * @see gov.samhsa.consent2share.domain.reference.AbstractLocalDBLookupCodedConcept#toString()
+     */
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    /**
+     * From json to address use code.
+     *
+     * @param json the json
+     * @return the address use code
+     */
+    public static AddressUseCode fromJsonToAddressUseCode(String json) {
         return new JSONDeserializer<AddressUseCode>().use(null, AddressUseCode.class).deserialize(json);
     }
 
-	/**
-	 * To json array.
-	 *
-	 * @param collection the collection
-	 * @return the string
-	 */
-	public static String toJsonArray(Collection<AddressUseCode> collection) {
+    /**
+     * To json array.
+     *
+     * @param collection the collection
+     * @return the string
+     */
+    public static String toJsonArray(Collection<AddressUseCode> collection) {
         return new JSONSerializer().exclude("*.class").deepSerialize(collection);
     }
 
-	/**
-	 * From json array to address use codes.
-	 *
-	 * @param json the json
-	 * @return the collection
-	 */
-	public static Collection<AddressUseCode> fromJsonArrayToAddressUseCodes(String json) {
+    /**
+     * From json array to address use codes.
+     *
+     * @param json the json
+     * @return the collection
+     */
+    public static Collection<AddressUseCode> fromJsonArrayToAddressUseCodes(String json) {
         return new JSONDeserializer<List<AddressUseCode>>().use(null, ArrayList.class).use("values", AddressUseCode.class).deserialize(json);
-    }
-
-	/* (non-Javadoc)
-	 * @see gov.samhsa.consent2share.domain.reference.AbstractLocalDBLookupCodedConcept#toString()
-	 */
-	public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

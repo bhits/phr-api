@@ -36,7 +36,7 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    SignupDto signupPatient(@RequestBody SignupDto signupDto) {
+    public SignupDto signupPatient(@RequestBody SignupDto signupDto) {
         return accountService.createPatient(signupDto);
     }
 
@@ -62,7 +62,7 @@ public class AccountController {
 
     @RequestMapping(value = "/{patientId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    SignupDto updatePatient(@RequestBody SignupDto signupDto, @PathVariable long patientId) {
+    public SignupDto updatePatient(@RequestBody SignupDto signupDto, @PathVariable long patientId) {
         return accountService.updatePatient(signupDto, patientId);
     }
 

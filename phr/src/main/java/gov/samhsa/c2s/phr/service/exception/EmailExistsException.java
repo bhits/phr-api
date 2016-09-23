@@ -3,9 +3,6 @@ package gov.samhsa.c2s.phr.service.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-/**
- * Created by Jiahao.Li on 9/14/2016.
- */
 @ResponseStatus(HttpStatus.CONFLICT)
 public class EmailExistsException extends RuntimeException {
 

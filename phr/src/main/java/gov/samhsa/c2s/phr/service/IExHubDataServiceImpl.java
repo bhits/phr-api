@@ -19,9 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by sadhana.chandra on 10/14/2015.
- */
 @Service
 public class IExHubDataServiceImpl implements IExHubDataService {
     /**
@@ -88,7 +85,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
 
             ClinicalDocumentResponse clinicalDocumentResponse = response.getBody();
             return clinicalDocumentResponse.isPublished();
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("Error in publishing document in HIE." + e.getMessage());
         }
 

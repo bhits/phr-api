@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Open Behavioral Health Information Technology Architecture (OBHITA.org)
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -49,100 +49,101 @@ import java.util.List;
 @Audited
 public class Telephone {
 
-	/** The telephone. */
-	@NotNull
-	@Size(max = 30)
-	private String telephone;
+    /**
+     * The telephone.
+     */
+    @NotNull
+    @Size(max = 30)
+    private String telephone;
 
-	/** The telecom use code. */
-	@ManyToOne(cascade = CascadeType.ALL)
-	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-	private TelecomUseCode telecomUseCode;
+    /**
+     * The telecom use code.
+     */
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    private TelecomUseCode telecomUseCode;
 
-	/**
-	 * To json.
-	 *
-	 * @return the string
-	 */
-	public String toJson() {
-		return new JSONSerializer().exclude("*.class").deepSerialize(this);
-	}
+    /**
+     * To json.
+     *
+     * @return the string
+     */
+    public String toJson() {
+        return new JSONSerializer().exclude("*.class").deepSerialize(this);
+    }
 
-	/**
-	 * From json to telephone.
-	 *
-	 * @param json the json
-	 * @return the telephone
-	 */
-	public static Telephone fromJsonToTelephone(String json) {
-		return new JSONDeserializer<Telephone>().use(null, Telephone.class)
-				.deserialize(json);
-	}
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this,
+                ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
-	/**
-	 * To json array.
-	 *
-	 * @param collection the collection
-	 * @return the string
-	 */
-	public static String toJsonArray(Collection<Telephone> collection) {
-		return new JSONSerializer().exclude("*.class")
-				.deepSerialize(collection);
-	}
+    /**
+     * Gets the telephone.
+     *
+     * @return the telephone
+     */
+    public String getTelephone() {
+        return this.telephone;
+    }
 
-	/**
-	 * From json array to telephones.
-	 *
-	 * @param json the json
-	 * @return the collection
-	 */
-	public static Collection<Telephone> fromJsonArrayToTelephones(String json) {
-		return new JSONDeserializer<List<Telephone>>()
-				.use(null, ArrayList.class).use("values", Telephone.class)
-				.deserialize(json);
-	}
+    /**
+     * Sets the telephone.
+     *
+     * @param telephone the new telephone
+     */
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    /**
+     * Gets the telecom use code.
+     *
+     * @return the telecom use code
+     */
+    public TelecomUseCode getTelecomUseCode() {
+        return this.telecomUseCode;
+    }
 
-	/**
-	 * Gets the telephone.
-	 *
-	 * @return the telephone
-	 */
-	public String getTelephone() {
-		return this.telephone;
-	}
+    /**
+     * Sets the telecom use code.
+     *
+     * @param telecomUseCode the new telecom use code
+     */
+    public void setTelecomUseCode(TelecomUseCode telecomUseCode) {
+        this.telecomUseCode = telecomUseCode;
+    }
 
-	/**
-	 * Sets the telephone.
-	 *
-	 * @param telephone the new telephone
-	 */
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
+    /**
+     * From json to telephone.
+     *
+     * @param json the json
+     * @return the telephone
+     */
+    public static Telephone fromJsonToTelephone(String json) {
+        return new JSONDeserializer<Telephone>().use(null, Telephone.class)
+                .deserialize(json);
+    }
 
-	/**
-	 * Gets the telecom use code.
-	 *
-	 * @return the telecom use code
-	 */
-	public TelecomUseCode getTelecomUseCode() {
-		return this.telecomUseCode;
-	}
+    /**
+     * To json array.
+     *
+     * @param collection the collection
+     * @return the string
+     */
+    public static String toJsonArray(Collection<Telephone> collection) {
+        return new JSONSerializer().exclude("*.class")
+                .deepSerialize(collection);
+    }
 
-	/**
-	 * Sets the telecom use code.
-	 *
-	 * @param telecomUseCode the new telecom use code
-	 */
-	public void setTelecomUseCode(TelecomUseCode telecomUseCode) {
-		this.telecomUseCode = telecomUseCode;
-	}
+    /**
+     * From json array to telephones.
+     *
+     * @param json the json
+     * @return the collection
+     */
+    public static Collection<Telephone> fromJsonArrayToTelephones(String json) {
+        return new JSONDeserializer<List<Telephone>>()
+                .use(null, ArrayList.class).use("values", Telephone.class)
+                .deserialize(json);
+    }
 }

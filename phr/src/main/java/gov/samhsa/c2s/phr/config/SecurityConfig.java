@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -30,7 +28,6 @@ public class SecurityConfig {
                 if (securityProperties.isRequireSsl()) {
                     http.requiresChannel().anyRequest().requiresSecure();
                 }
-                //Note: The related wildcard pattern must put in the end
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.GET, "/patients/healthInformation/**").access("#oauth2.hasScope('phr.hie_read')")
                         .antMatchers(HttpMethod.GET, "/patients/pageNumber/**").access("#oauth2.hasScope('phr.allPatients_read')")
@@ -41,15 +38,9 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/patients/**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.GET, "/patients/**").access("#oauth2.hasScope('phr.patient_read')")
                         .antMatchers(HttpMethod.GET, "/statecodes/**").access("#oauth2.hasScope('phr.patient_read')")
-                        .antMatchers(HttpMethod.OPTIONS, "/*/**").permitAll()
+                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().denyAll();
             }
         };
-    }
-
-    // Uses SHA-256 with multiple iterations and a random salt value.
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new StandardPasswordEncoder();
     }
 }

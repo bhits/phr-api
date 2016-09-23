@@ -1,9 +1,9 @@
 package gov.samhsa.c2s.phr.web;
 
+import gov.samhsa.c2s.phr.service.IExHubDataService;
 import gov.samhsa.c2s.phr.service.dto.ClinicalDocumentRequest;
 import gov.samhsa.c2s.phr.service.dto.PatientDataResponse;
 import gov.samhsa.c2s.phr.service.exception.PatientNotFoundException;
-import gov.samhsa.c2s.phr.service.IExHubDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,17 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Optional;
 
-/**
- * Created by sadhana.chandra on 10/14/2015.
- */
-
 @RestController
 @RequestMapping("/patients")
 public class PatientHealthDataController {
     private final String PATIENT_DATA_CACHE_NAME = "PatientData";
 
     @Autowired
-    IExHubDataService iExHubDataService;
+    private IExHubDataService iExHubDataService;
 
     @RequestMapping(value = "/healthInformation", method = RequestMethod.GET)
     @Cacheable(value = PATIENT_DATA_CACHE_NAME)
