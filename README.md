@@ -101,6 +101,6 @@ In order to override Java CA Certificates Store in docker container, one can mou
 ## Contact
 
 ## Report Issues
-Please use [GitHub Issues](/BHITS/phr-api/issues) page to report issues.
+Please use [GitHub Issues](../../issues) page to report issues.
 
 [//]: # (License)
