@@ -1,6 +1,6 @@
-# Patient Health Record API
+# Patient Health Record  API
 
-PHR API is responsible for storing patient identities in C2S domain and serve patient health records from Health Information Exchange (HIE) via Information Exchange Hub (IExHub). Currently, only patient demographics and C2S Medical Record Number (MRN) are persisted in PHR domain.
+Patient Health Record (PHR) API is responsible for storing patient identities in Consent2Share (C2S) domain and serve patient health records from Health Information Exchange (HIE) via Information Exchange Hub (IExHub). Currently, only patient demographics and C2S Medical Record Number (MRN) are persisted in PHR domain.
 
 ## Build
 
@@ -54,6 +54,8 @@ Please see the [default configuration](/blob/master/phr/src/main/resources/appli
 
 + In a `docker-compose.yml`, this can be provided as:
 ```yml
+version: '2'
+services:
 ...
   phr.c2s.com:
     image: "bhits/phr:latest"
@@ -75,6 +77,8 @@ For simplicity in development and testing environments, SSL is **NOT** enabled b
 + `docker run -d -v "/path/on/dockerhost/ssl_keystore.keystore:/path/to/ssl_keystore.keystore" bhits/phr:latest --spring.profiles.active=ssl --server.ssl.key-store=/path/to/ssl_keystore.keystore --server.ssl.key-store-password=strongkeystorepassword`
 + In a `docker-compose.yml`, this can be provided as:
 ```yml
+version: '2'
+services:
 ...
   phr.c2s.com:
     image: "bhits/phr:latest"
@@ -88,9 +92,9 @@ For simplicity in development and testing environments, SSL is **NOT** enabled b
 
 ### Override Java CA Certificates Store In Docker Environment
 
-In order to override Java CA Certificates Store in docker container, one can mount the custom `cacerts` file over the default one in the docker image as `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts bhits/phr:latest"`
+Java has a default CA Certificates Store that allows it to trust well-known certificate authorities. For development and testing purposes, one might want to trust additional self-signed certificates. In order to override the default Java CA Certificates Store in docker container, one can mount a custom `cacerts` file over the default one in the docker image as `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts bhits/phr:latest"`
 
-*NOTE: The `cacerts` given in the volume mapping above is a file, not a directory.*
+*NOTE: The `cacerts` references given in the both sides of volume mapping above are files, not directories.*
 
 [//]: # (## API Documentation)
 
