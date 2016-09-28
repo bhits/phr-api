@@ -101,7 +101,7 @@ spring:
 server:
   context-path: /phr
 ---
-# updates configuration for docker enviornment
+# updates configuration for docker environment
 spring:
   profiles: docker
   datasource:
