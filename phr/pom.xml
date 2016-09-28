@@ -10,7 +10,7 @@
 
     <name>phr</name>
     <description>PHR Application</description>
-    <url>${scm.url}</url>
+    <url>${project.scm.url}</url>
 
     <organization>
         <name>SAMHSA</name>
@@ -28,7 +28,7 @@
     <licenses>
         <license>
             <name>See license in LICENSE.md</name>
-            <url>${scm.url}/blob/master/LICENSE.md</url>
+            <url>${project.scm.url}/blob/master/LICENSE.md</url>
         </license>
     </licenses>
 
@@ -41,8 +41,8 @@
         path. i.e. need set git in the path Environment variable -->
     <scm>
         <url>https://github.com/BHITS/phr-api</url>
-        <connection>scm:git:${scm.url}.git</connection>
-        <developerConnection>scm:git:${scm.url}.git</developerConnection>
+        <connection>scm:git:${project.scm.url}.git</connection>
+        <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
     <distributionManagement>
