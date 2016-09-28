@@ -11,7 +11,7 @@ The Patient Health Record (PHR) API is responsible for storing patient identitie
 
 ### Commands
 
-This is a Maven project and requires Apache Maven 3.3.3 or greater to build it. It is recommended to use the *Maven Wrapper* scripts provided with this project. *Maven Wrapper* requires internet connection to download Maven and project dependencies for the very first build.
+This is a Maven project and requires [Apache Maven](https://maven.apache.org/) 3.3.3 or greater to build it. It is recommended to use the *Maven Wrapper* scripts provided with this project. *Maven Wrapper* requires internet connection to download Maven and project dependencies for the very first build.
 
 To build the project, navigate to the folder that contains `pom.xml` file using terminal/command line.
 
