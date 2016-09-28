@@ -57,7 +57,7 @@ phr:
     defaultExpirationInSeconds: 60
   pagination:
     itemsPerPage: 10
-  #TODO: Temporarily put domain value here, eventually this should be centralized and served by patient-registration
+  #TODO: Temporarily put domain OID here, eventually this should be centralized and served by patient-registration
   # Domain OID for C2S MRN
   domainId: 1.3.6.1.4.1.21367.13.20.200
   # ID Type for C2S MRN

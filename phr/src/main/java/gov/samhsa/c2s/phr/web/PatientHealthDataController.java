@@ -28,7 +28,7 @@ public class PatientHealthDataController {
     @RequestMapping(value = "/healthInformation", method = RequestMethod.GET)
     @Cacheable(value = PATIENT_DATA_CACHE_NAME)
     public PatientDataResponse getPatientData(OAuth2Authentication oAuth2Authentication) {
-        //TODO: if the email is not used as username
+        //TODO: if the email is not used as username, this approach won't work
         final String email = Optional.ofNullable(oAuth2Authentication)
                 .map(OAuth2Authentication::getName)
                 .filter(StringUtils::hasText)
