@@ -37,8 +37,6 @@
         <url>http://BhitsBuild03/</url>
     </ciManagement>
 
-    <!-- Since buildnumber-maven-plugin uses git command, git command must in
-        path. i.e. need set git in the path Environment variable -->
     <scm>
         <url>https://github.com/BHITS/phr-api</url>
         <connection>scm:git:${project.scm.url}.git</connection>
