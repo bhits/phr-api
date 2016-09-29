@@ -65,11 +65,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>gov.samhsa.c2s.phr.PhrApplication</start-class>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.5</slf4j.version>
         <spring.cloud.starter.parent.version>Brixton.M4</spring.cloud.starter.parent.version>
-
         <flexjson.version>3.3</flexjson.version>
         <commons.lang3.version>3.4</commons.lang3.version>
         <logback.version>1.0.11</logback.version>
