@@ -7,19 +7,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by sadhana.chandra on 12/24/2015.
- */
 @Component
 @Aspect
-public class ExceptionLoggingAspects extends CallTracker{
+public class ExceptionLoggingAspects extends CallTracker {
 
-    Logger logger = LoggerFactory.getLogger(ExceptionLoggingAspects.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @AfterThrowing(pointcut = "gov.samhsa.c2s.phr.aspect.PhrAspectsArchitecture.Repository() || gov.samhsa.c2s.phr.aspect.PhrAspectsArchitecture.Service()", throwing = "ex")
-    public void logException(Exception ex){
+    public void logException(Exception ex) {
         trackCall();
-        logger.error("Excecption", ex);
+        logger.error("Exception", ex);
     }
-
 }

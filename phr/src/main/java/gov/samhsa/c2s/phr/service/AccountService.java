@@ -2,15 +2,14 @@ package gov.samhsa.c2s.phr.service;
 
 
 import gov.samhsa.c2s.phr.service.dto.*;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
-@Service
 public interface AccountService {
-    boolean checkduplicatePatient(SignupDto signupDto);
+
+    boolean checkDuplicatePatient(SignupDto signupDto);
 
     SignupDto createPatient(SignupDto signupDto);
 

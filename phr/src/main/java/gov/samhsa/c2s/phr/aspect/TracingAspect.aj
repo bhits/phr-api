@@ -7,21 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-
-/**
- * Created by sadhana.chandra on 12/30/2015.
- */
 @Component
 @Aspect
-public aspect TracingAspect extends CallTracker{
+public aspect TracingAspect extends CallTracker {
 
-    Logger logger = LoggerFactory.getLogger(TracingAspect.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     //advice
     @Around("gov.samhsa.c2s.phr.aspect.PhrAspectsArchitecture.Repository() || gov.samhsa.c2s.phr.aspect.PhrAspectsArchitecture.Service()")
     public Object trace(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         trackCall();
         String methodInfo = proceedingJoinPoint.getStaticPart().getSignature().toString();
-        logger.trace("entering " + methodInfo );
+        logger.trace("entering " + methodInfo);
 
         try {
             return proceedingJoinPoint.proceed();
@@ -31,7 +28,5 @@ public aspect TracingAspect extends CallTracker{
         } finally {
             logger.trace("Exiting " + methodInfo);
         }
-
     }
-
 }

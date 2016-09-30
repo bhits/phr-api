@@ -8,13 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-/**
- * Created by sadhana.chandra on 12/24/2015.
- */
 @Component
 @Aspect
-public class PerformanceAspect extends CallTracker{
-    Logger logger = LoggerFactory.getLogger(PerformanceAspect.class);
+public class PerformanceAspect extends CallTracker {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Around("gov.samhsa.c2s.phr.aspect.PhrAspectsArchitecture.Repository() ")
     public void trace(ProceedingJoinPoint proceedingJP) throws Throwable {
@@ -29,6 +26,4 @@ public class PerformanceAspect extends CallTracker{
             logger.trace(stopWatch.shortSummary());
         }
     }
-
-
 }

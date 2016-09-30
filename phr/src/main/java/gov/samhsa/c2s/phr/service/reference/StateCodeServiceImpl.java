@@ -1,20 +1,23 @@
 package gov.samhsa.c2s.phr.service.reference;
 
-import gov.samhsa.c2s.phr.domain.reference.StateCodeRepository;
 import gov.samhsa.c2s.phr.domain.reference.StateCode;
+import gov.samhsa.c2s.phr.domain.reference.StateCodeRepository;
 import gov.samhsa.c2s.phr.service.dto.LookupDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StateCodeServiceImpl implements StateCodeService {
 
-    /** The state code repository. */
+    /**
+     * The state code repository.
+     */
     @Autowired
-    StateCodeRepository stateCodeRepository;
+    private StateCodeRepository stateCodeRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -22,7 +25,7 @@ public class StateCodeServiceImpl implements StateCodeService {
     @Override
     public List<LookupDto> findAllStateCodes() {
 
-        List<LookupDto> lookups = new ArrayList<LookupDto>();
+        List<LookupDto> lookups = new ArrayList<>();
 
         List<StateCode> stateCodeList = stateCodeRepository.findAll();
 
@@ -30,6 +33,5 @@ public class StateCodeServiceImpl implements StateCodeService {
             lookups.add(modelMapper.map(entity, LookupDto.class));
         }
         return lookups;
-
     }
 }

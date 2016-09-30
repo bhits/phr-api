@@ -1,8 +1,5 @@
 package gov.samhsa.c2s.phr.aspect;
 
-/**
- * Created by sadhana.chandra on 12/24/2015.
- */
 public class CallTracker {
 
     private boolean called;
@@ -15,10 +12,11 @@ public class CallTracker {
         this.called = called;
     }
 
-    public void resetCalled(){
+    public void resetCalled() {
         called = false;
     }
-    public void trackCall(){
+
+    public void trackCall() {
         called = true;
     }
 }

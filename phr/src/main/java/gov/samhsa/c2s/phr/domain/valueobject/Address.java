@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Open Behavioral Health Information Technology Architecture (OBHITA.org)
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -52,189 +52,199 @@ import java.util.List;
 @Audited
 public class Address {
 
-    /** The address use code. */
+    /**
+     * The address use code.
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private AddressUseCode addressUseCode;
 
-    /** The street address line. */
+    /**
+     * The street address line.
+     */
     @NotNull
     @Size(min = 1, max = 50)
     private String streetAddressLine;
 
-    /** The city. */
+    /**
+     * The city.
+     */
     @NotNull
     @Size(max = 30)
     private String city;
 
-    /** The state code. */
+    /**
+     * The state code.
+     */
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private StateCode stateCode;
 
-    /** The postal code. */
+    /**
+     * The postal code.
+     */
     @NotNull
     @Pattern(regexp = "\\d{5}(?:[-\\s]\\d{4})?")
     private String postalCode;
 
-    /** The country code. */
+    /**
+     * The country code.
+     */
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-     private CountryCode countryCode;
+    private CountryCode countryCode;
 
-	/**
-	 * To json.
-	 *
-	 * @return the string
-	 */
-	public String toJson() {
+    /**
+     * To json.
+     *
+     * @return the string
+     */
+    public String toJson() {
         return new JSONSerializer().exclude("*.class").deepSerialize(this);
     }
 
-	/**
-	 * From json to address.
-	 *
-	 * @param json the json
-	 * @return the address
-	 */
-	public static Address fromJsonToAddress(String json) {
-        return new JSONDeserializer<Address>().use(null, Address.class).deserialize(json);
-    }
-
-	/**
-	 * To json array.
-	 *
-	 * @param collection the collection
-	 * @return the string
-	 */
-	public static String toJsonArray(Collection<Address> collection) {
-        return new JSONSerializer().exclude("*.class").deepSerialize(collection);
-    }
-
-	/**
-	 * From json array to addresses.
-	 *
-	 * @param json the json
-	 * @return the collection
-	 */
-	public static Collection<Address> fromJsonArrayToAddresses(String json) {
-        return new JSONDeserializer<List<Address>>().use(null, ArrayList.class).use("values", Address.class).deserialize(json);
-    }
-
-	/**
-	 * Gets the address use code.
-	 *
-	 * @return the address use code
-	 */
-	public AddressUseCode getAddressUseCode() {
+    /**
+     * Gets the address use code.
+     *
+     * @return the address use code
+     */
+    public AddressUseCode getAddressUseCode() {
         return this.addressUseCode;
     }
 
-	/**
-	 * Sets the address use code.
-	 *
-	 * @param addressUseCode the new address use code
-	 */
-	public void setAddressUseCode(AddressUseCode addressUseCode) {
+    /**
+     * Sets the address use code.
+     *
+     * @param addressUseCode the new address use code
+     */
+    public void setAddressUseCode(AddressUseCode addressUseCode) {
         this.addressUseCode = addressUseCode;
     }
 
-	/**
-	 * Gets the street address line.
-	 *
-	 * @return the street address line
-	 */
-	public String getStreetAddressLine() {
+    /**
+     * Gets the street address line.
+     *
+     * @return the street address line
+     */
+    public String getStreetAddressLine() {
         return this.streetAddressLine;
     }
 
-	/**
-	 * Sets the street address line.
-	 *
-	 * @param streetAddressLine the new street address line
-	 */
-	public void setStreetAddressLine(String streetAddressLine) {
+    /**
+     * Sets the street address line.
+     *
+     * @param streetAddressLine the new street address line
+     */
+    public void setStreetAddressLine(String streetAddressLine) {
         this.streetAddressLine = streetAddressLine;
     }
 
-	/**
-	 * Gets the city.
-	 *
-	 * @return the city
-	 */
-	public String getCity() {
+    /**
+     * Gets the city.
+     *
+     * @return the city
+     */
+    public String getCity() {
         return this.city;
     }
 
-	/**
-	 * Sets the city.
-	 *
-	 * @param city the new city
-	 */
-	public void setCity(String city) {
+    /**
+     * Sets the city.
+     *
+     * @param city the new city
+     */
+    public void setCity(String city) {
         this.city = city;
     }
 
-	/**
-	 * Gets the state code.
-	 *
-	 * @return the state code
-	 */
-	public StateCode getStateCode() {
+    /**
+     * Gets the state code.
+     *
+     * @return the state code
+     */
+    public StateCode getStateCode() {
         return this.stateCode;
     }
 
-	/**
-	 * Sets the state code.
-	 *
-	 * @param stateCode the new state code
-	 */
-	public void setStateCode(StateCode stateCode) {
+    /**
+     * Sets the state code.
+     *
+     * @param stateCode the new state code
+     */
+    public void setStateCode(StateCode stateCode) {
         this.stateCode = stateCode;
     }
 
-	/**
-	 * Gets the postal code.
-	 *
-	 * @return the postal code
-	 */
-	public String getPostalCode() {
+    /**
+     * Gets the postal code.
+     *
+     * @return the postal code
+     */
+    public String getPostalCode() {
         return this.postalCode;
     }
 
-	/**
-	 * Sets the postal code.
-	 *
-	 * @param postalCode the new postal code
-	 */
-	public void setPostalCode(String postalCode) {
+    /**
+     * Sets the postal code.
+     *
+     * @param postalCode the new postal code
+     */
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-	/**
-	 * Gets the country code.
-	 *
-	 * @return the country code
-	 */
-	public CountryCode getCountryCode() {
+    /**
+     * Gets the country code.
+     *
+     * @return the country code
+     */
+    public CountryCode getCountryCode() {
         return this.countryCode;
     }
 
-	/**
-	 * Sets the country code.
-	 *
-	 * @param countryCode the new country code
-	 */
-	public void setCountryCode(CountryCode countryCode) {
+    /**
+     * Sets the country code.
+     *
+     * @param countryCode the new country code
+     */
+    public void setCountryCode(CountryCode countryCode) {
         this.countryCode = countryCode;
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
+    @Override
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    /**
+     * From json to address.
+     *
+     * @param json the json
+     * @return the address
+     */
+    public static Address fromJsonToAddress(String json) {
+        return new JSONDeserializer<Address>().use(null, Address.class).deserialize(json);
+    }
+
+    /**
+     * To json array.
+     *
+     * @param collection the collection
+     * @return the string
+     */
+    public static String toJsonArray(Collection<Address> collection) {
+        return new JSONSerializer().exclude("*.class").deepSerialize(collection);
+    }
+
+    /**
+     * From json array to addresses.
+     *
+     * @param json the json
+     * @return the collection
+     */
+    public static Collection<Address> fromJsonArrayToAddresses(String json) {
+        return new JSONDeserializer<List<Address>>().use(null, ArrayList.class).use("values", Address.class).deserialize(json);
     }
 }

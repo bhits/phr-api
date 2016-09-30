@@ -56,9 +56,9 @@ public class AccountServiceImpl implements AccountService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //TODO: Implement it when email does not be used for identify
+    //TODO: Implement and utilize duplicate check at patient creation
     @Override
-    public boolean checkduplicatePatient(SignupDto signupDto) {
+    public boolean checkDuplicatePatient(SignupDto signupDto) {
         Patient patient = convertToPatient(signupDto);
         //find patient by lastname firstname
         return false;
@@ -95,8 +95,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public SignupDto updatePatient(SignupDto signupDto, long id) {
 
-        //TODO : verify if id and signupDto.getId() are same
-        // Patient patient = convertToPatient(signupDto, false);
+        Assert.isTrue(id == signupDto.getId(), "Conflicting patient ID values, id is not equal to signupDto.id");
         Patient patient = Optional.ofNullable(patientRepository.findOne(id)).orElseThrow(PatientNotFoundException::new);
 
         // map signupDTO to patient
@@ -112,7 +111,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public PatientListDto findAllPatientsInPage(String pageNumber) {
-        List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
+        List<PatientDto> patientDtoList = new ArrayList<>();
         PageRequest page = new PageRequest(Integer.parseInt(pageNumber), itemsPerPage, Sort.Direction.DESC, "id");
         final Page<Patient> pages = patientRepository.findAll(page);
 
@@ -146,7 +145,7 @@ public class AccountServiceImpl implements AccountService {
             String lastName = tokenizer.nextToken();  // Last Token is the first name
             patients = patientRepository.findAllByFirstNameLikesAndLastNameLikes("%" + firstName + "%", "%" + lastName + "%", pageRequest);
         } else {
-            patients = new ArrayList<Patient>();
+            patients = new ArrayList<>();
         }
         return patientListToPatientDtoList(patients);
     }
@@ -198,7 +197,6 @@ public class AccountServiceImpl implements AccountService {
                     .findByCode(signupDto.getGenderCode()));
         }
 
-        //TODO: set DOB , sex, telephone
         Telephone telephone = new Telephone();
         telephone.setTelephone(signupDto.getTelephone());
         patient.setTelephone(telephone);
@@ -220,7 +218,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private List<PatientDto> patientListToPatientDtoList(List<Patient> listOfPatient) {
-        List<PatientDto> patientDtoList = new ArrayList<PatientDto>();
+        List<PatientDto> patientDtoList = new ArrayList<>();
         for (Patient patient : listOfPatient) {
             PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
             patientDtoList.add(patientDto);
