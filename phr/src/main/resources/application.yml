@@ -46,7 +46,7 @@ spring:
 phr:
   iexhub:
     # IExHub service endpoint for retrieving patient data
-    url: https://localhost:8443/iexhub/services/GetPatientData
+    url: http://localhost:8080/iexhub/services/GetPatientData
     # IExHub ssoauth header template
     ssoauth: PatientId='PATIENT_IDENTIFIER'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
     # IExHub service endpoint for publishing patient data
