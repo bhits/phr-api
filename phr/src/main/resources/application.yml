@@ -98,11 +98,11 @@ spring:
     host: redis.c2s.com
 phr:
   iexhub:
-      url: https://iexhub.c2s.com:8443/iexhub/services/GetPatientData
+      url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
 eureka:
   client:
     service-url:
-      defaultZone: https://discovery-server.c2s.com:8761/eureka/
+      defaultZone: http://discovery-server.c2s.com:8761/eureka/
   instance:
     prefer-ip-address: true
 
