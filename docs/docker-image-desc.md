@@ -1,12 +1,12 @@
-# Supported tags and respective `Dockerfile` links
+# Supported Tags and Respective `Dockerfile` Links
 
 [`1.16.0`](https://github.com/FEISystems/phr-api/blob/master/phr/src/main/docker/Dockerfile),[`latest`](https://github.com/FEISystems/phr-api/blob/master/phr/src/main/docker/Dockerfile)[(1.16.0/Dockerfile)](https://github.com/FEISystems/phr-api/blob/master/phr/src/main/docker/Dockerfile)
 
-For more information about this image, source code and its history, please see [GitHub repo](https://github.com/FEISystems/phr-api).
+For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/FEISystems/phr-api).
 
 # What is PHR?
 
-The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share domain, and for serving patient health records from Health Information Exchange (HIE) via Information Exchange Hub (IExHub). Currently, only patient demographics and consent2share Medical Record Numbers (MRN) are persisted in PHR domain.
+The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share domain, and for serving patient health records from health information exchange (HIE) via the Information Exchange Hub (IExHub). Currently, only patient demographics and consent2share Medical Record Numbers (MRN) are persisted in PHR domain.
 
 For more information and related downloads for Consent2Share, please visit [Consent2share](https://feisystems.github.io/consent2share/).
 
@@ -19,17 +19,16 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name phr -d bhits/phr:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in consent2share Application, it is also required to setup the dependency microservices and support level infrastructure. Please refer to the [consent2share Deployment Guide]() for instructions to setup the consent2share infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the consent2share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [consent2share Deployment Guide]() for instructions to setup the Consent2Share infrastructure.*
 
 
 ## Configure
 
-This API runs with some [default configuration](https://github.com/FEISystems/phr-api/blob/master/phr/src/main/resources/application.yml) that is primarily targeted for development environment.  Spring profile `docker` is actived by default when building images. [Spring Boot](https://projects.spring.io/spring-boot/) supports several methods to override the default configuration to configure the API for a certain deployment environment. 
+This API runs with a [default configuration](https://github.com/FEISystems/phr-api/blob/master/phr/src/main/resources/application.yml) that is primarily targeted for the development environment.  The Spring profile `docker` is actived by default when building images. [Spring Boot](https://projects.spring.io/spring-boot/) supports several methods to override the default configuration to configure the API for a certain deployment environment. 
 
 Here is example to override default database password:
 
 `docker run -d bhits/phr:latest --spring.datasource.password=strongpassword`
-
 
 ## Using a custom configuration file
 
@@ -58,7 +57,7 @@ View [license]() information for the software contained in this image.
 # User Feedback
 
 ## Documentation 
-Documentation for this image is stored in the [consent2share/phr-api](https://github.com/FEISystems/phr-api) GitHub repo. Be sure to familiarize yourself with the repository's README.md file before attempting a pull request.
+Documentation for this image is stored in the [consent2share/phr-api](https://github.com/FEISystems/phr-api) GitHub repository. Be sure to familiarize yourself with the repository's README.md file before attempting a pull request.
 
 ## Issues
 
