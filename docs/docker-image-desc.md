@@ -15,7 +15,7 @@ For more information and related downloads for Consent2Share, please visit [Cons
 
 ## Start a PHR instance
 
-Be sure to familiarize yourself with the repository's [README.md](https://github.com/FEISystems/phr-api) file before start instance.
+Be sure to familiarize yourself with the repository's [README.md](https://github.com/FEISystems/phr-api) file before starting the instance.
 
 `docker run  --name phr -d bhits/phr:latest <additional program arguments>`
 
@@ -32,13 +32,13 @@ Here is example to override default database password:
 
 ## Using a custom configuration file
 
-To use custom `application.yml`, mount the file to docker container and setup `spring.config.location` to folder.
+To use custom `application.yml`, mount the file to the docker host and set the environment variable `spring.config.location`.
 
 `docker run -e spring.config.location="file:/java/C2S_PROPS/phr/"  -v "/path/on/dockerhost/C2S_PROPS/phr/application.yml:/java/C2S_PROPS/phr/application.yml" -d bhits/phr:tag`
 
-## Enviroment Variable
+## Environment Variable
 
-When you start the phr image, you can adjust the configuration of the phr instance by passing one or more environment variables on the docker run command line. 
+When you start the PHR image, you can edit the configuration of the PHR instance by passing one or more environment variables on the command line. 
 
 ### JAVA_OPTS 
 This environment variable is used to setup JVM argument, such as memory configuration.
