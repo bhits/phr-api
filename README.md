@@ -1,6 +1,6 @@
 # Patient Health Record  API
 
-The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share (C2S) domain, and for serving patient health records from Health Information Exchange (HIE) via Information Exchange Hub (IExHub). Currently, only patient demographics and C2S Medical Record Numbers (MRN) are persisted in PHR domain.
+The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share (C2S) domain, and for serving patient health records from the health information exchange (HIE) via the Information Exchange Hub (IExHub). Currently, only patient demographics and C2S Medical Record Numbers (MRN) are persisted in PHR domain.
 
 ## Build
 
@@ -13,7 +13,7 @@ The Patient Health Record (PHR) API is responsible for storing patient identitie
 
 This is a Maven project and requires [Apache Maven](https://maven.apache.org/) 3.3.3 or greater to build it. It is recommended to use the *Maven Wrapper* scripts provided with this project. *Maven Wrapper* requires an internet connection to download Maven and project dependencies for the very first build.
 
-To build the project, navigate to the folder that contains `pom.xml` file using terminal/command line.
+To build the project, navigate to the folder that contains `pom.xml` file using the terminal/command line.
 
 + To build a JAR:
     + For Windows, run `mvnw.cmd clean install`
@@ -30,11 +30,11 @@ This API uses *[MySQL](https://www.mysql.com/)* for persistence and *[Flyway](ht
 
 ### Commands
 
-This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance, therefore there is no need for a separate application server to run this service.
+This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance. Therefore, there is no need for a separate application server to run this service.
 + Run as a JAR file: `java -jar phr-x.x.x-SNAPSHOT.jar <additional program arguments>`
 + Run as a Docker Container: `docker run -d bhits/phr:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in C2S Application, it is also required to setup the dependency microservices and support level infrastructure. Please refer to the C2S Deployment Guide for instructions to setup the C2S infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the C2S application, it is also required to setup the dependency microservices and support level infrastructure. Please refer to the C2S Deployment Guide for instructions to setup the C2S infrastructure.*
 
 ## Configure
 
@@ -94,7 +94,7 @@ services:
 
 Java has a default CA Certificates Store that allows it to trust well-known certificate authorities. For development and testing purposes, one might want to trust additional self-signed certificates. In order to override the default Java CA Certificates Store in a Docker container, one can mount a custom `cacerts` file over the default one in the Docker image as `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts" bhits/phr:latest`
 
-*NOTE: The `cacerts` references given in the both sides of volume mapping above are files, not directories.*
+*NOTE: The `cacerts` references given regarding volume mapping above are files, not directories.*
 
 [//]: # (## API Documentation)
 
