@@ -6,7 +6,7 @@ For more information about this image, the source code, and its history, please 
 
 # What is PHR?
 
-The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share domain, and for serving patient health records from health information exchange (HIE) via the Information Exchange Hub (IExHub). Currently, only patient demographics and consent2share Medical Record Numbers (MRN) are persisted in PHR domain.
+The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share domain, and for serving patient health records from health information exchange (HIE) via the Information Exchange Hub (IExHub). Currently, only patient demographics and Consent2Share Medical Record Numbers (MRN) are persisted in PHR domain.
 
 For more information and related downloads for Consent2Share, please visit [Consent2share](https://feisystems.github.io/consent2share/).
 
@@ -19,7 +19,7 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name phr -d bhits/phr:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the consent2share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [consent2share Deployment Guide]() for instructions to setup the Consent2Share infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [consent2share Deployment Guide]() for instructions to setup the Consent2Share infrastructure.*
 
 
 ## Configure
