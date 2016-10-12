@@ -65,7 +65,7 @@
 
     <profiles>
         <profile>
-            <id>externalbuild</id>
+            <id>external-build</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -79,7 +79,7 @@
         </profile>
 
         <profile>
-            <id>fei-nexus</id>
+            <id>bhits-mvn-repo</id>
             <distributionManagement>
                 <repository>
                     <id>deployment</id>
