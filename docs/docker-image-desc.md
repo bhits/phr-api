@@ -8,7 +8,7 @@ For more information about this image, the source code, and its history, please 
 
 The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share domain, and for serving patient health records from health information exchange (HIE) via the Information Exchange Hub (IExHub). Currently, only patient demographics and Consent2Share Medical Record Numbers (MRN) are persisted in PHR domain.
 
-For more information and related downloads for Consent2Share, please visit [Consent2share](https://feisystems.github.io/consent2share/).
+For more information and related downloads for Consent2Share, please visit [Consent2Share](https://feisystems.github.io/consent2share/).
 
 # How to use this image
 
