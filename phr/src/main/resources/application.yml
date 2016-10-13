@@ -105,7 +105,7 @@ server:
 spring:
   profiles: docker
   datasource:
-    url: jdbc:mysql://phr-db.c2s.com:3306/phr?autoReconnect=true
+    url: jdbc:mysql://${C2S_DB_HOST:phr-db.c2s.com}:${C2S_DB_PORT:3306}/phr?autoReconnect=true
   redis:
     port: 6379
     host: redis.c2s.com
@@ -118,4 +118,6 @@ eureka:
       defaultZone: ${eureka.client.protocol:http}://discovery-server.c2s.com:8761/eureka/
   instance:
     prefer-ip-address: true
-
+logging:
+  file: /java/C2S_LOGS/phr/phr.log
+  path: /java/C2S_LOGS/phr
