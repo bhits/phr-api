@@ -1,3 +1,8 @@
+# Short Description
+Patient Health Record (PHR) API is responsible for storing patient identities in Consent2Share.
+
+# Full Description
+
 # Supported Tags and Respective `Dockerfile` Links
 
 [`1.16.0`](https://github.com/bhits/phr-api/blob/master/phr/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/phr-api/blob/master/phr/src/main/docker/Dockerfile)[(1.16.0/Dockerfile)](https://github.com/bhits/phr-api/blob/master/phr/src/main/docker/Dockerfile)
@@ -8,7 +13,7 @@ For more information about this image, the source code, and its history, please 
 
 The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share domain, and for serving patient health records from health information exchange (HIE) via the Information Exchange Hub (IExHub). Currently, only patient demographics and Consent2Share Medical Record Numbers (MRN) are persisted in PHR domain.
 
-For more information and related downloads for Consent2Share (C2S), please visit [C2S](https://bhits.github.io/consent2share/).
+For more information and related downloads for Consent2Share, please visit [Consent2Share](https://bhits.github.io/consent2share/).
 # How to use this image
 
 
@@ -18,7 +23,7 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name phr -d bhits/phr:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the Consent2Share (C2S) application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [C2S Deployment Guide]() for instructions to setup the C2S infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide]() for instructions to setup the C2S infrastructure.*
 
 
 ## Configure
@@ -40,15 +45,18 @@ To use custom `application.yml`, mount the file to the docker host and set the e
 When you start the PHR image, you can edit the configuration of the PHR instance by passing one or more environment variables on the command line. 
 
 ### JAR_FILE
-This environment variable is used to setup which jar file will run. you need mount the jar file to the root of contianer.
+This environment variable is used to setup which jar file will run. you need mount the jar file to the root of container.
+
 `docker run --name phr -e JAR_FILE="phr-latest.jar" -v "/path/on/dockerhost/phr-latest.jar:/phr-latest.jar" -d bhits/phr:latest`
 
 ### JAVA_OPTS 
 This environment variable is used to setup JVM argument, such as memory configuration.
+
 `docker run --name phr -e "JAVA_OPTS=-Xms512m -Xmx700m -Xss1m" -d bhits/phr:latest`
 
 ### DEFAULT_PROGRAM_ARGS 
 This environment variable is used to setup application arugument. The default value of is "--spring.profiles.active=docker".
+
 `docker run --name phr -e DEFAULT_PROGRAM_ARGS="--spring.profiles.active=ssl,docker" -d bhits/phr:latest`
 
 # Supported Docker versions
