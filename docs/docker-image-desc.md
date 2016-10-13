@@ -40,7 +40,7 @@ To use custom `application.yml`, mount the file to the docker host and set the e
 
 `docker run -v "/path/on/dockerhost/C2S_PROPS/phr/application.yml:/java/C2S_PROPS/phr/application.yml" -d bhits/phr:tag --spring.config.location="file:/java/C2S_PROPS/phr/"`
 
-## Environment Variable
+## Environment Variables
 
 When you start the PHR image, you can edit the configuration of the PHR instance by passing one or more environment variables on the command line. 
 
@@ -77,4 +77,3 @@ Documentation for this image is stored in the [bhits/phr-api](https://github.com
 ## Issues
 
 If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/bhits/phr-api/issues).
-
