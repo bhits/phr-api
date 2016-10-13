@@ -75,5 +75,4 @@ View [license]() information for the software contained in this image.
 Documentation for this image is stored in the [bhits/phr-api](https://github.com/bhits/phr-api) GitHub repository. Be sure to familiarize yourself with the repository's README.md file before attempting a pull request.
 
 ## Issues
-
 If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/bhits/phr-api/issues).
