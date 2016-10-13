@@ -8,8 +8,7 @@ For more information about this image, the source code, and its history, please 
 
 The Patient Health Record (PHR) API is responsible for storing patient identities in the Consent2Share domain, and for serving patient health records from health information exchange (HIE) via the Information Exchange Hub (IExHub). Currently, only patient demographics and Consent2Share Medical Record Numbers (MRN) are persisted in PHR domain.
 
-For more information and related downloads for Consent2Share, please visit [Consent2Share](https://bhits.github.io/consent2share/).
-
+For more information and related downloads for Consent2Share (C2S), please visit [C2S](https://bhits.github.io/consent2share/).
 # How to use this image
 
 
@@ -19,7 +18,7 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name phr -d bhits/phr:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [consent2share Deployment Guide]() for instructions to setup the Consent2Share infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share (C2S) application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [C2S Deployment Guide]() for instructions to setup the C2S infrastructure.*
 
 
 ## Configure
@@ -57,7 +56,7 @@ This image is officially supported on Docker version 1.12.1.
 
 Support for older versions (down to 1.6) is provided on a best-effort basis.
 
-Please see [the Docker installation documentation](https://docs.docker.com/engine/installation/) for details on how to upgrade your Docker daemon.
+Please see the [Docker installation documentation](https://docs.docker.com/engine/installation/) for details on how to upgrade your Docker daemon.
 
 # License
 View [license]() information for the software contained in this image.
