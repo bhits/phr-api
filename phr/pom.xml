@@ -43,6 +43,21 @@
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
+    <!-- Comment out the below distributionManagement if you couldn't connect to FEi Nexus repository manager to upload dependencies when you run 'mvn deploy' command -->
+
+    <distributionManagement>
+        <repository>
+            <id>deployment</id>
+            <name>Internal Releases</name>
+            <url>http://${maven.nexus.servername}/repository/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>deployment</id>
+            <name>Internal Releases</name>
+            <url>http://${maven.nexus.servername}/repository/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
