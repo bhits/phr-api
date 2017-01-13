@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
-
 @Configuration
 public class SecurityConfig {
 
@@ -38,6 +37,8 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/patients/**").access("#oauth2.hasScope('phr.hie_write')")
                         .antMatchers(HttpMethod.GET, "/patients/**").access("#oauth2.hasScope('phr.patient_read')")
                         .antMatchers(HttpMethod.GET, "/statecodes/**").access("#oauth2.hasScope('phr.patient_read')")
+                        .antMatchers(HttpMethod.GET, "/management/**").access("#oauth2.hasScope('phr.management')")
+                        .antMatchers(HttpMethod.POST, "/management/**").access("#oauth2.hasScope('phr.management')")
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().denyAll();
             }
