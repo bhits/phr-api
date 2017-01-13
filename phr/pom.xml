@@ -46,16 +46,16 @@
     <!--&lt;!&ndash; This configuration is for BHITS team to deploy the artifacts to organization repository with 'mvn deploy' command &ndash;&gt;-->
     <!--&lt;!&ndash; Please reconfigure based on your environment setup to run 'mvn deploy' &ndash;&gt;-->
     <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>deployment</id>-->
-            <!--<name>Internal Releases</name>-->
-            <!--<url>http://${maven.nexus.servername}/repository/releases/</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-            <!--<id>deployment</id>-->
-            <!--<name>Internal Releases</name>-->
-            <!--<url>http://${maven.nexus.servername}/repository/snapshots/</url>-->
-        <!--</snapshotRepository>-->
+    <!--<repository>-->
+    <!--<id>deployment</id>-->
+    <!--<name>Internal Releases</name>-->
+    <!--<url>http://${maven.nexus.servername}/repository/releases/</url>-->
+    <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>deployment</id>-->
+    <!--<name>Internal Releases</name>-->
+    <!--<url>http://${maven.nexus.servername}/repository/snapshots/</url>-->
+    <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
 
     <parent>
@@ -69,7 +69,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.5</slf4j.version>
-        <spring.cloud.starter.parent.version>Camden.SR2</spring.cloud.starter.parent.version>
+        <spring.cloud.version>Camden.SR2</spring.cloud.version>
         <flexjson.version>3.3</flexjson.version>
         <commons.lang3.version>3.4</commons.lang3.version>
         <modelmapper.version>0.7.5</modelmapper.version>
@@ -89,8 +89,8 @@
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>${spring.cloud.starter.parent.version}</version>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -177,10 +177,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
@@ -195,6 +191,19 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <!-- TODO: spring-retry can be potentially removed if spring-cloud-stream is used -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
         </dependency>
 
         <dependency>
@@ -237,5 +246,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
