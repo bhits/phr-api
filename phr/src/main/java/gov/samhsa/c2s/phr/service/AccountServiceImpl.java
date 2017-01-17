@@ -1,5 +1,6 @@
 package gov.samhsa.c2s.phr.service;
 
+import gov.samhsa.c2s.phr.config.PhrProperties;
 import gov.samhsa.c2s.phr.domain.patient.Patient;
 import gov.samhsa.c2s.phr.domain.patient.PatientRepository;
 import gov.samhsa.c2s.phr.domain.reference.AdministrativeGenderCode;
@@ -17,7 +18,6 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -45,14 +45,8 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Value("${phr.pagination.itemsPerPage}")
-    private int itemsPerPage;
-
-    @Value("${phr.domainId}")
-    private String domainId;
-
-    @Value("${phr.assigningAuthority}")
-    private String assigningAuthority;
+    @Autowired
+    private PhrProperties phrProperties;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -112,7 +106,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public PatientListDto findAllPatientsInPage(String pageNumber) {
         List<PatientDto> patientDtoList = new ArrayList<>();
-        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), itemsPerPage, Sort.Direction.DESC, "id");
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), phrProperties.getPagination().getItemsPerPage(), Sort.Direction.DESC, "id");
         final Page<Patient> pages = patientRepository.findAll(page);
 
         if (pages != null) {
@@ -135,7 +129,7 @@ public class AccountServiceImpl implements AccountService {
 
         List<Patient> patients;
         Integer pageNumber = 0;
-        Pageable pageRequest = new PageRequest(pageNumber, itemsPerPage);
+        Pageable pageRequest = new PageRequest(pageNumber, phrProperties.getPagination().getItemsPerPage());
 
         if (tokenizer.countTokens() == 1) {
             String firstName = tokenizer.nextToken(); // First Token is the first name
@@ -164,7 +158,7 @@ public class AccountServiceImpl implements AccountService {
         patients = patientRepository.findAllByFirstNameAndLastNameAndBirthDayAndAdministrativeGenderCode(firstName, lastName,
                 birthDate, administrativeGenderCode);
         response.setPatientDtos(patientListToPatientDtoList(patients));
-        response.setDomainId(domainId);
+        response.setDomainId(phrProperties.getDomainId());
         return response;
     }
 
@@ -174,8 +168,8 @@ public class AccountServiceImpl implements AccountService {
         String medicalRecordNumber = patientDto.getMedicalRecordNumber();
         Assert.notNull(medicalRecordNumber, "patient mrn cannot be null");
 
-        String patientIdentifier = (medicalRecordNumber + "^^^&" + domainId + "&" + assigningAuthority);
-        return new PatientIdentifierDto(medicalRecordNumber, domainId, assigningAuthority, patientIdentifier);
+        String patientIdentifier = (medicalRecordNumber + "^^^&" + phrProperties.getDomainId() + "&" + phrProperties.getAssigningAuthority());
+        return new PatientIdentifierDto(medicalRecordNumber, phrProperties.getDomainId(), phrProperties.getAssigningAuthority(), patientIdentifier);
     }
 
     private Patient convertToPatient(SignupDto signupDto) {

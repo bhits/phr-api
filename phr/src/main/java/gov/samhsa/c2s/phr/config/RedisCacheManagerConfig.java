@@ -20,8 +20,8 @@ public class RedisCacheManagerConfig extends CachingConfigurerSupport {
     @Autowired
     private CacheManager cacheManager;
 
-    @Value("${phr.redis.defaultExpirationInSeconds}")
-    private long defaultExpirationInSeconds;
+    @Autowired
+    private PhrProperties phrProperties;
 
     @Bean
     public KeyGenerator keyGenerator() {
@@ -40,6 +40,7 @@ public class RedisCacheManagerConfig extends CachingConfigurerSupport {
 
     @PostConstruct
     public void afterPropertiesSet() throws Exception {
+        long defaultExpirationInSeconds = phrProperties.getRedis().getDefaultExpirationInSeconds();
         if (cacheManager instanceof RedisCacheManager) {
             logger.info("Setting RedisCacheManager.defaultExpiration to " + defaultExpirationInSeconds);
             ((RedisCacheManager) cacheManager).setDefaultExpiration(defaultExpirationInSeconds);

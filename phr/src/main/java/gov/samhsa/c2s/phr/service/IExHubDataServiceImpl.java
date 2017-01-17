@@ -1,6 +1,7 @@
 package gov.samhsa.c2s.phr.service;
 
 
+import gov.samhsa.c2s.phr.config.PhrProperties;
 import gov.samhsa.c2s.phr.service.dto.ClinicalDocumentRequest;
 import gov.samhsa.c2s.phr.service.dto.ClinicalDocumentResponse;
 import gov.samhsa.c2s.phr.service.dto.PatientDataResponse;
@@ -9,7 +10,6 @@ import gov.samhsa.c2s.phr.service.exception.PatientDataCannotBeRetrievedExceptio
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -31,21 +31,15 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     @Autowired
     private RestOperations restTemplate;
 
-    @Value("${phr.iexhub.url}")
-    private String iexHubUrl;
-
-    @Value("${phr.iexhub.publish.url}")
-    private String hiePublishURL;
-
-    @Value("${phr.iexhub.ssoauth}")
-    private String ssOauthTemplate;
+    @Autowired
+    private PhrProperties phrProperties;
 
     @Override
     public PatientDataResponse getPatientData(String email) {
         // REST api call
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String ssOauth = buildIExHubSSOauth(email, ssOauthTemplate);
+        String ssOauth = buildIExHubSSOauth(email, phrProperties.getIexhub().getSsoauth());
         httpHeaders.add("ssoauth", ssOauth);
 
         List<MediaType> accepts = new ArrayList<>();
@@ -54,7 +48,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
 
         final HttpEntity<PatientDataResponse> reqEntity = new HttpEntity<>(httpHeaders);
 
-        final ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(iexHubUrl, HttpMethod.GET, reqEntity, PatientDataResponse.class);
+        final ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(phrProperties.getIexhub().getUrl(), HttpMethod.GET, reqEntity, PatientDataResponse.class);
         final HttpStatus statusCode = pdrEntitiy.getStatusCode();
         logger.info("Response Status : " + statusCode);
         final HttpHeaders headers = pdrEntitiy.getHeaders();
@@ -74,7 +68,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         HttpEntity entity = new HttpEntity(document, headers);
 
         try {
-            ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(hiePublishURL, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
+            ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(phrProperties.getIexhub().getPublishUrl(), HttpMethod.POST, entity, ClinicalDocumentResponse.class);
 
             if (!response.getStatusCode().equals(HttpStatus.OK)) {
                 logger.error("Cannot publish document in HIE.");

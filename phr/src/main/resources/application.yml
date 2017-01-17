@@ -15,25 +15,25 @@ spring:
   redis:
     port: 6379
     host: localhost
-phr:
-  iexhub:
-    # IExHub service endpoint for retrieving patient data
-    url: http://localhost:8080/iexhub/services/GetPatientData
-    # IExHub ssoauth header template
-    ssoauth: PatientId='PATIENT_IDENTIFIER'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
-    # IExHub service endpoint for publishing patient data
-    publish:
-      url: ${phr.iexhub.url}/publish
-  redis:
-    # expiration time in seconds for entries in redis cache
-    defaultExpirationInSeconds: 60
-  pagination:
-    itemsPerPage: 10
-  #TODO: Temporarily put domain OID here, eventually this should be centralized and served by patient-registration
-  # Domain OID for C2S MRN
-  domainId: 1.3.6.1.4.1.21367.13.20.200
-  # ID Type for C2S MRN
-  assigningAuthority: ISO
+c2s:
+  phr:
+    iexhub:
+      # IExHub service endpoint for retrieving patient data
+      url: http://localhost:8080/iexhub/services/GetPatientData
+      # IExHub ssoauth header template
+      ssoauth: PatientId='PATIENT_IDENTIFIER'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
+      # IExHub service endpoint for publishing patient data
+      publishUrl: ${c2s.phr.iexhub.url}/publish
+    redis:
+      # expiration time in seconds for entries in redis cache
+      defaultExpirationInSeconds: 60
+    pagination:
+      itemsPerPage: 10
+    #TODO: Temporarily put domain OID here, eventually this should be centralized and served by patient-registration
+    # Domain OID for C2S MRN
+    domainId: 1.3.6.1.4.1.21367.13.20.200
+    # ID Type for C2S MRN
+    assigningAuthority: ISO
 ---
 # enables ssl in this service when activated
 spring.profiles: ssl
@@ -59,6 +59,7 @@ spring:
   redis:
     port: 6379
     host: redis.c2s.com
-phr:
-  iexhub:
-      url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
+c2s:
+  phr:
+    iexhub:
+        url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
