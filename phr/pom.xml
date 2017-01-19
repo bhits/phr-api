@@ -43,21 +43,6 @@
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
-    <!--&lt;!&ndash; This configuration is for BHITS team to deploy the artifacts to organization repository with 'mvn deploy' command &ndash;&gt;-->
-    <!--&lt;!&ndash; Please reconfigure based on your environment setup to run 'mvn deploy' &ndash;&gt;-->
-    <!--<distributionManagement>-->
-    <!--<repository>-->
-    <!--<id>deployment</id>-->
-    <!--<name>Internal Releases</name>-->
-    <!--<url>http://${maven.nexus.servername}/repository/releases/</url>-->
-    <!--</repository>-->
-    <!--<snapshotRepository>-->
-    <!--<id>deployment</id>-->
-    <!--<name>Internal Releases</name>-->
-    <!--<url>http://${maven.nexus.servername}/repository/snapshots/</url>-->
-    <!--</snapshotRepository>-->
-    <!--</distributionManagement>-->
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -140,7 +125,6 @@
         </dependency>
 
         <!-- database  -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

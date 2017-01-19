@@ -31,15 +31,25 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     @Autowired
     private RestOperations restTemplate;
 
+    private String iexHubUrl;
+
+    private String hiePublishURL;
+
+    private String ssOauthTemplate;
+
     @Autowired
-    private PhrProperties phrProperties;
+    public IExHubDataServiceImpl(PhrProperties phrProperties) {
+        this.iexHubUrl = phrProperties.getIexhub().getUrl();
+        this.hiePublishURL = phrProperties.getIexhub().getPublishUrl();
+        this.ssOauthTemplate = phrProperties.getIexhub().getSsoauth();
+    }
 
     @Override
     public PatientDataResponse getPatientData(String email) {
         // REST api call
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String ssOauth = buildIExHubSSOauth(email, phrProperties.getIexhub().getSsoauth());
+        String ssOauth = buildIExHubSSOauth(email, ssOauthTemplate);
         httpHeaders.add("ssoauth", ssOauth);
 
         List<MediaType> accepts = new ArrayList<>();
@@ -48,7 +58,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
 
         final HttpEntity<PatientDataResponse> reqEntity = new HttpEntity<>(httpHeaders);
 
-        final ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(phrProperties.getIexhub().getUrl(), HttpMethod.GET, reqEntity, PatientDataResponse.class);
+        final ResponseEntity<PatientDataResponse> pdrEntitiy = restTemplate.exchange(iexHubUrl, HttpMethod.GET, reqEntity, PatientDataResponse.class);
         final HttpStatus statusCode = pdrEntitiy.getStatusCode();
         logger.info("Response Status : " + statusCode);
         final HttpHeaders headers = pdrEntitiy.getHeaders();
@@ -68,7 +78,7 @@ public class IExHubDataServiceImpl implements IExHubDataService {
         HttpEntity entity = new HttpEntity(document, headers);
 
         try {
-            ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(phrProperties.getIexhub().getPublishUrl(), HttpMethod.POST, entity, ClinicalDocumentResponse.class);
+            ResponseEntity<ClinicalDocumentResponse> response = restTemplate.exchange(hiePublishURL, HttpMethod.POST, entity, ClinicalDocumentResponse.class);
 
             if (!response.getStatusCode().equals(HttpStatus.OK)) {
                 logger.error("Cannot publish document in HIE.");
