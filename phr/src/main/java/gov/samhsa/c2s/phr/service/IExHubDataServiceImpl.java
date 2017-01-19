@@ -1,6 +1,7 @@
 package gov.samhsa.c2s.phr.service;
 
 
+import gov.samhsa.c2s.phr.config.PhrProperties;
 import gov.samhsa.c2s.phr.service.dto.ClinicalDocumentRequest;
 import gov.samhsa.c2s.phr.service.dto.ClinicalDocumentResponse;
 import gov.samhsa.c2s.phr.service.dto.PatientDataResponse;
@@ -9,7 +10,6 @@ import gov.samhsa.c2s.phr.service.exception.PatientDataCannotBeRetrievedExceptio
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -31,14 +31,18 @@ public class IExHubDataServiceImpl implements IExHubDataService {
     @Autowired
     private RestOperations restTemplate;
 
-    @Value("${phr.iexhub.url}")
     private String iexHubUrl;
 
-    @Value("${phr.iexhub.publish.url}")
     private String hiePublishURL;
 
-    @Value("${phr.iexhub.ssoauth}")
     private String ssOauthTemplate;
+
+    @Autowired
+    public IExHubDataServiceImpl(PhrProperties phrProperties) {
+        this.iexHubUrl = phrProperties.getIexhub().getUrl();
+        this.hiePublishURL = phrProperties.getIexhub().getPublishUrl();
+        this.ssOauthTemplate = phrProperties.getIexhub().getSsoauth();
+    }
 
     @Override
     public PatientDataResponse getPatientData(String email) {

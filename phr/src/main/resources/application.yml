@@ -4,17 +4,6 @@ logging:
   file: /java/C2S_LOGS/phr/phr.log
 info:
   component: PHR API
-eureka:
-  instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
-    secure-port-enabled: false
-    non-secure-port-enabled: true
-  client:
-    healthcheck:
-      enabled: true
-    service-url:
-      # endpoint for discovery-server, pass '--eureka.client.protocol=https' if discovery-server is running on https
-      defaultZone: ${eureka.client.protocol:http}://localhost:8761/eureka/
 spring:
   datasource:
     initialize: false
@@ -22,82 +11,35 @@ spring:
     url: jdbc:mysql://localhost:3306/phr?autoReconnect=true
     username: root
     password: admin
-    driverClassName: com.mysql.jdbc.Driver
-    validationQuery: select 1
-    testOnBorrow: true
-    testOnReturn: true
-    testWhileIdle: true
-    timeBetweenEvictionRunsMillis: 1800000
-    numTestsPerEvictionRun: 3
-    minEvictableIdleTimeMillis: 1800000
   # configure redis port and host per environment
   redis:
     port: 6379
     host: localhost
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        hbm2ddl:
-          auto: validate
-    hibernate:
-      ddl-auto: none
-      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
-phr:
-  iexhub:
-    # IExHub service endpoint for retrieving patient data
-    url: http://localhost:8080/iexhub/services/GetPatientData
-    # IExHub ssoauth header template
-    ssoauth: PatientId='PATIENT_IDENTIFIER'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
-    # IExHub service endpoint for publishing patient data
-    publish:
-      url: ${phr.iexhub.url}/publish
-  redis:
-    # expiration time in seconds for entries in redis cache
-    defaultExpirationInSeconds: 60
-  pagination:
-    itemsPerPage: 10
-  #TODO: Temporarily put domain OID here, eventually this should be centralized and served by patient-registration
-  # Domain OID for C2S MRN
-  domainId: 1.3.6.1.4.1.21367.13.20.200
-  # ID Type for C2S MRN
-  assigningAuthority: ISO
-security:
-  basic:
-    enabled: false
-  oauth2:
-    resource:
-      jwt:
-        # public key to validate the token signed by authorization server
-        key-value:  |
-                         -----BEGIN PUBLIC KEY-----
-                         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0m59l2u9iDnMbrXHfqkO
-                         rn2dVQ3vfBJqcDuFUK03d+1PZGbVlNCqnkpIJ8syFppW8ljnWweP7+LiWpRoz0I7
-                         fYb3d8TjhV86Y997Fl4DBrxgM6KTJOuE/uxnoDhZQ14LgOU2ckXjOzOdTsnGMKQB
-                         LCl0vpcXBtFLMaSbpv1ozi8h7DJyVZ6EnFQZUWGdgTMhDrmqevfx95U/16c5WBDO
-                         kqwIn7Glry9n9Suxygbf8g5AzpWcusZgDLIIZ7JTUldBb8qU2a0Dl4mvLZOn4wPo
-                         jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
-                         JwIDAQAB
-                         -----END PUBLIC KEY-----
----
-# enables ssl in this service when activated
-spring.profiles: ssl
-server:
-  # configure keystore and keystore password for ssl per environment
-  ssl:
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
-eureka:
-  instance:
-    secure-port: ${server.port}
-    secure-port-enabled: true
-    non-secure-port-enabled: false
+c2s:
+  phr:
+    iexhub:
+      # IExHub service endpoint for retrieving patient data
+      url: http://localhost:8080/iexhub/services/GetPatientData
+      # IExHub ssoauth header template
+      ssoauth: PatientId='PATIENT_IDENTIFIER'&LastName=&FirstName=&MiddleName=&DateOfBirth=&PatientGender=&MotherMaidenName=&AddressStreet=&AddressCity=&AddressState=&AddressPostalCode=&OtherIDsScopingOrganization=&StartDate=&EndDate=
+      # IExHub service endpoint for publishing patient data
+      publishUrl: ${c2s.phr.iexhub.url}/publish
+    redis:
+      # expiration time in seconds for entries in redis cache
+      defaultExpirationInSeconds: 60
+    pagination:
+      itemsPerPage: 10
+    #TODO: Temporarily put domain OID here, eventually this should be centralized and served by patient-registration
+    # Domain OID for C2S MRN
+    domainId: 1.3.6.1.4.1.21367.13.20.200
+    # ID Type for C2S MRN
+    assigningAuthority: ISO
 ---
 # enables ssl and adds /phr context path when activated
 spring.profiles: standalone-ssl
 spring:
   profiles:
-    include: ssl
+    include: ssl-default
 server:
   context-path: /phr
 ---
@@ -109,12 +51,7 @@ spring:
   redis:
     port: 6379
     host: redis.c2s.com
-phr:
-  iexhub:
-      url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
-eureka:
-  client:
-    service-url:
-      defaultZone: ${eureka.client.protocol:http}://discovery-server.c2s.com:8761/eureka/
-  instance:
-    prefer-ip-address: true
+c2s:
+  phr:
+    iexhub:
+        url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
