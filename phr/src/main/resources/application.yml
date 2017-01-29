@@ -43,6 +43,8 @@ spring:
     hibernate:
       ddl-auto: none
       naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  messages:
+    basename: i18n/messages
 phr:
   iexhub:
     # IExHub service endpoint for retrieving patient data
