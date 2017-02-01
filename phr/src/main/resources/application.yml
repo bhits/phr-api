@@ -56,4 +56,4 @@ c2s:
     iexhub:
         url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
         publish:
-          url: https://bhitsqaapp02:8443/iexhub/services/GetPatientData/publish
+          url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData/publish
