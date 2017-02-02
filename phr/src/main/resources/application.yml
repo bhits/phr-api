@@ -54,4 +54,4 @@ spring:
 c2s:
   phr:
     iexhub:
-        url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
+      url: http://iexhub.c2s.com:8080/iexhub/services/GetPatientData
