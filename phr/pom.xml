@@ -60,6 +60,7 @@
         <modelmapper.version>0.7.5</modelmapper.version>
         <docker.maven.version>0.4.3</docker.maven.version>
         <lombok.version>1.16.8</lombok.version>
+        <c2s-common-libraries.version>1.9.0</c2s-common-libraries.version>
     </properties>
 
     <repositories>
@@ -187,6 +188,12 @@
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>oauth2</artifactId>
+            <version>${c2s-common-libraries.version}</version>
         </dependency>
 
         <dependency>
