@@ -60,12 +60,20 @@ public class AccountController {
         return accountService.findPatientByEmail(email);
     }
 
+    /* CAUTION: This method is only for use by admin users, and the SecurityConfig
+    currently enforces that requirement with appropriate OAuth scope(s). If an
+    updatePatient function is required in the future for patient users to update
+    their own accounts, then a separate controller method should be created which
+    will enforce patient users only being able to update their own patient records. */
     @RequestMapping(value = "/{patientId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public SignupDto updatePatient(@RequestBody SignupDto signupDto, @PathVariable long patientId) {
         return accountService.updatePatient(signupDto, patientId);
     }
 
+    /* CAUTION: This method is only for use by admin users, and the SecurityConfig
+    currently enforces that requirement with appropriate OAuth scope(s). Non-admin
+    users should never be allowed to search for a patient record(s). */
     @RequestMapping(value = "/search/{token}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<PatientDto> searchPatients(@PathVariable String token) {
