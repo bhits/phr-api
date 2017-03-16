@@ -5,7 +5,7 @@ Patient Health Record (PHR) API is responsible for storing patient identities in
 
 # Supported Source Code Tags and Current `Dockerfile` Link
 
-[`1.22.0 (latest)`](https://github.com/bhits/phr-api/releases/tag/1.22.0), [`1.19.0`](https://github.com/bhits/phr-api/releases/tag/1.19.0)
+[`1.24.0 (latest)`](https://github.com/bhits/phr-api/releases/tag/1.24.0), [`1.22.0`](https://github.com/bhits/phr-api/releases/tag/1.22.0), [`1.19.0`](https://github.com/bhits/phr-api/releases/tag/1.19.0)
 
 [`Current Dockerfile`](https://github.com/bhits/phr-api/blob/master/phr/src/main/docker/Dockerfile)
 
